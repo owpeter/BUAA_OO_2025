@@ -1,5 +1,8 @@
 package expr;
 
+import Poly.*;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -25,6 +28,26 @@ public class Expression implements Factor {
 
     public ArrayList<String> getOperators() {
         return this.operators;
+    }
+
+    @Override
+    public Poly toPoly() {
+        Poly poly = new Poly();
+        for (Term term : terms) {
+            Poly termPoly = term.toPoly();
+            if (!this.exponential.equals("1")) {
+                // 如果本expr有指数，需要给里面的每个term乘上指数
+                // 不大对！ 应该搞PowMono！
+                termPoly.MultiMono(new Mono(BigInteger.ONE, new BigInteger(this.exponential)));
+            }
+            poly.addPoly(termPoly);
+        }
+        return poly;
+    }
+
+    @Override
+    public Mono toMono() {
+        return null;
     }
 
     public String toString() {

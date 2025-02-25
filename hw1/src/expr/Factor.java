@@ -1,5 +1,11 @@
 package expr;
 
-public interface Factor {
+import Poly.*;
 
+public interface Factor {
+    public Poly toPoly();
+
+    public Mono toMono();
+
+    public String toString();
 }
