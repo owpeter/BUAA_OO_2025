@@ -3,6 +3,8 @@ package Poly;
 import java.awt.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import Poly.*;
 
 public class Poly {
@@ -19,6 +21,20 @@ public class Poly {
 
     public void addMono(Mono mono) {
         this.monos.add(mono);
+
+        // simpler
+        HashMap<BigInteger, Mono> monoMap = new HashMap<>();
+        for (Mono thisMono : this.monos) {
+            BigInteger exp = thisMono.getExp();
+            if (monoMap.containsKey(exp)) {
+                monoMap.get(exp).addMono(thisMono);
+            } else {
+                monoMap.put(exp, thisMono);
+            }
+        }
+
+        this.monos.clear();
+        this.monos.addAll(monoMap.values());
     }
 
     public void addPoly(Poly newPoly) {

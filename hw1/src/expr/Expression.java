@@ -10,12 +10,12 @@ import java.util.Iterator;
 
 public class Expression implements Factor {
     private final ArrayList<Term> terms;
-    private final ArrayList<String> operators;
+//    private final ArrayList<String> operators;
     private String exponential;
 
     public Expression() {
         this.terms = new ArrayList<Term>();
-        this.operators = new ArrayList<String>();
+//        this.operators = new ArrayList<String>();
     }
 
     public void addTerm(Term term) {
@@ -26,9 +26,9 @@ public class Expression implements Factor {
         this.exponential = exponential;
     }
 
-    public ArrayList<String> getOperators() {
-        return this.operators;
-    }
+//    public ArrayList<String> getOperators() {
+//        return this.operators;
+//    }
 
     @Override
     public Poly toPoly() {
@@ -45,9 +45,9 @@ public class Expression implements Factor {
             }
         }
 
-
-        Simpler simpler = new Simpler(poly);
-        poly = simpler.simplerPoly();
+        // debug???
+//        Simpler simpler = new Simpler(poly);
+//        poly = simpler.simplerPoly();
         return poly;
     }
 
@@ -56,26 +56,26 @@ public class Expression implements Factor {
         return null;
     }
 
-    public String toString() {
-        Iterator<Term> iter = terms.iterator();
-        StringBuilder sb = new StringBuilder();
-
-
-        sb.append(iter.next().toString());
-        int i = 0;
-        while (iter.hasNext()) {
-            sb.append(iter.next().toString());
-            String op = operators.get(i);
-            sb.append(op);
-            i++;
-        }
-//        if (!exponential.equals("1")) {
-//            // 指数不为1，不可忽略
-//            sb.append("^");
-//            sb.append(exponential);
+//    public String toString() {
+//        Iterator<Term> iter = terms.iterator();
+//        StringBuilder sb = new StringBuilder();
+//
+//
+//        sb.append(iter.next().toString());
+//        int i = 0;
+//        while (iter.hasNext()) {
+//            sb.append(iter.next().toString());
+//            String op = operators.get(i);
+//            sb.append(op);
+//            i++;
 //        }
-        return sb.toString();
-    }
+////        if (!exponential.equals("1")) {
+////            // 指数不为1，不可忽略
+////            sb.append("^");
+////            sb.append(exponential);
+////        }
+//        return sb.toString();
+//    }
 
 
 }

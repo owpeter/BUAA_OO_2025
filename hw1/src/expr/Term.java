@@ -40,9 +40,9 @@ public class Term {
                 poly.multiPoly(factor.toPoly());
             }
         }
-
-        Simpler simpler = new Simpler(poly);
-        poly = simpler.simplerPoly();
+        // debug????
+//        Simpler simpler = new Simpler(poly);
+//        poly = simpler.simplerPoly();
         return poly;
     }
 }
