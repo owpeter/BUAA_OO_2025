@@ -33,15 +33,21 @@ public class Expression implements Factor {
     @Override
     public Poly toPoly() {
         Poly poly = new Poly();
-        for (Term term : terms) {
-            Poly termPoly = term.toPoly();
-            if (!this.exponential.equals("1")) {
-                // 如果本expr有指数，需要给里面的每个term乘上指数
-                // 不大对！ 应该搞PowMono！
-                termPoly.MultiMono(new Mono(BigInteger.ONE, new BigInteger(this.exponential)));
+        if (this.exponential.equals("0")) {
+            // 如果是0次方，直接返回1
+            poly.addMono(new Mono(BigInteger.ONE, BigInteger.ZERO));
+        } else {
+            for (Term term : terms) {
+                poly.addPoly(term.toPoly());
             }
-            poly.addPoly(termPoly);
+            if (!this.exponential.equals("1")) {
+                poly.powPoly(this.exponential);
+            }
         }
+
+
+        Simpler simpler = new Simpler(poly);
+        poly = simpler.simplerPoly();
         return poly;
     }
 

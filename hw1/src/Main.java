@@ -11,14 +11,19 @@ public class Main {
     public static void main(String[] args) {
         // 读入带空格字符串？
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.next();
+        String input = scanner.nextLine();
 
         Lexer lexer = new Lexer(input);
         Parser parser = new Parser(lexer);
         Expression expression = parser.parseExpression();
 
         Poly poly = expression.toPoly();
+        String answer = poly.toString();
 
+        // debug
+//        System.out.println("");
+        //
+        System.out.println(answer);
 
     }
 }

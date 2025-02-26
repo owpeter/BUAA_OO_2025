@@ -9,8 +9,10 @@ import java.util.ArrayList;
 
 public class Term {
     private ArrayList<Factor> factors;
+    private final boolean sign;
 
-    public Term() {
+    public Term(boolean sign) {
+        this.sign = sign;
         this.factors = new ArrayList<Factor>();
     }
 
@@ -20,19 +22,27 @@ public class Term {
 
     public Poly toPoly() {
         Poly poly = new Poly();
-        poly.addMono(new Mono(BigInteger.ONE, BigInteger.ZERO));
+        if (this.sign) {
+            poly.addMono(new Mono(BigInteger.ONE, BigInteger.ZERO));
+        } else {
+            poly.addMono(new Mono(BigInteger.ONE.negate(), BigInteger.ZERO));
+        }
+
         for (Factor factor : factors) {
             if (factor instanceof Variable) {
                 // * 幂函数因子
-                poly.MultiMono(factor.toMono());
+                poly.multiMono(factor.toMono());
             } else if (factor instanceof Constant) {
                 // * 常数因子
-                poly.MultiMono(factor.toMono());
+                poly.multiMono(factor.toMono());
             } else {
                 // * 表达式因子
-                poly.MultiPoly(factor.toPoly());
+                poly.multiPoly(factor.toPoly());
             }
         }
+
+        Simpler simpler = new Simpler(poly);
+        poly = simpler.simplerPoly();
         return poly;
     }
 }
