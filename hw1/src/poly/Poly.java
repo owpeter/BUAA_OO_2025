@@ -31,6 +31,15 @@ public class Poly {
 
         this.monos.clear();
         this.monos.addAll(monoMap.values());
+
+        int n = this.monos.size();
+        for (int i=0; i<n; i++) {
+            if (this.monos.get(i).getCoe().compareTo(BigInteger.ZERO) > 0) {
+                Mono temp = monos.get(i);
+                monos.set(i, monos.get(0));
+                monos.set(0, temp);
+            }
+        }
     }
 
     public void addPoly(Poly newPoly) {
