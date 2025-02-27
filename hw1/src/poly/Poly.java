@@ -33,7 +33,7 @@ public class Poly {
         this.monos.addAll(monoMap.values());
 
         int n = this.monos.size();
-        for (int i=0; i<n; i++) {
+        for (int i = 0; i < n; i++) {
             if (this.monos.get(i).getCoe().compareTo(BigInteger.ZERO) > 0) {
                 Mono temp = monos.get(i);
                 monos.set(i, monos.get(0));
