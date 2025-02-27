@@ -1,15 +1,11 @@
-package Poly;
+package poly;
 
-import java.awt.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import Poly.*;
-
 public class Poly {
     private ArrayList<Mono> monos;
-
 
     public ArrayList<Mono> getMonos() {
         return this.monos;
@@ -38,14 +34,14 @@ public class Poly {
     }
 
     public void addPoly(Poly newPoly) {
-        for(Mono mono: newPoly.getMonos()) {
+        for (Mono mono : newPoly.getMonos()) {
             this.addMono(mono);
         }
     }
 
     public void multiMono(Mono mono) {
         // (monos) * mono = mono1*mono + mono2 * mono ...
-        for (Mono thisMono: this.monos) {
+        for (Mono thisMono : this.monos) {
             thisMono.multiMono(mono);
         }
     }

@@ -13,7 +13,7 @@ public class Lexer {
         StringBuilder preSb = new StringBuilder();
         int n = preInput.length();
 
-        for (int i=0; i<n; i++) {
+        for (int i = 0; i < n; i++) {
             if (preInput.charAt(i) != ' ' && preInput.charAt(i) != '\t') {
                 preSb.append(preInput.charAt(i));
             }
@@ -27,12 +27,12 @@ public class Lexer {
             sb.append('0');
         }
 
-        for (int i=0; i<n; i++) {
+        for (int i = 0; i < n; i++) {
             if (input.charAt(i) == '+' || input.charAt(i) == '-') {
                 // 合并符号
                 int sign = input.charAt(i) == '+' ? 1 : input.charAt(i) == '-' ? -1 : 1;
-                while (i < n && (input.charAt(i+1) == '+' || input.charAt(i+1) == '-')) {
-                    if (input.charAt(i+1) == '-') {
+                while (i < n && (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-')) {
+                    if (input.charAt(i + 1) == '-') {
                         sign *= -1;
                     }
                     i++;
@@ -48,20 +48,12 @@ public class Lexer {
                 if (input.charAt(i + 1) == '+') {
                     i++;
                 }
-            } else if (input.charAt(i) == '(' && (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-')) {
+            } else if (input.charAt(i) == '(' &&
+                    (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-')) {
                 // 为表达式因子加前导0
                 sb.append(input.charAt(i));
                 sb.append('0');
             }
-//            } else if (input.charAt(i) == '*') {
-//                // 省略 * 后 +
-//                if (input.charAt(i + 1) == '+') {
-//                    sb.append(input.charAt(i));
-//                    i++;
-//                } else {
-//                    sb.append(input.charAt(i));
-//                }
-//            }
             else {
                 sb.append(input.charAt(i));
             }
@@ -96,9 +88,6 @@ public class Lexer {
             pos++;
             curToken = String.valueOf(c);
         }
-
-        // debug
-//        System.out.print(curToken);
     }
 
     public String peek() {

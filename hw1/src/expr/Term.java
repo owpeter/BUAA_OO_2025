@@ -1,6 +1,7 @@
 package expr;
 
-import Poly.*;
+import poly.Poly;
+import poly.Mono;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -40,9 +41,6 @@ public class Term {
                 poly.multiPoly(factor.toPoly());
             }
         }
-        // debug????
-//        Simpler simpler = new Simpler(poly);
-//        poly = simpler.simplerPoly();
         return poly;
     }
 }

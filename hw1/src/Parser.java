@@ -1,4 +1,8 @@
-import expr.*;
+import expr.Expression;
+import expr.Constant;
+import expr.Term;
+import expr.Variable;
+import expr.Factor;
 
 public class Parser {
     private final Lexer lexer;
@@ -7,13 +11,10 @@ public class Parser {
         this.lexer = lexer;
     }
 
-
-
     public Expression parseExpression() {
         Expression expression = new Expression();
         expression.addTerm(parseTerm(true));
         while (lexer.peek().equals("+") || lexer.peek().equals("-")) {
-//            expression.getOperators().add(lexer.peek()); // 可能舍弃
             // 将符号传递给Term
             if (lexer.peek().equals("+")) {
                 lexer.next();
@@ -40,7 +41,7 @@ public class Parser {
     }
 
     public Factor parseFactor() {
-        if(this.lexer.peek().equals("(")) {
+        if (this.lexer.peek().equals("(")) {
             // 表达式因子
             lexer.next();
             Expression expr = parseExpression();
@@ -61,8 +62,9 @@ public class Parser {
                 String exp = lexer.peek();
                 lexer.next();// ?
                 return new Variable(exp);
+            } else {
+                return new Variable("1");
             }
-            else return new Variable("1");
             // x ^ 1
         } else {
             // 常数因子

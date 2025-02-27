@@ -1,7 +1,7 @@
 package expr;
 
-import Poly.Mono;
-import Poly.Poly;
+import poly.Mono;
+import poly.Poly;
 
 import java.math.BigInteger;
 
@@ -21,6 +21,4 @@ public class  Variable implements Factor {
     public Poly toPoly() {
         return null;
     }
-
-
 }

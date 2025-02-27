@@ -1,9 +1,6 @@
-package Poly;
+package poly;
 
 import java.math.BigInteger;
-import Poly.*;
-
-import javax.print.DocFlavor;
 
 public class Mono {
     private BigInteger coe;

@@ -1,6 +1,7 @@
 package expr;
 
-import Poly.*;
+import poly.Poly;
+import poly.Mono;
 
 public interface Factor {
     public Poly toPoly();
