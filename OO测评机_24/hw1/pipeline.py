@@ -66,4 +66,4 @@ def main(fname, times=100):
 
 
 if __name__ == '__main__':
-    main('/Users/wangtianyi/Desktop/study/OO/BUAA_OO_2025/hw1/out/artifacts/hw1_jar/hw1.jar', 100)
+    main(r"D:\Code\java\BUAA_OO_2025\Unit1\out\artifacts\hw1_jar\hw1.jar", 1000)

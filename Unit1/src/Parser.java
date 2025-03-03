@@ -1,8 +1,12 @@
 import expr.Expression;
+
+import java.math.BigInteger;
+
 import expr.Constant;
 import expr.Term;
 import expr.Variable;
 import expr.Factor;
+import expr.TrigonometricFunction;
 
 public class Parser {
     private final Lexer lexer;
@@ -53,6 +57,21 @@ public class Parser {
                 lexer.next();
             }
             return expr;
+        } else if (this.lexer.peek().equals("sin") || this.lexer.peek().equals("cos")) {
+            // 三角函数因子
+            String type = lexer.peek();
+            lexer.next();  // 跳过sin/cos
+            lexer.next();  // 跳过左括号
+            Factor factor = parseFactor();
+            lexer.next();  // 跳过右括号
+            if (this.lexer.peek().equals("^")) {
+                lexer.next();
+                BigInteger exp = new BigInteger(lexer.peek());
+                lexer.next();
+                return new TrigonometricFunction(type, factor, exp);
+            } else {
+                return new TrigonometricFunction(type, factor, BigInteger.ONE);
+            }
         } else if (this.lexer.peek().equals("x")) {
             // 变量因子
             lexer.next();
@@ -60,7 +79,7 @@ public class Parser {
                 // x ^ exp
                 lexer.next();
                 String exp = lexer.peek();
-                lexer.next();// ?
+                lexer.next();
                 return new Variable(exp);
             } else {
                 return new Variable("1");
@@ -72,6 +91,7 @@ public class Parser {
             String constant;
             if (this.lexer.peek().equals("-")) {
                 // 负号常数
+                // 通过StringBuilder来处理负号
                 StringBuilder sb = new StringBuilder();
                 sb.append('-');
                 lexer.next();

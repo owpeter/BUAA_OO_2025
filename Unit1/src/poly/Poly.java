@@ -2,78 +2,54 @@ package poly;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 public class Poly {
-    private ArrayList<Mono> monos;
+    private HashSet<Mono> monos;
 
-    public ArrayList<Mono> getMonos() {
-        return this.monos;
+    public List<Mono> getMonos() {
+        ArrayList<Mono> sortedMonos = new ArrayList<>(this.monos);
+        // 把正数项放在前面
+        for (int i = 0; i < sortedMonos.size(); i++) {
+            if (sortedMonos.get(i).getCoe().compareTo(BigInteger.ZERO) > 0) {
+                Mono temp = sortedMonos.get(i);
+                sortedMonos.set(i, sortedMonos.get(0));
+                sortedMonos.set(0, temp);
+            }
+        }
+        return sortedMonos;
+    }
+
+    public void setMonos(List<Mono> monos) {
+        this.monos = new HashSet<>(monos);
     }
 
     public Poly() {
-        this.monos = new ArrayList<Mono>();
+        this.monos = new HashSet<>();
     }
 
     public void addMono(Mono mono) {
-        this.monos.add(mono);
-
-        // simpler
-        HashMap<BigInteger, Mono> monoMap = new HashMap<>();
-        for (Mono thisMono : this.monos) {
-            BigInteger exp = thisMono.getExp();
-            if (monoMap.containsKey(exp)) {
-                monoMap.get(exp).addMono(thisMono);
-            } else {
-                monoMap.put(exp, thisMono);
+        if (mono.isZero()) {
+            return;
+        }
+        
+        Mono existingMono = null;
+        for (Mono m : this.monos) {
+            if (m.equals(mono)) {
+                existingMono = m;
+                break;
             }
         }
-
-        this.monos.clear();
-        this.monos.addAll(monoMap.values());
-
-        // 把正数项放在前面
-        int n = this.monos.size();
-        for (int i = 0; i < n; i++) {
-            if (this.monos.get(i).getCoe().compareTo(BigInteger.ZERO) > 0) {
-                Mono temp = monos.get(i);
-                monos.set(i, monos.get(0));
-                monos.set(0, temp);
+        
+        if (existingMono != null) {
+            Add.monoAdd(existingMono, mono);
+            if (existingMono.isZero()) {
+                this.monos.remove(existingMono);
             }
+        } else {
+            this.monos.add(mono.copy());
         }
-    }
-
-    public void addPoly(Poly newPoly) {
-        for (Mono mono : newPoly.getMonos()) {
-            this.addMono(mono);
-        }
-    }
-
-    public void multiMono(Mono mono) {
-        // (monos) * mono = mono1*mono + mono2 * mono ...
-        for (Mono thisMono : this.monos) {
-            thisMono.multiMono(mono);
-        }
-    }
-
-    public void multiPoly(Poly newPoly) {
-        Poly poly = new Poly();
-        for (Mono mono1 : this.monos) {
-            for (Mono mono2 : newPoly.getMonos()) {
-                Mono newMono = mono1.multiMono(mono1, mono2);
-                poly.addMono(newMono);
-            }
-        }
-        this.monos = poly.getMonos();
-    }
-
-    public void powPoly(BigInteger exp) {
-        Poly oldPoly = this.copy();
-        while (exp.compareTo(BigInteger.ONE) > 0) {
-            this.multiPoly(oldPoly);
-            exp = exp.subtract(BigInteger.ONE);
-        }
-
     }
 
     public Poly copy() {
@@ -91,7 +67,8 @@ public class Poly {
 
         StringBuilder sb = new StringBuilder();
         boolean isHead = true;
-        for (Mono mono : this.monos) {
+        List<Mono> sortedMonos = getMonos();
+        for (Mono mono : sortedMonos) {
             if (isHead) {
                 if (!mono.isZero()) {
                     // 不是前导0
@@ -107,7 +84,10 @@ public class Poly {
     }
 
     private boolean allZero() {
-        for (Mono mono : this.monos) {
+        if (monos.isEmpty()) {
+            return true;
+        }
+        for (Mono mono : monos) {
             if (!mono.isZero()) {
                 return false;
             }

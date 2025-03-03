@@ -1,14 +1,20 @@
 package poly;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Mono {
     private BigInteger coe;
     private BigInteger exp;
+    private HashMap<Poly, BigInteger> sinMap;
+    private HashMap<Poly, BigInteger> cosMap;
 
     public Mono(BigInteger coe, BigInteger exp) {
         this.coe = coe;
         this.exp = exp;
+        this.sinMap = new HashMap<>();
+        this.cosMap = new HashMap<>();
     }
 
     public BigInteger getExp() {
@@ -19,23 +25,72 @@ public class Mono {
         return this.coe;
     }
 
-    public void addMono(Mono mono) {
-        this.coe = this.coe.add(mono.coe);
+    public Map<Poly, BigInteger> getSinMap() {
+        return this.sinMap;
     }
 
-    public void multiMono(Mono mono2) {
-        this.coe = this.coe.multiply(mono2.coe);
-        this.exp = this.exp.add(mono2.exp);
+    public Map<Poly, BigInteger> getCosMap() {
+        return this.cosMap;
     }
 
-    public Mono multiMono(Mono mono1, Mono mono2) {
-        BigInteger newCoe = mono1.coe.multiply(mono2.coe);
-        BigInteger newExp = mono1.exp.add(mono2.exp);
-        return new Mono(newCoe, newExp);
+    public void setCoe(BigInteger coe) {
+        this.coe = coe;
+    }
+
+    public void setExp(BigInteger exp) {
+        this.exp = exp;
+    }
+
+    public void addSinTrig(Poly poly, BigInteger exp) {
+        this.sinMap.merge(poly, exp, BigInteger::add);
+    }
+
+    public void addCosTrig(Poly poly, BigInteger exp) {
+        this.cosMap.merge(poly, exp, BigInteger::add);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Mono mono = (Mono) o;
+        return this.exp.equals(mono.exp) &&
+               this.sinMap.equals(mono.sinMap) &&
+               this.cosMap.equals(mono.cosMap);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + exp.hashCode();
+        hash = 31 * hash + sinMap.hashCode();
+        hash = 31 * hash + cosMap.hashCode();
+        return hash;
     }
 
     public Mono copy() {
-        return new Mono(this.coe, this.exp);
+        return copy(true);
+    }
+
+    public Mono copy(boolean withTrig) {
+        Mono newMono = new Mono(this.coe, this.exp);
+        if (withTrig) {
+            for (Map.Entry<Poly, BigInteger> entry : this.sinMap.entrySet()) {
+                newMono.sinMap.put(entry.getKey().copy(), entry.getValue());
+            }
+            for (Map.Entry<Poly, BigInteger> entry : this.cosMap.entrySet()) {
+                newMono.cosMap.put(entry.getKey().copy(), entry.getValue());
+            }
+        }
+        return newMono;
+    }
+
+    public boolean isZero() {
+        return this.coe.equals(BigInteger.ZERO);
     }
 
     public String toString(boolean isHead) {
@@ -83,9 +138,5 @@ public class Mono {
         }
 
         return sb;
-    }
-
-    public boolean isZero() {
-        return this.coe.equals(BigInteger.ZERO);
     }
 }

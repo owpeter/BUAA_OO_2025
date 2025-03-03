@@ -1,0 +1,54 @@
+package expr;
+
+import poly.Mono;
+import poly.Poly;
+
+import java.math.BigInteger;
+
+public class TrigonometricFunction implements Factor {
+    private final String type;  // "sin" or "cos"
+    private final Factor factor;
+    private final BigInteger exponent;
+
+    public TrigonometricFunction(String type, Factor factor, BigInteger exponent) {
+        this.type = type;
+        this.factor = factor;
+        this.exponent = exponent;
+    }
+
+    @Override
+    public Poly toPoly() {
+        // 三角函数不应该直接转换为多项式
+        return null;
+    }
+
+    @Override
+    public Mono toMono() {
+        // 1. 获取内部因子的形式（单项式或多项式）
+        Poly innerPoly;
+        Mono innerMono = factor.toMono();
+        if (innerMono != null) {
+            // 如果能转换为单项式，创建新的多项式存储它
+            innerPoly = new Poly();
+            innerPoly.addMono(innerMono);
+        } else {
+            // 如果不能转换为单项式，尝试直接获取多项式形式
+            innerPoly = factor.toPoly();
+            if (innerPoly == null) {
+                return null;  // 如果都无法转换，返回null
+            }
+        }
+
+        // 2. 创建新的单项式，系数为1，指数为0
+        Mono result = new Mono(BigInteger.ONE, BigInteger.ZERO);
+
+        // 3. 根据函数类型，添加对应的三角函数信息
+        if (type.equals("sin")) {
+            result.addSinTrig(innerPoly, exponent);
+        } else {  // cos
+            result.addCosTrig(innerPoly, exponent);
+        }
+
+        return result;
+    }
+} 

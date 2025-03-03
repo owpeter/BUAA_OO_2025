@@ -87,6 +87,14 @@ public class Lexer {
             // x
             pos++;
             curToken = String.valueOf(c);
+        } else if (c == 's') {
+            // sin
+            pos += 3;
+            curToken = "sin";
+        } else if (c == 'c') {
+            // cos
+            pos += 3;
+            curToken = "cos";
         }
     }
 

@@ -2,6 +2,8 @@ package expr;
 
 import poly.Poly;
 import poly.Mono;
+import poly.Add;
+import poly.Power;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -33,10 +35,10 @@ public class Expression implements Factor {
             poly.addMono(new Mono(BigInteger.ONE, BigInteger.ZERO));
         } else {
             for (Term term : terms) {
-                poly.addPoly(term.toPoly());
+                Add.polyAdd(poly, term.toPoly());
             }
             if (!this.exponential.equals(BigInteger.ONE)) {
-                poly.powPoly(this.exponential);
+                Power.polyPower(poly, this.exponential);
             }
         }
         return poly;
