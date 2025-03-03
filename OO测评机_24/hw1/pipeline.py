@@ -11,6 +11,7 @@ def execute_java(stdin, fname):
     cmd = ['java', '-jar', fname]
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     stdout, stderr = proc.communicate(stdin.encode())
+    # print(stdout)
     return stdout.decode().strip()
 
 
@@ -66,4 +67,7 @@ def main(fname, times=100):
 
 
 if __name__ == '__main__':
-    main('/Users/wangtianyi/Desktop/study/OO/BUAA_OO_2025/hw1/out/artifacts/hw1_jar/hw1.jar', 100)
+    for i in [1,2,3,5,6,7]:
+        print(f'hack{i}.jar')
+        main(f'D:\Code\java\hack\hack{i}.jar',500)
+    # main("D:\Code\java\hack", 100)

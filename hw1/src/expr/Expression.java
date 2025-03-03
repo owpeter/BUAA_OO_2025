@@ -28,6 +28,8 @@ public class Expression implements Factor {
     public Poly toPoly() {
         Poly poly = new Poly();
         if (this.exponential.equals("0")) {
+            // 应当改成BigInteger的大小比较，不能直接比较字符串，否则00会有bug！
+
             // 如果是0次方，直接返回1
             poly.addMono(new Mono(BigInteger.ONE, BigInteger.ZERO));
         } else {
