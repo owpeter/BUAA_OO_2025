@@ -15,6 +15,10 @@ public class Mono {
         return this.exp;
     }
 
+    public BigInteger getCoe() {
+        return this.coe;
+    }
+
     public void addMono(Mono mono) {
         this.coe = this.coe.add(mono.coe);
     }
