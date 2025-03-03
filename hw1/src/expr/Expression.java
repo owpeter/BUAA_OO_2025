@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 public class Expression implements Factor {
     private final ArrayList<Term> terms;
-    private String exponential;
+    private BigInteger exponential;
+    // 已将String改成BigInteger
 
     public Expression() {
         this.terms = new ArrayList<Term>();
@@ -21,20 +22,20 @@ public class Expression implements Factor {
     }
 
     public void setExponential(String exponential) {
-        this.exponential = exponential;
+        this.exponential = new BigInteger(exponential);
     }
 
     @Override
     public Poly toPoly() {
         Poly poly = new Poly();
-        if (this.exponential.equals("0")) {
+        if (this.exponential.equals(BigInteger.ZERO)) {
             // 如果是0次方，直接返回1
             poly.addMono(new Mono(BigInteger.ONE, BigInteger.ZERO));
         } else {
             for (Term term : terms) {
                 poly.addPoly(term.toPoly());
             }
-            if (!this.exponential.equals("1")) {
+            if (!this.exponential.equals(BigInteger.ONE)) {
                 poly.powPoly(this.exponential);
             }
         }

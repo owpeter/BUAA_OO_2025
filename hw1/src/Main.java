@@ -10,6 +10,7 @@ public class Main {
         // 读入带空格字符串？
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
+        scanner.close();
 
         Lexer lexer = new Lexer(input);
         Parser parser = new Parser(lexer);

@@ -32,6 +32,7 @@ public class Poly {
         this.monos.clear();
         this.monos.addAll(monoMap.values());
 
+        // 把正数项放在前面
         int n = this.monos.size();
         for (int i = 0; i < n; i++) {
             if (this.monos.get(i).getCoe().compareTo(BigInteger.ZERO) > 0) {
@@ -66,9 +67,7 @@ public class Poly {
         this.monos = poly.getMonos();
     }
 
-    public void powPoly(String stringExp) {
-        BigInteger exp = new BigInteger(stringExp);
-
+    public void powPoly(BigInteger exp) {
         Poly oldPoly = this.copy();
         while (exp.compareTo(BigInteger.ONE) > 0) {
             this.multiPoly(oldPoly);
