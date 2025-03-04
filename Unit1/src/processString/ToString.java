@@ -1,4 +1,7 @@
-package poly;
+package processString;
+
+import poly.Mono;
+import poly.Poly;
 
 import java.math.BigInteger;
 import java.util.List;

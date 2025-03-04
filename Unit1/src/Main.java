@@ -1,6 +1,8 @@
 import expr.Expression;
 
 import java.util.Scanner;
+
+import expr.RecursiveFunc;
 import poly.Poly;
 
 //TIP 要<b>运行</b>代码，请按 <shortcut actionId="Run"/> 或
@@ -9,6 +11,7 @@ public class Main {
     public static void main(String[] args) {
         // 读入带空格字符串？
         Scanner scanner = new Scanner(System.in);
+        RecursiveFunc.setFunc(scanner);
         String input = scanner.nextLine();
         scanner.close();
 

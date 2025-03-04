@@ -1,12 +1,7 @@
-import expr.Expression;
+import expr.*;
 
 import java.math.BigInteger;
-
-import expr.Constant;
-import expr.Term;
-import expr.Variable;
-import expr.Factor;
-import expr.TrigonometricFunction;
+import java.util.ArrayList;
 
 public class Parser {
     private final Lexer lexer;
@@ -85,7 +80,28 @@ public class Parser {
                 return new Variable("1");
             }
             // x ^ 1
-        } else {
+        } else if (this.lexer.peek().equals("f")) {
+            // 函数
+            String FuncName = "f";
+            lexer.next();   // {
+            lexer.next();   // n
+            Integer n = Integer.parseInt(lexer.peek());
+            lexer.next();   // }
+            lexer.next();   // (
+
+            ArrayList<Factor> factors = new ArrayList<>();
+            for (int i = 0; i < RecursiveFunc.paraLength(FuncName); i++) {
+                lexer.next(); // factor
+                factors.add(parseExpression());
+            }
+            lexer.next(); // )
+            String funcN = RecursiveFunc.callFunc(FuncName, n, factors);
+            Lexer funcLexer = new Lexer(funcN);
+            Parser funcParser = new Parser(funcLexer);
+            Expression funcExpr = funcParser.parseExpression();
+            return funcExpr;
+        }
+        else {
             // 常数因子
             // 只接受一个前导符号
             String constant;
@@ -111,5 +127,9 @@ public class Parser {
 
             return new Constant(constant);
         }
+    }
+
+    public void parseFunc() {
+
     }
 }

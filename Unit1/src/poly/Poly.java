@@ -1,5 +1,7 @@
 package poly;
 
+import processString.ToString;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
