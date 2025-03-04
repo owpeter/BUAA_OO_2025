@@ -61,37 +61,78 @@ public class Poly {
     }
 
     public String toString() {
-        if (this.allZero()) {
-            return "0";
-        }
-
-        StringBuilder sb = new StringBuilder();
-        boolean isHead = true;
-        List<Mono> sortedMonos = getMonos();
-        for (Mono mono : sortedMonos) {
-            if (isHead) {
-                if (!mono.isZero()) {
-                    // 不是前导0
-                    sb.append(mono.toString(isHead));
-                    isHead = false;
-                }
-            } else {
-                sb.append(mono.toString(isHead));
-            }
-        }
-
-        return sb.toString();
+        return ToString.polyToString(this);
     }
 
-    private boolean allZero() {
-        if (monos.isEmpty()) {
+    // private boolean allZero() {
+    //     if (monos.isEmpty()) {
+    //         return true;
+    //     }
+    //     for (Mono mono : monos) {
+    //         if (!mono.isZero()) {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        for (Mono mono : monos) {
-            if (!mono.isZero()) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        
+        Poly poly = (Poly) o;
+        
+        // 如果两个多项式的单项式数量不同，它们不相等
+        if (this.monos.size() != poly.monos.size()) {
+            return false;
+        }
+        
+        // 检查每个单项式是否都存在于另一个多项式中
+        for (Mono mono : this.monos) {
+            boolean found = false;
+            for (Mono otherMono : poly.monos) {
+                if (mono.equals(otherMono) && 
+                    mono.getCoe().equals(otherMono.getCoe())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
                 return false;
             }
         }
+        
         return true;
+    }
+    
+    @Override
+    public int hashCode() {
+        int result = 17;
+        for (Mono mono : this.monos) {
+            // 使用单项式的 hashCode 和系数计算哈希值
+            result = 31 * result + mono.hashCode();
+            result = 31 * result + (mono.getCoe() != null ? mono.getCoe().hashCode() : 0);
+        }
+        return result;
+    }
+    
+    /**
+     * 返回多项式的负形式
+     * 用于三角函数同类项的合并
+     * @return 多项式的负形式
+     */
+    public Poly negative() {
+        Poly result = new Poly();
+        for (Mono mono : this.monos) {
+            Mono negMono = mono.copy();
+            negMono.setCoe(mono.getCoe().negate());
+            result.addMono(negMono);
+        }
+        return result;
     }
 }

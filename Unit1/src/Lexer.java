@@ -5,6 +5,7 @@ public class Lexer {
 
     public Lexer(String input) {
         this.input = this.preProcess(input);
+        // System.out.println(this.input);
         this.next();
     }
 
@@ -31,7 +32,7 @@ public class Lexer {
             if (input.charAt(i) == '+' || input.charAt(i) == '-') {
                 // 合并符号
                 int sign = input.charAt(i) == '+' ? 1 : input.charAt(i) == '-' ? -1 : 1;
-                while (i < n && (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-')) {
+                while (i + 1 < n && (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-')) {
                     if (input.charAt(i + 1) == '-') {
                         sign *= -1;
                     }
@@ -45,14 +46,29 @@ public class Lexer {
             } else if (input.charAt(i) == '^') {
                 // 省略 ^ 后 +
                 sb.append(input.charAt(i));
-                if (input.charAt(i + 1) == '+') {
+                if (i + 1 < n && input.charAt(i + 1) == '+') {
                     i++;
                 }
             } else if (input.charAt(i) == '(' &&
-                    (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-')) {
-                // 为表达式因子加前导0
+                    (i + 1 < n && (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-'))) {
+                // 检查是否是三角函数内的负数常量
+                boolean isTrigConstant = false;
+                if (i >= 3) { 
+                    String prefix = input.substring(i - 3, i);
+                    if (prefix.equals("sin") || prefix.equals("cos")) {
+                        // 检查后面是否跟着数字，如果是，则是三角函数内的常量
+                        if (i + 2 < n && Character.isDigit(input.charAt(i + 2))) {
+                            isTrigConstant = true;
+                        }
+                    }
+                }
+                
                 sb.append(input.charAt(i));
-                sb.append('0');
+                
+                // 只有在不是三角函数内的常量时，才添加前导0
+                if (!isTrigConstant) {
+                    sb.append('0');
+                }
             }
             else {
                 sb.append(input.charAt(i));

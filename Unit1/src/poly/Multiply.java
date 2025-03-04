@@ -20,7 +20,7 @@ public class Multiply {
 
     public static Mono monoMultiplyNew(Mono mono1, Mono mono2) {
         // 创建不带三角函数的新单项式
-        Mono result = mono1.copy(false);
+        Mono result = mono1.copy(true);
         // 使用monoMultiply进行乘法运算
         monoMultiply(result, mono2);
         return result;

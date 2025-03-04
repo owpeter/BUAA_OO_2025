@@ -24,6 +24,11 @@ public class TrigonometricFunction implements Factor {
 
     @Override
     public Mono toMono() {
+        // 如果指数为0，则返回常数1（系数为1，指数为0的单项式）
+        if (this.exponent.equals(BigInteger.ZERO)) {
+            return new Mono(BigInteger.ONE, BigInteger.ZERO);
+        }
+        
         // 1. 获取内部因子的形式（单项式或多项式）
         Poly innerPoly;
         Mono innerMono = factor.toMono();
