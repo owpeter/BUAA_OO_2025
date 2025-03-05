@@ -55,26 +55,4 @@ public class FunctionDefinitionParser {
 
         return new ParsedResult(funcName, sequence, params, expression);
     }
-
-//    public static void main(String[] args) {
-//        testParse("f{n}(x)=2*f{n-1}(x)-1*f{n-2}(x)");
-//        // testParse("g { 0 } (a, b) = 5");
-//        // testParse("H{42}() = empty");
-//        // testParse("invalidFormat{1} = wrong");
-//    }
-//
-//    private static void testParse(String input) {
-//        try {
-//            ParsedResult result = parse(input);
-//            System.out.println("Input: " + input);
-//            System.out.println("Function: " + result.getFunctionName());
-//            System.out.println("Sequence: " + result.getSequenceNumber());
-//            System.out.println("Parameters: " + result.getParameters());
-//            System.out.println("Expression: " + result.getExpression());
-//            System.out.println("----------------------");
-//        } catch (Exception e) {
-//            System.out.println("Error: " + e.getMessage());
-//            System.out.println("----------------------");
-//        }
-//    }
 }

@@ -48,7 +48,8 @@ public class RecursiveFunc {
         // 代入实参
         String result = funcN;
         for (int i=0; i<paraMap.get(funcName).size(); i++) {
-            result = funcN.replace(paraMap.get(funcName).get(i), factors.get(i).toPoly().toString());
+            String factorStr = "(" + factors.get(i).toPoly().toString() + ")";
+            result = result.replace(paraMap.get(funcName).get(i), factorStr);
         }
         return result;
     }

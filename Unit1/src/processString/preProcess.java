@@ -68,6 +68,9 @@ public class preProcess {
                 sb.append(input.charAt(i));
             }
         }
+        // TODO: debug
+        System.out.println(sb.toString());
+        //
         return sb.toString();
     }
 }

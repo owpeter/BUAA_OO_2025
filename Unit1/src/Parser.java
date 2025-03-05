@@ -96,6 +96,9 @@ public class Parser {
             }
             lexer.next(); // )
             String funcN = RecursiveFunc.callFunc(FuncName, n, factors);
+            // TODO: debug
+//            System.out.println(n + ": "+ funcN);
+            //
             Lexer funcLexer = new Lexer(funcN);
             Parser funcParser = new Parser(funcLexer);
             Expression funcExpr = funcParser.parseExpression();
