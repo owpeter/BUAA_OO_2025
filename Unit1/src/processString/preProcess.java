@@ -19,8 +19,7 @@ public class preProcess {
 
         if (input.charAt(0) == '+' || input.charAt(0) == '-') {
             // 若开头为符号，加前导0
-            // TODO: debug
-//            sb.append('0');
+            sb.append('0');
         }
 
         for (int i = 0; i < n; i++) {
@@ -45,27 +44,27 @@ public class preProcess {
                     i++;
                 }
             }
-//            else if (input.charAt(i) == '(' &&
-//                    (i + 1 < n && (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-'))) {
-//                // 检查是否是三角函数内的负数常量
-//                boolean isTrigConstant = false;
-//                if (i >= 3) {
-//                    String prefix = input.substring(i - 3, i);
-//                    if (prefix.equals("sin") || prefix.equals("cos")) {
-//                        // 检查后面是否跟着数字，如果是，则是三角函数内的常量
-//                        if (i + 2 < n && Character.isDigit(input.charAt(i + 2))) {
-//                            isTrigConstant = true;
-//                        }
-//                    }
-//                }
-//
-//                sb.append(input.charAt(i));
-//
-//                // 只有在不是三角函数内的常量时，才添加前导0
-//                if (!isTrigConstant) {
-//                    sb.append('0');
-//                }
-//            }
+            else if (input.charAt(i) == '(' &&
+                    (i + 1 < n && (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-'))) {
+                // 检查是否是三角函数内的负数常量
+                boolean isTrigConstant = false;
+                if (i >= 3) {
+                    String prefix = input.substring(i - 3, i);
+                    if (prefix.equals("sin") || prefix.equals("cos")) {
+                        // 检查后面是否跟着数字，如果是，则是三角函数内的常量
+                        if (i + 2 < n && Character.isDigit(input.charAt(i + 2))) {
+                            isTrigConstant = true;
+                        }
+                    }
+                }
+
+                sb.append(input.charAt(i));
+
+                // 只有在不是三角函数内的常量时，才添加前导0
+                if (!isTrigConstant) {
+                    sb.append('0');
+                }
+            }
             else {
                 sb.append(input.charAt(i));
             }

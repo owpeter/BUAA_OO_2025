@@ -12,13 +12,7 @@ public class Parser {
 
     public Expression parseExpression() {
         Expression expression = new Expression();
-        if (lexer.peek().equals("-")) {
-            lexer.next();
-            expression.addTerm(parseTerm(false));
-        } else {
-            expression.addTerm(parseTerm(true));
-        }
-//        expression.addTerm(parseTerm(true));
+        expression.addTerm(parseTerm(true));
         while (lexer.peek().equals("+") || lexer.peek().equals("-")) {
             // 将符号传递给Term
             if (lexer.peek().equals("+")) {
@@ -136,9 +130,5 @@ public class Parser {
 
             return new Constant(constant);
         }
-    }
-
-    public void parseFunc() {
-
     }
 }
