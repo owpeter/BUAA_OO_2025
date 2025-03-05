@@ -44,8 +44,27 @@ public class TrigonometricFunction implements Factor {
             }
         }
 
+
+
         // 2. 创建新的单项式，系数为1，指数为0
         Mono result = new Mono(BigInteger.ONE, BigInteger.ZERO);
+
+        // 指数是奇数且sin且取反更短，取反, 系数取反
+        Poly negPoly = innerPoly.negative();
+
+        if (type.equals("sin") && exponent.testBit(0)) {
+            if (negPoly.toString().length() < innerPoly.toString().length() + 1) {
+                innerPoly = negPoly;
+                result.setCoe(BigInteger.ONE.negate());
+            }
+        } else if (type.equals("cos") || (type.equals("sin") && !exponent.testBit(0))) {
+            // 指数是偶数且sin 或 cos，取反更短，取反，系数不变
+            if (negPoly.toString().length() < innerPoly.toString().length()) {
+                innerPoly = negPoly;
+            }
+        }
+
+
 
         // 3. 根据函数类型，添加对应的三角函数信息
         if (type.equals("sin")) {

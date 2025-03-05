@@ -44,6 +44,7 @@ public class Mono {
     }
 
     public void addSinTrig(Poly poly, BigInteger exp) {
+        // poly是三角函数内表达式
         TrigSimpify.simplifyAddSinMap(this, poly, exp);
     }
 

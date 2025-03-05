@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         // 读入带空格字符串？
         Scanner scanner = new Scanner(System.in);
-//        RecursiveFunc.setFunc(scanner);
+        RecursiveFunc.setFunc(scanner);
         String input = scanner.nextLine();
         scanner.close();
 
