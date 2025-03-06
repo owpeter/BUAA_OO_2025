@@ -45,11 +45,6 @@ public class Poly {
                 existingMono = m;
                 break;
             } else if (m.toOne(mono)) {
-//                this.monos.add(new Mono(BigInteger.valueOf(1), BigInteger.ZERO));
-////                System.out.println(m.toString(true));
-//                // TODO: need to do better!!!
-//                this.monos.remove(m);
-//                return;
                 toOneMono = m;
             }
         }
@@ -65,15 +60,14 @@ public class Poly {
             if (toOneMono != null) {
                 // 如果可以化简，那删掉符合条件的mono，补一个1
                 this.monos.remove(toOneMono);
-                Mono one = new Mono(BigInteger.ONE, BigInteger.ZERO);
                 Poly onePoly = new Poly();
-                onePoly.addMono(one);
+                onePoly.addMono(new Mono(BigInteger.ONE, BigInteger.ZERO));
                 Add.polyAdd(this, onePoly);
-                // TODO:加一！
             }
             else {
                 this.monos.add(mono.copy());
             }
+            // 以前的逻辑，如果去除cos^2+sin^2优化，将其加回来
 //            this.monos.add(mono.copy());
         }
     }

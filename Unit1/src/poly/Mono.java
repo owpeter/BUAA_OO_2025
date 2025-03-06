@@ -80,12 +80,16 @@ public class Mono {
         if (!this.coe.equals(mono.coe) || !this.exp.equals(mono.exp)) {
             return false;
         }
-        // 删除 sinMap 和 cosMap 中值为2的键值对
+
+        // 获得二次幂的Poly
+        // TODO: 如果有多个二次幂的三角函数会出问题！
         Poly thisSinPoly = null;
         Poly thatSinPoly = null;
         Poly thisCosPoly = null;
         Poly thatCosPoly = null;
         HashMap<Poly, BigInteger> newThisSinMap = new HashMap<>();
+
+        // 删除 sinMap 和 cosMap 中值为2的键值对
         for (Map.Entry<Poly, BigInteger> entry : this.sinMap.entrySet()) {
             if (!entry.getValue().equals(BigInteger.valueOf(2))) {
                 newThisSinMap.put(entry.getKey(), entry.getValue());
@@ -121,7 +125,7 @@ public class Mono {
                 thatCosPoly = entry.getKey();
             }
         }
-        if (!newThisCosMap.equals(newThatCosMap) && !newThisCosMap.equals(newThatSinMap)) {
+        if (!newThisSinMap.equals(newThatSinMap) || !newThisCosMap.equals(newThatCosMap)) {
             return false;
         }
 
