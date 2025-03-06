@@ -32,17 +32,29 @@ public class Poly {
     }
 
     public void addMono(Mono mono) {
+        // TODO: Mono.negate()
+
         if (mono.isZero()) {
             return;
         }
         
         Mono existingMono = null;
+        Mono toOneMono = null;
         for (Mono m : this.monos) {
             if (m.equals(mono)) {
                 existingMono = m;
                 break;
+            } else if (m.toOne(mono)) {
+//                this.monos.add(new Mono(BigInteger.valueOf(1), BigInteger.ZERO));
+////                System.out.println(m.toString(true));
+//                // TODO: need to do better!!!
+//                this.monos.remove(m);
+//                return;
+                toOneMono = m;
             }
         }
+
+
         
         if (existingMono != null) {
             Add.monoAdd(existingMono, mono);
@@ -50,7 +62,19 @@ public class Poly {
                 this.monos.remove(existingMono);
             }
         } else {
-            this.monos.add(mono.copy());
+            if (toOneMono != null) {
+                // 如果可以化简，那删掉符合条件的mono，补一个1
+                this.monos.remove(toOneMono);
+                Mono one = new Mono(BigInteger.ONE, BigInteger.ZERO);
+                Poly onePoly = new Poly();
+                onePoly.addMono(one);
+                Add.polyAdd(this, onePoly);
+                // TODO:加一！
+            }
+            else {
+                this.monos.add(mono.copy());
+            }
+//            this.monos.add(mono.copy());
         }
     }
 
@@ -137,4 +161,5 @@ public class Poly {
         }
         return result;
     }
+
 }

@@ -75,6 +75,68 @@ public class Mono {
         return hash;
     }
 
+    public boolean toOne(Mono mono) { // key 三角函数内因子 -> value 三角函数幂次
+        // 如果两个Mono除2次幂均相同，且sin的二次幂的poly和cos二次幂的poly相同或cos二次幂的poly和sin的二次幂的poly相同，返回1
+        if (!this.coe.equals(mono.coe) || !this.exp.equals(mono.exp)) {
+            return false;
+        }
+        // 删除 sinMap 和 cosMap 中值为2的键值对
+        Poly thisSinPoly = null;
+        Poly thatSinPoly = null;
+        Poly thisCosPoly = null;
+        Poly thatCosPoly = null;
+        HashMap<Poly, BigInteger> newThisSinMap = new HashMap<>();
+        for (Map.Entry<Poly, BigInteger> entry : this.sinMap.entrySet()) {
+            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
+                newThisSinMap.put(entry.getKey(), entry.getValue());
+            } else {
+                thisSinPoly = entry.getKey();
+            }
+        }
+        HashMap<Poly, BigInteger> newThatSinMap = new HashMap<>();
+        for (Map.Entry<Poly, BigInteger> entry : mono.sinMap.entrySet()) {
+            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
+                newThatSinMap.put(entry.getKey(), entry.getValue());
+            } else {
+                thatSinPoly = entry.getKey();
+            }
+        }
+        if (!newThisSinMap.equals(newThatSinMap)) {
+            return false;
+        }
+
+        HashMap<Poly, BigInteger> newThisCosMap = new HashMap<>();
+        for (Map.Entry<Poly, BigInteger> entry : this.cosMap.entrySet()) {
+            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
+                newThisCosMap.put(entry.getKey(), entry.getValue());
+            } else {
+                thisCosPoly = entry.getKey();
+            }
+        }
+        HashMap<Poly, BigInteger> newThatCosMap = new HashMap<>();
+        for (Map.Entry<Poly, BigInteger> entry : mono.cosMap.entrySet()) {
+            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
+                newThatCosMap.put(entry.getKey(), entry.getValue());
+            } else {
+                thatCosPoly = entry.getKey();
+            }
+        }
+        if (!newThisCosMap.equals(newThatCosMap) && !newThisCosMap.equals(newThatSinMap)) {
+            return false;
+        }
+
+        if (thisSinPoly != null && thatCosPoly != null && thisCosPoly == null && thatSinPoly == null) {
+            return thisSinPoly.equals(thatCosPoly);
+        }
+
+        if (thisCosPoly != null && thatSinPoly != null && thisSinPoly == null && thatCosPoly == null) {
+            return thisCosPoly.equals(thatSinPoly);
+        }
+
+        return false;
+
+    }
+
     public Mono copy() {
         return copy(true);
     }

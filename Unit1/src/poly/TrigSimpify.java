@@ -52,25 +52,4 @@ public class TrigSimpify {
             mono.getCosMap().merge(poly, exp, BigInteger::add);
         }
     }
-
-//    public static void simplifySign()
-
-//    public static void simplifySinCosSquare(Poly poly, Mono mono) {
-//        for (Mono thisMono : poly.getMonos()) {
-//
-//        }
-//    }
-
-//    public static void simplifyContrastTrig (Mono mono1, Mono mono2) {
-//        Map<Poly, BigInteger> sinMap1 = mono1.getSinMap();
-//        Map<Poly, BigInteger> sinMap2 = mono2.getSinMap();
-//        for (Map.Entry<Poly, BigInteger> entry : sinMap1.entrySet()) {
-//            // 如果 sinMap2 中有相同幂次的三角函数 && 幂次为奇数
-//            if (sinMap2.containsKey(entry.getKey()) && entry.getValue().testBit(0)) {
-//                // 如果
-//            }
-//        }
-//            if (sinMap2.containsValue()) {
-//        }
-//    }
 }
