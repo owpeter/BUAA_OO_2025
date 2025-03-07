@@ -44,6 +44,16 @@ public class TrigonometricFunction implements Factor {
             }
         }
 
+        if (innerPoly.allZero()) {
+            if (type.equals("sin")) {
+                return new Mono(BigInteger.ZERO, BigInteger.ZERO);
+            } else if (type.equals("cos")) {
+                return new Mono(BigInteger.ONE, BigInteger.ZERO);
+            } else {
+                return null;
+            }
+        }
+
 
 
         // 2. 创建新的单项式，系数为1，指数为0

@@ -83,11 +83,6 @@ public class Mono {
         }
 
         // 获得二次幂的Poly
-        // TODO: 如果有多个二次幂的三角函数会出问题！
-//        Poly thisSinPoly = null;
-//        Poly thatSinPoly = null;
-//        Poly thisCosPoly = null;
-//        Poly thatCosPoly = null;
         HashSet<Poly> thisSinPoly = new HashSet<>();
         HashSet<Poly> thatSinPoly = new HashSet<>();
         HashSet<Poly> thisCosPoly = new HashSet<>();
@@ -179,6 +174,10 @@ public class Mono {
 
     public boolean isZero() {
         return this.coe.equals(BigInteger.ZERO);
+    }
+
+    public void twiceMono() {
+        this.coe = this.coe.multiply(BigInteger.valueOf(2));
     }
 
     public String toString(boolean isHead) {

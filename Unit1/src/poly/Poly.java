@@ -84,17 +84,17 @@ public class Poly {
         return ToString.polyToString(this);
     }
 
-    // private boolean allZero() {
-    //     if (monos.isEmpty()) {
-    //         return true;
-    //     }
-    //     for (Mono mono : monos) {
-    //         if (!mono.isZero()) {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
+     public boolean allZero() {
+         if (monos.isEmpty()) {
+             return true;
+         }
+         for (Mono mono : monos) {
+             if (!mono.isZero()) {
+                 return false;
+             }
+         }
+         return true;
+     }
     
     @Override
     public boolean equals(Object o) {
@@ -153,6 +153,12 @@ public class Poly {
             negMono.setCoe(mono.getCoe().negate());
             result.addMono(negMono);
         }
+        return result;
+    }
+
+    public Poly twicePoly() {
+        Poly result = this.copy();
+        result.getMonos().forEach(Mono::twiceMono);
         return result;
     }
 
