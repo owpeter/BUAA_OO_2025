@@ -1,21 +1,11 @@
-package processString;
+package procstring;
 
-public class preProcess {
+public class PreProcess {
     private static String input;
 
-    public static String process(String preInput) {
+    public static String process(Integer n, String input) {
         StringBuilder sb = new StringBuilder();
-        StringBuilder preSb = new StringBuilder();
-        int n = preInput.length();
 
-        for (int i = 0; i < n; i++) {
-            if (preInput.charAt(i) != ' ' && preInput.charAt(i) != '\t') {
-                preSb.append(preInput.charAt(i));
-            }
-        }
-
-        String input = preSb.toString();
-        n = input.length();
 
         if (input.charAt(0) == '+' || input.charAt(0) == '-') {
             // 若开头为符号，加前导0
@@ -45,7 +35,7 @@ public class preProcess {
                 }
             }
             else if (input.charAt(i) == '(' &&
-                    (i + 1 < n && (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-'))) {
+                (i + 1 < n && (input.charAt(i + 1) == '+' || input.charAt(i + 1) == '-'))) {
                 // 检查是否是三角函数内的负数常量
                 boolean isTrigConstant = false;
                 if (i >= 3) {
@@ -59,8 +49,6 @@ public class preProcess {
                 }
 
                 sb.append(input.charAt(i));
-
-                // 只有在不是三角函数内的常量时，才添加前导0
                 if (!isTrigConstant) {
                     sb.append('0');
                 }
@@ -69,9 +57,19 @@ public class preProcess {
                 sb.append(input.charAt(i));
             }
         }
-        // TODO: debug
-//        System.out.println(sb.toString());
-        //
         return sb.toString();
+    }
+
+    public static String prePreProcess(String preInput) {
+        StringBuilder preSb = new StringBuilder();
+        int n = preInput.length();
+
+        for (int i = 0; i < n; i++) {
+            if (preInput.charAt(i) != ' ' && preInput.charAt(i) != '\t') {
+                preSb.append(preInput.charAt(i));
+            }
+        }
+
+        return preSb.toString();
     }
 }

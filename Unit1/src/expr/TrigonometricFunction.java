@@ -28,7 +28,6 @@ public class TrigonometricFunction implements Factor {
         if (this.exponent.equals(BigInteger.ZERO)) {
             return new Mono(BigInteger.ONE, BigInteger.ZERO);
         }
-        
         // 1. 获取内部因子的形式（单项式或多项式）
         Poly innerPoly;
         Mono innerMono = factor.toMono();
@@ -43,7 +42,6 @@ public class TrigonometricFunction implements Factor {
                 return null;  // 如果都无法转换，返回null
             }
         }
-
         if (innerPoly.allZero()) {
             if (type.equals("sin")) {
                 return new Mono(BigInteger.ZERO, BigInteger.ZERO);
@@ -53,9 +51,6 @@ public class TrigonometricFunction implements Factor {
                 return null;
             }
         }
-
-
-
         // 2. 创建新的单项式，系数为1，指数为0
         Mono result = new Mono(BigInteger.ONE, BigInteger.ZERO);
 
@@ -63,7 +58,7 @@ public class TrigonometricFunction implements Factor {
         Poly negPoly = innerPoly.negative();
 
         if (type.equals("sin") && exponent.testBit(0)) {
-            if (negPoly.toString().length() < innerPoly.toString().length() + 1) {
+            if (negPoly.toString().length() < innerPoly.toString().length()) {
                 innerPoly = negPoly;
                 result.setCoe(BigInteger.ONE.negate());
             }

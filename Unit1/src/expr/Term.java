@@ -31,7 +31,9 @@ public class Term {
         }
 
         for (Factor factor : factors) {
-            if (factor instanceof Variable || factor instanceof Constant || factor instanceof TrigonometricFunction) {
+            if (factor instanceof Variable
+                || factor instanceof Constant
+                || factor instanceof TrigonometricFunction) {
                 // 变量因子、常数因子、三角函数因子都是单项式
                 Multiply.polyMultiplyMono(poly, factor.toMono());
             } else {

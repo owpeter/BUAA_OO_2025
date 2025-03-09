@@ -1,7 +1,16 @@
 import random
 import re
-
+import threading
 import sympy
+
+# thread_local = threading.local()
+# globalPointer_lock = threading.Lock()
+
+# def get_thread_local_random():
+#     if not hasattr(thread_local, "rng"):
+#         seed = random.randint(0, 2**32-1)
+#         thread_local.rng = random.Random(seed)
+#     return thread_local.rng
 
 intPool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
            10, 11, 12, 13, 14, 15, 16,
@@ -20,13 +29,15 @@ maxExp = 5
 specialData = ["1", "x-x", "-1", "(x-1)**4-(x**2-2*x+1)**2"]    # 可以放一些特殊数据
 dataCost = [1, 2, 2, 32]
 globalPointer = 0
-maxDepth = 2
+maxDepth = 5
 depth = 0
 
 
 def rd(a, b):
     return random.randint(a, b)
 
+# def rd(a, b):
+#     return get_thread_local_random().randint(a, b)
 
 def getWhiteSpace():
     if not hasWhiteSpace:
@@ -174,8 +185,27 @@ def genData():
         expr, cost = getExpr(False)
     # print(expr)
     return str(expr), cost
+# def genData():
+#     # 安全访问全局指针
+#     with globalPointer_lock:
+#         if not hasattr(thread_local, 'local_globalPointer'):
+#             thread_local.local_globalPointer = 0  # 从主线程初始化
+            
+#         if thread_local.local_globalPointer < len(specialData):
+#             idx = thread_local.local_globalPointer
+#             thread_local.local_globalPointer += 1
+#             return specialData[idx], dataCost[idx]
+    
+    # 正常生成逻辑
+    expr, cost = getExpr(False)
+    return expr, cost
 
 
 if __name__ == '__main__':
     while True:
-        poly, ans, cost = genData()
+        poly,  cost = genData()
+        # if(len(poly) >= 50 or cost >)
+        # print(poly)
+        # print(cost)
+        # print('----------')
+        # input()

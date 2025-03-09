@@ -1,10 +1,9 @@
 package poly;
 
-import processString.ToString;
+import procstring.ToString;
 
 import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class Mono {
@@ -74,85 +73,6 @@ public class Mono {
         hash = 31 * hash + sinMap.hashCode();
         hash = 31 * hash + cosMap.hashCode();
         return hash;
-    }
-
-    public boolean toOne(Mono mono) { // key 三角函数内因子 -> value 三角函数幂次
-        // 如果两个Mono除2次幂均相同，且sin的二次幂的poly和cos二次幂的poly相同或cos二次幂的poly和sin的二次幂的poly相同，返回1
-        if (!this.coe.equals(mono.coe) || !this.exp.equals(mono.exp)) {
-            return false;
-        }
-
-        // 获得二次幂的Poly
-        HashSet<Poly> thisSinPoly = new HashSet<>();
-        HashSet<Poly> thatSinPoly = new HashSet<>();
-        HashSet<Poly> thisCosPoly = new HashSet<>();
-        HashSet<Poly> thatCosPoly = new HashSet<>();
-
-        HashMap<Poly, BigInteger> newThisSinMap = new HashMap<>();
-        // 删除 sinMap 和 cosMap 中值为2的键值对
-        for (Map.Entry<Poly, BigInteger> entry : this.sinMap.entrySet()) {
-            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
-                newThisSinMap.put(entry.getKey(), entry.getValue());
-            } else {
-//                thisSinPoly = entry.getKey();
-                thisSinPoly.add(entry.getKey());
-            }
-        }
-        HashMap<Poly, BigInteger> newThatSinMap = new HashMap<>();
-        for (Map.Entry<Poly, BigInteger> entry : mono.sinMap.entrySet()) {
-            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
-                newThatSinMap.put(entry.getKey(), entry.getValue());
-            } else {
-//                thatSinPoly = entry.getKey();
-                thatSinPoly.add(entry.getKey());
-            }
-        }
-        if (!newThisSinMap.equals(newThatSinMap)) {
-            return false;
-        }
-
-
-        HashMap<Poly, BigInteger> newThisCosMap = new HashMap<>();
-        for (Map.Entry<Poly, BigInteger> entry : this.cosMap.entrySet()) {
-            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
-                newThisCosMap.put(entry.getKey(), entry.getValue());
-            } else {
-//                thisCosPoly = entry.getKey();
-                thisCosPoly.add(entry.getKey());
-            }
-        }
-        HashMap<Poly, BigInteger> newThatCosMap = new HashMap<>();
-        for (Map.Entry<Poly, BigInteger> entry : mono.cosMap.entrySet()) {
-            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
-                newThatCosMap.put(entry.getKey(), entry.getValue());
-            } else {
-//                thatCosPoly = entry.getKey();
-                thatCosPoly.add(entry.getKey());
-            }
-        }
-        if (!newThisSinMap.equals(newThatSinMap) || !newThisCosMap.equals(newThatCosMap)) {
-            return false;
-        }
-
-//        if (thisSinPoly != null && thatCosPoly != null && thisCosPoly == null && thatSinPoly == null) {
-//            return thisSinPoly.equals(thatCosPoly);
-//        }
-        if (thisSinPoly.size() == 1 && thatCosPoly.size() == 1
-                && thisCosPoly.isEmpty() && thatSinPoly.isEmpty()) {
-            return thisSinPoly.equals(thatCosPoly);
-        }
-
-//        if (thisCosPoly != null && thatSinPoly != null && thisSinPoly == null && thatCosPoly == null) {
-//            return thisCosPoly.equals(thatSinPoly);
-//        }
-
-        if (thisCosPoly.size() == 1 && thatSinPoly.size() == 1
-                && thisSinPoly.isEmpty() && thatCosPoly.isEmpty()) {
-            return thisCosPoly.equals(thatSinPoly);
-        }
-
-        return false;
-
     }
 
     public Mono copy() {

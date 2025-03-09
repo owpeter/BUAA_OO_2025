@@ -2,13 +2,11 @@ package poly;
 
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class TrigSimpify {
-
-//    public static void simpify(Mono mono, Poly poly, BigInteger exp) {
-//
-//    }
 
     public static void simplifyAddSinMap(Mono mono, Poly poly, BigInteger exp) {
 
@@ -47,7 +45,6 @@ public class TrigSimpify {
             mono.getCosMap().merge(poly, exp, BigInteger::add);
             return;
         }
-        // TODO: bugs
         else if (twiceTrig("cos", mono, poly, exp)) {
             mono.setCoe(mono.getCoe().divide(BigInteger.valueOf(2).pow(exp.intValue())));
             Poly twicePoly = poly.twicePoly();
@@ -70,7 +67,7 @@ public class TrigSimpify {
 
     private static boolean twiceTrig(String type, Mono mono, Poly poly, BigInteger exp) {
         BigInteger coe = mono.getCoe();
-        if (!Math.isPowerOfTwoNMultipliedByTwoM(coe, exp)) {
+        if (!Math.isPowerOfTwoNMultipliedByMTwo(coe, exp)) {
             return false;
         }
         else {
@@ -82,5 +79,73 @@ public class TrigSimpify {
                         && exp.equals(mono.getSinMap().get(poly));
             }
         }
+    }
+
+    public static boolean toOne(Mono mono1, Mono mono2) {
+        if (!mono1.getCoe().equals(mono2.getCoe()) || !mono1.getExp().equals(mono2.getExp())) {
+            return false;
+        }
+        HashMap<Poly, BigInteger> newThisSinMap = new HashMap<>();
+        HashSet<Poly> thisSinPoly = new HashSet<>();
+        for (Map.Entry<Poly, BigInteger> entry : mono1.getSinMap().entrySet()) {
+            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
+                newThisSinMap.put(entry.getKey(), entry.getValue());
+            } else {
+                thisSinPoly.add(entry.getKey());
+            }
+        }
+        HashMap<Poly, BigInteger> newThatSinMap = new HashMap<>();
+        HashSet<Poly> thatSinPoly = new HashSet<>();
+        for (Map.Entry<Poly, BigInteger> entry : mono2.getSinMap().entrySet()) {
+            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
+                newThatSinMap.put(entry.getKey(), entry.getValue());
+            } else {
+                thatSinPoly.add(entry.getKey());
+            }
+        }
+
+        HashMap<Poly, BigInteger> newThisCosMap = new HashMap<>();
+        HashSet<Poly> thisCosPoly = new HashSet<>();
+        for (Map.Entry<Poly, BigInteger> entry : mono1.getCosMap().entrySet()) {
+            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
+                newThisCosMap.put(entry.getKey(), entry.getValue());
+            } else {
+                thisCosPoly.add(entry.getKey());
+            }
+        }
+        HashMap<Poly, BigInteger> newThatCosMap = new HashMap<>();
+        HashSet<Poly> thatCosPoly = new HashSet<>();
+        for (Map.Entry<Poly, BigInteger> entry : mono2.getCosMap().entrySet()) {
+            if (!entry.getValue().equals(BigInteger.valueOf(2))) {
+                newThatCosMap.put(entry.getKey(), entry.getValue());
+            } else {
+                thatCosPoly.add(entry.getKey());
+            }
+        }
+
+        boolean areMapsEqual = newThisSinMap.equals(newThatSinMap)
+            && newThisCosMap.equals(newThatCosMap);
+        if (!areMapsEqual) {
+            return false;
+        }
+
+        boolean isSinCosSwap
+            = isSingleElementSwap(thisSinPoly, thatCosPoly, thisCosPoly, thatSinPoly);
+        boolean isCosSinSwap
+            = isSingleElementSwap(thisCosPoly, thatSinPoly, thisSinPoly, thatCosPoly);
+        if (isSinCosSwap) {
+            return thisSinPoly.equals(thatCosPoly);
+        }
+        if (isCosSinSwap) {
+            return thisCosPoly.equals(thatSinPoly);
+        }
+        return false;
+    }
+
+    private static boolean isSingleElementSwap(
+        Set<Poly> thisSet, Set<Poly> thatSet,
+        Set<Poly> thisOtherSet, Set<Poly> thatOtherSet) {
+        return thisSet.size() == 1 && thatSet.size() == 1
+                && thisOtherSet.isEmpty() && thatOtherSet.isEmpty();
     }
 }

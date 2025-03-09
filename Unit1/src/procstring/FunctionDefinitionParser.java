@@ -1,4 +1,4 @@
-package processString;
+package procstring;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ public class FunctionDefinitionParser {
         private final String expression;
 
         public ParsedResult(String functionName, String sequenceNumber,
-                            ArrayList<String> parameters, String expression) {
+            ArrayList<String> parameters, String expression) {
             this.functionName = functionName;
             this.sequenceNumber = sequenceNumber;
             this.parameters = parameters;
@@ -22,21 +22,23 @@ public class FunctionDefinitionParser {
         }
 
         public String getFunctionName() { return functionName; }
+
         public String getSequenceNumber() { return sequenceNumber; }
+
         public ArrayList<String> getParameters() { return parameters; }
+
         public String getExpression() { return expression; }
     }
 
     public static ParsedResult parse(String input) throws IllegalArgumentException {
         String[] parts = input.split("=", 2);
-        if (parts.length != 2) throw new IllegalArgumentException("Missing '='");
 
         String definition = parts[0].trim();
         String expression = parts[1].trim();
 
         // 修正后的正则表达式（关键修改点）
         Pattern pattern = Pattern.compile(
-                "([a-zA-Z])\\s*\\{\\s*(.+?)\\s*}\\s*\\(\\s*(.*?)\\s*\\)"
+            "([a-zA-Z])\\s*\\{\\s*(.+?)\\s*}\\s*\\(\\s*(.*?)\\s*\\)"
         );
         Matcher matcher = pattern.matcher(definition);
 

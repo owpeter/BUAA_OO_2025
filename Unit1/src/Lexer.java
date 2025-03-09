@@ -1,4 +1,4 @@
-import processString.preProcess;
+import procstring.PreProcess;
 
 public class Lexer {
     private final String input;
@@ -12,7 +12,8 @@ public class Lexer {
     }
 
     private String preProcess(String preInput) {
-        return preProcess.process(preInput);
+        String input = PreProcess.prePreProcess(preInput);
+        return PreProcess.process(input.length(), input);
     }
 
     private String getNumber() {

@@ -1,6 +1,6 @@
 package poly;
 
-import processString.ToString;
+import procstring.ToString;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -44,13 +44,12 @@ public class Poly {
             if (m.equals(mono)) {
                 existingMono = m;
                 break;
-            } else if (m.toOne(mono)) {
+            }
+            else if (TrigSimpify.toOne(m, mono)) {
                 toOneMono = m;
             }
         }
 
-
-        
         if (existingMono != null) {
             Add.monoAdd(existingMono, mono);
             if (existingMono.isZero()) {
@@ -60,15 +59,15 @@ public class Poly {
             if (toOneMono != null) {
                 // 如果可以化简，那删掉符合条件的mono，补一个1
                 this.monos.remove(toOneMono);
-                Poly onePoly = new Poly();
-                onePoly.addMono(new Mono(BigInteger.ONE, BigInteger.ZERO));
-                Add.polyAdd(this, onePoly);
+                Poly coePoly = new Poly();
+                coePoly.addMono(new Mono(mono.getCoe(), BigInteger.ZERO));
+                Add.polyAdd(this, coePoly);
             }
             else {
                 this.monos.add(mono.copy());
             }
             // 以前的逻辑，如果去除cos^2+sin^2优化，将其加回来
-//            this.monos.add(mono.copy());
+            // this.monos.add(mono.copy());
         }
     }
 
@@ -84,17 +83,17 @@ public class Poly {
         return ToString.polyToString(this);
     }
 
-     public boolean allZero() {
-         if (monos.isEmpty()) {
-             return true;
-         }
-         for (Mono mono : monos) {
-             if (!mono.isZero()) {
-                 return false;
-             }
-         }
-         return true;
-     }
+    public boolean allZero() {
+        if (monos.isEmpty()) {
+            return true;
+        }
+        for (Mono mono : monos) {
+            if (!mono.isZero()) {
+                return false;
+            }
+        }
+        return true;
+    }
     
     @Override
     public boolean equals(Object o) {
