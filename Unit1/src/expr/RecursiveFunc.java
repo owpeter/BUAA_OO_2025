@@ -50,9 +50,9 @@ public class RecursiveFunc {
         // 代入实参
         String result = funcN;
         for (int i = 0; i < paraMap.get(funcName).size(); i++) {
-            String factorStr = "(" + factors.get(i).toPoly().toString() + ")";
+            String factorStr = ("(" + factors.get(i).toPoly().toString() + ")").replace("x", "a");
             result = result.replace(paraMap.get(funcName).get(i), factorStr);
         }
-        return result;
+        return result.replace("a", "x");
     }
 }

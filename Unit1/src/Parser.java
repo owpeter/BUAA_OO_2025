@@ -114,7 +114,7 @@ public class Parser {
         lexer.next();   // {
         lexer.next();   // n
         Integer n = Integer.parseInt(lexer.peek());
-        System.out.println(n);
+//        System.out.println(n);
         lexer.next();   // }
         lexer.next();   // (
 
@@ -123,12 +123,12 @@ public class Parser {
         for (int i = 0; i < RecursiveFunc.paraLength(funcName); i++) {
             lexer.next(); // factor
             factors.add(parseExpression());
-            System.out.println("factor: " + factors.get(i).toPoly().toString());
+//            System.out.println("factor: " + factors.get(i).toPoly().toString());
         }
         lexer.next(); // )
         String funcN = RecursiveFunc.callFunc(funcName, n, factors);
         // debug
-        System.out.println(funcN);
+//        System.out.println(funcN);
         //
         Lexer funcLexer = new Lexer(funcN);
         Parser funcParser = new Parser(funcLexer);
