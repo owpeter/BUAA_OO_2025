@@ -1,10 +1,7 @@
-import expr.Constant;
-import expr.Factor;
-import expr.Term;
-import expr.Variable;
-import expr.TrigonometricFunction;
-import expr.RecursiveFunc;
-import expr.Expression;
+package parse;
+
+import expr.*;
+import poly.Derivate;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -57,9 +54,17 @@ public class Parser {
             return parseVariable();
             // x ^ 1
         } else if (this.lexer.peek().equals("f")) {
-            // 函数
-            return parseFuncExpression();
+            // 递推函数
+            return parseRecFunc();
+        } else if (this.lexer.peek().equals("g") ||
+        this.lexer.peek().equals("h")) {
+            // 自定义函数
+            return parseSelfFunc(this.lexer.peek());
+        } else if (this.lexer.peek().equals("dx")) {
+            lexer.next();
+            return Derivate.dExpr(parseExpression());
         }
+
         else {
             // 常数因子
             // 只接受一个前导符号
@@ -103,13 +108,13 @@ public class Parser {
             lexer.next();
             String exp = lexer.peek();
             lexer.next();
-            return new Variable(exp);
+            return new Variable(new BigInteger(exp));
         } else {
-            return new Variable("1");
+            return new Variable(BigInteger.ONE);
         }
     }
 
-    private Expression parseFuncExpression() {
+    private Expression parseRecFunc() {
 
         lexer.next();   // {
         lexer.next();   // n
@@ -136,6 +141,25 @@ public class Parser {
         return funcParser.parseExpression();
     }
 
+    private Expression parseSelfFunc(String funName) {
+        lexer.next();
+        ArrayList<Factor> factors = new ArrayList<>();
+        for (int i = 0; i < SelfFunc.paraLength(funName); i++) {
+
+            lexer.next();
+            factors.add(parseExpression());
+        }
+        lexer.next();
+        String funcN = SelfFunc.callFunc(funName, factors);
+//        System.out.println(funcN);
+        Lexer funcLexer = new Lexer(funcN);
+        Parser funcParser = new Parser(funcLexer);
+//        return funcParser.parseExpression();
+        Expression expression = funcParser.parseExpression();
+//        System.out.println(expression.toPoly().toString());
+        return expression;
+    }
+
     private Constant parseConstant() {
         String constant;
         if (this.lexer.peek().equals("-")) {
@@ -158,6 +182,6 @@ public class Parser {
             lexer.next();
         }
 
-        return new Constant(constant);
+        return new Constant(new BigInteger(constant));
     }
 }

@@ -18,7 +18,7 @@ public class RecursiveFunc {
         HashMap<String, String> innerMap = new HashMap<>();
         for (int i = 0; i < num * 3; i++) {
             String preScribe = scanner.nextLine();
-            FunctionDefinitionParser.ParsedResult result
+            FunctionDefinitionParser.ParseRecursiveFunc result
                 = FunctionDefinitionParser.parse(preScribe);
 
             String funcName = result.getFunctionName();

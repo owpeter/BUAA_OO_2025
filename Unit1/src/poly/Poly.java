@@ -32,8 +32,6 @@ public class Poly {
     }
 
     public void addMono(Mono mono) {
-        // TODO: Mono.negate()
-
         if (mono.isZero()) {
             return;
         }

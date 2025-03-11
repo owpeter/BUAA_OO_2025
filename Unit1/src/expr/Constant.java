@@ -6,15 +6,15 @@ import poly.Poly;
 import java.math.BigInteger;
 
 public class Constant implements Factor {
-    private final String constant;
+    private final BigInteger constant;
 
-    public Constant(String constant) {
+    public Constant(BigInteger constant) {
         this.constant = constant;
     }
 
     @Override
     public Mono toMono() {
-        return new Mono(new BigInteger(this.constant), BigInteger.ZERO);
+        return new Mono(this.constant, BigInteger.ZERO);
     }
 
     @Override

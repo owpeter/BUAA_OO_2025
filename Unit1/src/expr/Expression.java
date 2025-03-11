@@ -17,10 +17,24 @@ public class Expression implements Factor {
 
     public Expression() {
         this.terms = new ArrayList<Term>();
+        this.exponential = BigInteger.ONE;
+    }
+
+    public Expression(ArrayList<Term> terms, BigInteger exponential) {
+        this.terms = terms;
+        this.exponential = exponential;
     }
 
     public void addTerm(Term term) {
         this.terms.add(term);
+    }
+
+    public ArrayList<Term> getTerms() {
+        return this.terms;
+    }
+
+    public BigInteger getExponential() {
+        return this.exponential;
     }
 
     public void setExponential(String exponential) {

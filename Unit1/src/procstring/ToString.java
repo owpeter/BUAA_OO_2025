@@ -172,24 +172,23 @@ public class ToString {
         
         // 如果多项式只有一个单项式
         if (monos.size() == 1) {
-            Mono mono = monos.get(0);
-            
-            // 如果是常数项
-            if (mono.getExp().equals(BigInteger.ZERO) && 
-                mono.getSinMap().isEmpty() && 
-                mono.getCosMap().isEmpty()) {
+            Mono mono1 = monos.get(0);
+            if (mono1.getCoe().equals(BigInteger.ZERO)) {
                 return false;
             }
-            
-            // 如果是单一变量项（如x, x^2等）
-            if (mono.getCoe().equals(BigInteger.ONE) &&
-                mono.getSinMap().isEmpty() &&
-                mono.getCosMap().isEmpty()) {
-                return false;
-            }
+            int cnt = coeCnt(mono1) + varCnt(mono1) + mono1.getSinMap().size() + mono1.getCosMap().size();
+            return cnt > 1;
         }
         
         // 其他情况需要额外的括号
         return true;
+    }
+
+    private static int coeCnt(Mono mono) {
+        return mono.getCoe().equals(BigInteger.ONE) ? 0 : 1;
+    }
+
+    private static int varCnt(Mono mono) {
+        return mono.getExp().equals(BigInteger.ZERO) ? 0 : 1;
     }
 } 

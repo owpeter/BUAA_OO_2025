@@ -1,3 +1,5 @@
+package parse;
+
 import procstring.PreProcess;
 
 public class Lexer {
@@ -42,6 +44,9 @@ public class Lexer {
             // x
             pos++;
             curToken = String.valueOf(c);
+        } else if (c == 'd') {
+            pos += 2;
+            curToken = "dx";
         } else if (c == 's') {
             // sin
             pos += 3;
@@ -51,7 +56,7 @@ public class Lexer {
             pos += 3;
             curToken = "cos";
         } else {
-            // f
+            // f g h
             pos++;
             curToken = String.valueOf(c);
         }

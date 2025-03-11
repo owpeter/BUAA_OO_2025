@@ -16,6 +16,14 @@ public class TrigonometricFunction implements Factor {
         this.exponent = exponent;
     }
 
+    public BigInteger getExponent() {
+        return exponent;
+    }
+
+    public Factor getFactor() {
+        return factor;
+    }
+
     @Override
     public Poly toPoly() {
         // 三角函数不应该直接转换为多项式
@@ -80,4 +88,8 @@ public class TrigonometricFunction implements Factor {
 
         return result;
     }
-} 
+
+    public String getType() {
+        return type;
+    }
+}

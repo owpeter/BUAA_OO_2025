@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 // 因子 | 项 * 因子
 
-public class Term {
+public class Term implements Factor{
     private ArrayList<Factor> factors;
     private final boolean sign;
 
@@ -18,8 +18,21 @@ public class Term {
         this.factors = new ArrayList<Factor>();
     }
 
+    public Term(boolean sign, ArrayList<Factor> factors) {
+        this.sign = sign;
+        this.factors = factors;
+    }
+
     public void addFactor(Factor factor) {
         this.factors.add(factor);
+    }
+
+    public ArrayList<Factor> getFactors() {
+        return this.factors;
+    }
+
+    public boolean getSign() {
+        return this.sign;
     }
 
     public Poly toPoly() {
@@ -42,5 +55,10 @@ public class Term {
             }
         }
         return poly;
+    }
+
+    @Override
+    public Mono toMono() {
+        return null;
     }
 }
