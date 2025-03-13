@@ -43,6 +43,14 @@ public class Mono {
         this.exp = exp;
     }
 
+    public void setSinMap(HashMap<Poly, BigInteger> sinMap) {
+        this.sinMap = sinMap;
+    }
+
+    public void setCosMap(HashMap<Poly, BigInteger> cosMap) {
+        this.cosMap = cosMap;
+    }
+
     public void addSinTrig(Poly poly, BigInteger exp) {
         // poly是三角函数内表达式
         TrigSimpify.simplifyAddSinMap(this, poly, exp);

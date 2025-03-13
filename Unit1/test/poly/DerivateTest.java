@@ -9,8 +9,8 @@ public class DerivateTest {
 
     @Test
     public void dExpr() {
-        Expression expr = new Parser(new Lexer("x^2+x+1")).parseExpression();
-
+        Expression expr = new Parser(new Lexer("dx(sin(x))")).parseExpression();
+        System.out.println(Derivate.dExpr(expr).toPoly().toString());
     }
 
     @Test

@@ -133,11 +133,11 @@ public class TrigSimpify {
             = isSingleElementSwap(thisSinPoly, thatCosPoly, thisCosPoly, thatSinPoly);
         boolean isCosSinSwap
             = isSingleElementSwap(thisCosPoly, thatSinPoly, thisSinPoly, thatCosPoly);
-        if (isSinCosSwap) {
-            return thisSinPoly.equals(thatCosPoly);
-        }
-        if (isCosSinSwap) {
-            return thisCosPoly.equals(thatSinPoly);
+        if (isSinCosSwap && thisSinPoly.equals(thatCosPoly)
+            || isCosSinSwap && thisCosPoly.equals(thatSinPoly)) {
+            mono1.setSinMap(newThisSinMap);
+            mono1.setCosMap(newThisCosMap);
+            return true;
         }
         return false;
     }

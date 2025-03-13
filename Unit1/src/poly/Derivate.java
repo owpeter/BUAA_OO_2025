@@ -60,10 +60,16 @@ public class Derivate {
 
     public static Factor dFactor(Factor factor) {
         if (factor instanceof Expression) {
+            if (((Expression) factor).getExponential().equals(BigInteger.ZERO)) {
+                return new Constant(BigInteger.ONE);
+            }
             return dExpr((Expression) factor);
         } else if (factor instanceof Constant) {
             return new Constant(BigInteger.ZERO);
         } else if (factor instanceof Variable) {
+            if (((Variable) factor).getExp().equals(BigInteger.ZERO)) {
+                return new Constant(BigInteger.ONE);
+            }
             ArrayList<Factor> factors = new ArrayList<>();
             Factor dVar = new Variable((((Variable) factor).getExp().subtract(BigInteger.ONE)));
             Factor n = new Constant((((Variable) factor).getExp()));
@@ -74,12 +80,18 @@ public class Derivate {
             terms.add(term);
             return new Expression(terms, BigInteger.ONE);
         } else if (factor instanceof TrigonometricFunction) {
+            if (((TrigonometricFunction) factor).getExponent().equals(BigInteger.ZERO)) {
+                return new Constant(BigInteger.ONE);
+            }
             return dTrig((TrigonometricFunction) factor);
         }
         return null;
     }
 
     private static Term dTrig(TrigonometricFunction trig) {
+//        if (trig.getExponent().equals(BigInteger.ZERO)) {
+//            return new Term(true);
+//        }
         switch (trig.getType()) {
             case "sin":
                 // sin(f(x))^n -> n*sin(f(x))^(n-1)*f'(x)*cos(f(x))

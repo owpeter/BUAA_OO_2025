@@ -4,6 +4,7 @@ import procstring.ToString;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -21,6 +22,10 @@ public class Poly {
             }
         }
         return sortedMonos;
+    }
+
+    public HashSet getMonosSet() {
+        return this.monos;
     }
 
     public void setMonos(List<Mono> monos) {
@@ -42,10 +47,14 @@ public class Poly {
             if (m.equals(mono)) {
                 existingMono = m;
                 break;
+            } else {
+                if (TrigSimpify.toOne(m, mono)) {
+                    return;
+                }
             }
-            else if (TrigSimpify.toOne(m, mono)) {
-                toOneMono = m;
-            }
+//            else if (TrigSimpify.toOne(m, mono)) {
+//                toOneMono = m;
+//            }
         }
 
         if (existingMono != null) {
@@ -54,18 +63,19 @@ public class Poly {
                 this.monos.remove(existingMono);
             }
         } else {
-            if (toOneMono != null) {
-                // 如果可以化简，那删掉符合条件的mono，补一个1
-                this.monos.remove(toOneMono);
-                Poly coePoly = new Poly();
-                coePoly.addMono(new Mono(mono.getCoe(), BigInteger.ZERO));
-                Add.polyAdd(this, coePoly);
-            }
-            else {
-                this.monos.add(mono.copy());
-            }
+
+//            if (toOneMono != null) {
+//                // 如果可以化简，那删掉符合条件的mono，补一个1
+//                this.monos.remove(toOneMono);
+//                Poly coePoly = new Poly();
+//                coePoly.addMono(new Mono(mono.getCoe(), BigInteger.ZERO));
+//                Add.polyAdd(this, coePoly);
+//            }
+//            else {
+//                this.monos.add(mono.copy());
+//            }
             // 以前的逻辑，如果去除cos^2+sin^2优化，将其加回来
-            // this.monos.add(mono.copy());
+             this.monos.add(mono.copy());
         }
     }
 
