@@ -61,14 +61,14 @@ public class Derivate {
     public static Factor dFactor(Factor factor) {
         if (factor instanceof Expression) {
             if (((Expression) factor).getExponential().equals(BigInteger.ZERO)) {
-                return new Constant(BigInteger.ONE);
+                return new Constant(BigInteger.ZERO);
             }
             return dExpr((Expression) factor);
         } else if (factor instanceof Constant) {
             return new Constant(BigInteger.ZERO);
         } else if (factor instanceof Variable) {
             if (((Variable) factor).getExp().equals(BigInteger.ZERO)) {
-                return new Constant(BigInteger.ONE);
+                return new Constant(BigInteger.ZERO);
             }
             ArrayList<Factor> factors = new ArrayList<>();
             Factor dVar = new Variable((((Variable) factor).getExp().subtract(BigInteger.ONE)));

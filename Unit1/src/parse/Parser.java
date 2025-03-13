@@ -62,6 +62,7 @@ public class Parser {
             return parseSelfFunc(this.lexer.peek());
         } else if (this.lexer.peek().equals("dx")) {
             lexer.next();
+            lexer.next();
             Expression dExpression = Derivate.dExpr(parseExpression());
             lexer.next();
             System.out.println(dExpression.toPoly().toString());
