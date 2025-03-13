@@ -18,6 +18,12 @@ public class Term implements Factor{
         this.factors = new ArrayList<Factor>();
     }
 
+    public Term(boolean sign, Factor factor) {
+        this.sign = sign;
+        this.factors = new ArrayList<Factor>();
+        this.factors.add(factor);
+    }
+
     public Term(boolean sign, ArrayList<Factor> factors) {
         this.sign = sign;
         this.factors = factors;

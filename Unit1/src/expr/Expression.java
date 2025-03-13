@@ -20,6 +20,12 @@ public class Expression implements Factor {
         this.exponential = BigInteger.ONE;
     }
 
+    public Expression(Term term, BigInteger exponential) {
+        this.terms = new ArrayList<Term>();
+        this.terms.add(term);
+        this.exponential = exponential;
+    }
+
     public Expression(ArrayList<Term> terms, BigInteger exponential) {
         this.terms = terms;
         this.exponential = exponential;
@@ -50,6 +56,8 @@ public class Expression implements Factor {
         } else {
             for (Term term : terms) {
                 Add.polyAdd(poly, term.toPoly());
+//                System.out.println(poly.toString());
+                //
             }
             if (!this.exponential.equals(BigInteger.ONE)) {
                 Power.polyPower(poly, this.exponential);

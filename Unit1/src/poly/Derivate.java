@@ -1,5 +1,6 @@
 package poly;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import expr.*;
 
 import java.math.BigInteger;
@@ -10,9 +11,15 @@ public class Derivate {
         // f(x)^n -> n*f(x)^(n-1)*f'(x)
         // f'(x) -> t1' + t2' + ...
         Term dfTerm = new Term(true); // TODO: 符号？
-        dfTerm.addFactor(new Constant(expr.getExponential()));
-        Expression gExpr = new Expression(expr.getTerms(), expr.getExponential().subtract(BigInteger.ONE));
-        dfTerm.addFactor(gExpr);
+        if (expr.getExponential().equals(BigInteger.ZERO)) {
+            Term term = new Term(true, new Constant(BigInteger.ZERO));
+            return new Expression(term, BigInteger.ONE);
+        } else if (!expr.getExponential().equals(BigInteger.ONE)) {
+            dfTerm.addFactor(new Constant(expr.getExponential()));
+            Expression gExpr = new Expression(expr.getTerms(), expr.getExponential().subtract(BigInteger.ONE));
+            dfTerm.addFactor(gExpr);
+        }
+
         // f'(x)
         Expression dfExpr = new Expression();
         for (Term term : expr.getTerms()) {
@@ -80,18 +87,18 @@ public class Derivate {
             terms.add(term);
             return new Expression(terms, BigInteger.ONE);
         } else if (factor instanceof TrigonometricFunction) {
-            if (((TrigonometricFunction) factor).getExponent().equals(BigInteger.ZERO)) {
-                return new Constant(BigInteger.ONE);
+            if (((TrigonometricFunction) factor).getExponent().equals(BigInteger.ZERO)
+            || ((TrigonometricFunction) factor).getFactor() instanceof Constant) {
+                return new Constant(BigInteger.ZERO);
             }
             return dTrig((TrigonometricFunction) factor);
+        } else if (factor instanceof Term) {
+            return dTerm((Term) factor);
         }
         return null;
     }
 
     private static Term dTrig(TrigonometricFunction trig) {
-//        if (trig.getExponent().equals(BigInteger.ZERO)) {
-//            return new Term(true);
-//        }
         switch (trig.getType()) {
             case "sin":
                 // sin(f(x))^n -> n*sin(f(x))^(n-1)*f'(x)*cos(f(x))
