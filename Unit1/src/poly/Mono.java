@@ -104,6 +104,10 @@ public class Mono {
         return this.coe.equals(BigInteger.ZERO);
     }
 
+    public boolean noTrig() {
+        return this.sinMap.isEmpty() && this.cosMap.isEmpty();
+    }
+
     public void twiceMono() {
         this.coe = this.coe.multiply(BigInteger.valueOf(2));
     }

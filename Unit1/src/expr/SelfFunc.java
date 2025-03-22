@@ -11,6 +11,7 @@ public class SelfFunc {
     // funName -> expression
     private static HashMap<String, ArrayList<String>> paraMap = new HashMap<>();
     // funName -> parameters
+
     public static void setFunc(Scanner scanner) {
         Integer num = scanner.nextInt();
         scanner.nextLine();

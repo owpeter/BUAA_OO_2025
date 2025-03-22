@@ -82,6 +82,9 @@ public class TrigSimpify {
     }
 
     public static boolean toOne(Mono mono1, Mono mono2) {
+        if (mono1.noTrig() || mono2.noTrig()) {
+            return false;
+        }
         if (!mono1.getCoe().equals(mono2.getCoe()) || !mono1.getExp().equals(mono2.getExp())) {
             return false;
         }
@@ -103,7 +106,6 @@ public class TrigSimpify {
                 thatSinPoly.add(entry.getKey());
             }
         }
-
         HashMap<Poly, BigInteger> newThisCosMap = new HashMap<>();
         HashSet<Poly> thisCosPoly = new HashSet<>();
         for (Map.Entry<Poly, BigInteger> entry : mono1.getCosMap().entrySet()) {
@@ -122,13 +124,11 @@ public class TrigSimpify {
                 thatCosPoly.add(entry.getKey());
             }
         }
-
         boolean areMapsEqual = newThisSinMap.equals(newThatSinMap)
             && newThisCosMap.equals(newThatCosMap);
         if (!areMapsEqual) {
             return false;
         }
-
         boolean isSinCosSwap
             = isSingleElementSwap(thisSinPoly, thatCosPoly, thisCosPoly, thatSinPoly);
         boolean isCosSinSwap

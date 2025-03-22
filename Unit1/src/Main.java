@@ -25,10 +25,6 @@ public class Main {
 
         Poly poly = expression.toPoly();
         String answer = poly.toString();
-
-        // debug
-        // System.out.println("");
-        //
         System.out.println(answer);
 
     }

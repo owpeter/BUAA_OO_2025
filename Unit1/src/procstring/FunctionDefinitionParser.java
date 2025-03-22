@@ -14,7 +14,7 @@ public class FunctionDefinitionParser {
         private final String expression;
 
         public ParseRecursiveFunc(String functionName, String sequenceNumber,
-                                  ArrayList<String> parameters, String expression) {
+            ArrayList<String> parameters, String expression) {
             this.functionName = functionName;
             this.sequenceNumber = sequenceNumber;
             this.parameters = parameters;
@@ -79,9 +79,7 @@ public class FunctionDefinitionParser {
 
         String definition = parts[0].trim();
         String expression = parts[1].trim();
-//        String regex = "([a-zA-Z]+)\\((.*)\\)";
-//        Pattern pattern = Pattern.compile(regex);
-        Pattern pattern = Pattern.compile("([a-zA-Z]+)\\((.*)\\)");
+        Pattern pattern = Pattern.compile("([a-zA-Z])\\s*\\((.*)\\)");
         Matcher matcher = pattern.matcher(definition);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid function definition format");

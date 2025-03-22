@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 // 因子 | 项 * 因子
 
-public class Term implements Factor{
+public class Term implements Factor {
     private ArrayList<Factor> factors;
     private final boolean sign;
 

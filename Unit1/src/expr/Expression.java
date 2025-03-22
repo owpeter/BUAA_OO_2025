@@ -56,8 +56,6 @@ public class Expression implements Factor {
         } else {
             for (Term term : terms) {
                 Add.polyAdd(poly, term.toPoly());
-//                System.out.println(poly.toString());
-                //
             }
             if (!this.exponential.equals(BigInteger.ONE)) {
                 Power.polyPower(poly, this.exponential);

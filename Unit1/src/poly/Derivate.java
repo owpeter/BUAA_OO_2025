@@ -1,7 +1,11 @@
 package poly;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-import expr.*;
+import expr.Expression;
+import expr.Term;
+import expr.Variable;
+import expr.Factor;
+import expr.Constant;
+import expr.TrigonometricFunction;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -10,14 +14,15 @@ public class Derivate {
     public static Expression dExpr(Expression expr) {
         // f(x)^n -> n*f(x)^(n-1)*f'(x)
         // f'(x) -> t1' + t2' + ...
-        Term dfTerm = new Term(true); // TODO: 符号？
+        Term dfTerm = new Term(true);
         if (expr.getExponential().equals(BigInteger.ZERO)) {
             Term term = new Term(true, new Constant(BigInteger.ZERO));
             return new Expression(term, BigInteger.ONE);
         } else if (!expr.getExponential().equals(BigInteger.ONE)) {
             dfTerm.addFactor(new Constant(expr.getExponential()));
-            Expression gExpr = new Expression(expr.getTerms(), expr.getExponential().subtract(BigInteger.ONE));
-            dfTerm.addFactor(gExpr);
+            Expression gexpr =
+                new Expression(expr.getTerms(), expr.getExponential().subtract(BigInteger.ONE));
+            dfTerm.addFactor(gexpr);
         }
 
         // f'(x)
@@ -40,28 +45,29 @@ public class Derivate {
         } else {
 
             // f'(x)*g(x)
-            ArrayList<Factor> dFirstFactors = new ArrayList<>();
+            ArrayList<Factor> dfirstfactors = new ArrayList<>();
             Factor dfirstFactor = dFactor(term.getFactors().get(0));
-            dFirstFactors.add(dfirstFactor);
+            dfirstfactors.add(dfirstFactor);
             // 将term中剩下的factor都加入dFirstFactors中
             for (int i = 1; i < term.getFactors().size(); i++) {
-                dFirstFactors.add(term.getFactors().get(i));
+                dfirstfactors.add(term.getFactors().get(i));
             }
-            ArrayList<Term> dTerms = new ArrayList<>();
-            Term dFirstTerm = new Term(true, dFirstFactors);
-            dTerms.add(dFirstTerm);
+            ArrayList<Term> dterms = new ArrayList<>();
+            Term dfirsterm = new Term(true, dfirstfactors);
+            dterms.add(dfirsterm);
 
             // f(x)*g'(x)
-            ArrayList<Factor> otherFactors = new ArrayList<>(term.getFactors().subList(1, term.getFactors().size()));
+            ArrayList<Factor> otherFactors =
+                new ArrayList<>(term.getFactors().subList(1, term.getFactors().size()));
             Term otherTerms = new Term(true, otherFactors);
-            Term dOtherTerm = dTerm(otherTerms);
-            dOtherTerm.addFactor(term.getFactors().get(0));
-            dTerms.add(dOtherTerm);
+            Term dotherterm = dTerm(otherTerms);
+            dotherterm.addFactor(term.getFactors().get(0));
+            dterms.add(dotherterm);
 
-            Expression expression = new Expression(dTerms, BigInteger.ONE);
-            ArrayList<Factor> dFactors = new ArrayList<>();
-            dFactors.add(expression);
-            return new Term(term.getSign(), dFactors);
+            Expression expression = new Expression(dterms, BigInteger.ONE);
+            ArrayList<Factor> dfactors = new ArrayList<>();
+            dfactors.add(expression);
+            return new Term(term.getSign(), dfactors);
         }
     }
 
@@ -78,9 +84,9 @@ public class Derivate {
                 return new Constant(BigInteger.ZERO);
             }
             ArrayList<Factor> factors = new ArrayList<>();
-            Factor dVar = new Variable((((Variable) factor).getExp().subtract(BigInteger.ONE)));
+            Factor dvar = new Variable((((Variable) factor).getExp().subtract(BigInteger.ONE)));
             Factor n = new Constant((((Variable) factor).getExp()));
-            factors.add(dVar);
+            factors.add(dvar);
             factors.add(n);
             Term term = new Term(true, factors);
             ArrayList<Term> terms = new ArrayList<>();
@@ -88,7 +94,7 @@ public class Derivate {
             return new Expression(terms, BigInteger.ONE);
         } else if (factor instanceof TrigonometricFunction) {
             if (((TrigonometricFunction) factor).getExponent().equals(BigInteger.ZERO)
-            || ((TrigonometricFunction) factor).getFactor() instanceof Constant) {
+                || ((TrigonometricFunction) factor).getFactor() instanceof Constant) {
                 return new Constant(BigInteger.ZERO);
             }
             return dTrig((TrigonometricFunction) factor);
@@ -102,21 +108,23 @@ public class Derivate {
         switch (trig.getType()) {
             case "sin":
                 // sin(f(x))^n -> n*sin(f(x))^(n-1)*f'(x)*cos(f(x))
-                Term dSin = new Term(true);
-                dSin.addFactor(new Constant(trig.getExponent()));
-                dSin.addFactor(new TrigonometricFunction("sin", trig.getFactor(), trig.getExponent().subtract(BigInteger.ONE)));
-                dSin.addFactor(new TrigonometricFunction("cos", trig.getFactor(), BigInteger.ONE));
-                dSin.addFactor(dFactor(trig.getFactor()));
-                return dSin;
+                Term dsin = new Term(true);
+                dsin.addFactor(new Constant(trig.getExponent()));
+                dsin.addFactor(new TrigonometricFunction("sin", trig.getFactor(),
+                    trig.getExponent().subtract(BigInteger.ONE)));
+                dsin.addFactor(new TrigonometricFunction("cos", trig.getFactor(), BigInteger.ONE));
+                dsin.addFactor(dFactor(trig.getFactor()));
+                return dsin;
 
             case "cos":
                 // cos(f(x))^n -> -n*cos(f(x))^(n-1)*f'(x)*sin(f(x))
-                Term dCos = new Term(true);
-                dCos.addFactor(new Constant(trig.getExponent().negate()));
-                dCos.addFactor(new TrigonometricFunction("cos", trig.getFactor(), trig.getExponent().subtract(BigInteger.ONE)));
-                dCos.addFactor(new TrigonometricFunction("sin", trig.getFactor(), BigInteger.ONE));
-                dCos.addFactor(dFactor(trig.getFactor()));
-                return dCos;
+                Term dcos = new Term(true);
+                dcos.addFactor(new Constant(trig.getExponent().negate()));
+                dcos.addFactor(new TrigonometricFunction("cos", trig.getFactor(),
+                    trig.getExponent().subtract(BigInteger.ONE)));
+                dcos.addFactor(new TrigonometricFunction("sin", trig.getFactor(), BigInteger.ONE));
+                dcos.addFactor(dFactor(trig.getFactor()));
+                return dcos;
             default:
                 return null;
         }

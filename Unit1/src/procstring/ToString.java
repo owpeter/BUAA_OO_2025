@@ -176,7 +176,8 @@ public class ToString {
             if (mono1.getCoe().equals(BigInteger.ZERO)) {
                 return false;
             }
-            int cnt = coeCnt(mono1) + varCnt(mono1) + mono1.getSinMap().size() + mono1.getCosMap().size();
+            int cnt = coeCnt(mono1) + varCnt(mono1)
+                + mono1.getSinMap().size() + mono1.getCosMap().size();
             return cnt > 1;
         }
         

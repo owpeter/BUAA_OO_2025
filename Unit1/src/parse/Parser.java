@@ -1,6 +1,13 @@
 package parse;
 
-import expr.*;
+import expr.Expression;
+import expr.Term;
+import expr.Variable;
+import expr.Factor;
+import expr.Constant;
+import expr.TrigonometricFunction;
+import expr.RecursiveFunc;
+import expr.SelfFunc;
 import poly.Derivate;
 
 import java.math.BigInteger;
@@ -57,18 +64,17 @@ public class Parser {
             // 递推函数
             return parseRecFunc();
         } else if (this.lexer.peek().equals("g") ||
-        this.lexer.peek().equals("h")) {
+            this.lexer.peek().equals("h")) {
             // 自定义函数
             return parseSelfFunc(this.lexer.peek());
         } else if (this.lexer.peek().equals("dx")) {
             lexer.next();
             lexer.next();
-            Expression dExpression = Derivate.dExpr(parseExpression());
+            Expression dexpr = Derivate.dExpr(parseExpression());
             lexer.next();
-//            System.out.println(dExpression.toPoly().toString());
-            return dExpression;
-//            System.out.println(Derivate.dExpr(parseExpression()).toPoly().toString());
-//            return Derivate.dExpr(parseExpression());
+            return dexpr;
+            //            System.out.println(Derivate.dExpr(parseExpression()).toPoly().toString());
+            //            return Derivate.dExpr(parseExpression());
         }
 
         else {
@@ -125,7 +131,6 @@ public class Parser {
         lexer.next();   // {
         lexer.next();   // n
         Integer n = Integer.parseInt(lexer.peek());
-//        System.out.println(n);
         lexer.next();   // }
         lexer.next();   // (
 
@@ -134,12 +139,12 @@ public class Parser {
         for (int i = 0; i < RecursiveFunc.paraLength(funcName); i++) {
             lexer.next(); // factor
             factors.add(parseExpression());
-//            System.out.println("factor: " + factors.get(i).toPoly().toString());
+            //            System.out.println("factor: " + factors.get(i).toPoly().toString());
         }
         lexer.next(); // )
         String funcN = RecursiveFunc.callFunc(funcName, n, factors);
         // debug
-//        System.out.println(funcN);
+        // System.out.println(n + ": " + funcN);
         //
         Lexer funcLexer = new Lexer(funcN);
         Parser funcParser = new Parser(funcLexer);
@@ -157,12 +162,12 @@ public class Parser {
         }
         lexer.next();
         String funcN = SelfFunc.callFunc(funName, factors);
-//        System.out.println(funcN);
+//        System.out.println(funName + ": " + funcN);
         Lexer funcLexer = new Lexer(funcN);
         Parser funcParser = new Parser(funcLexer);
-//        return funcParser.parseExpression();
+        //        return funcParser.parseExpression();
         Expression expression = funcParser.parseExpression();
-//        System.out.println(expression.toPoly().toString());
+        //        System.out.println(expression.toPoly().toString());
         return expression;
     }
 
