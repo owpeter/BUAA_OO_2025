@@ -36,6 +36,7 @@ public class Scheduler implements Runnable{
                     }
                 } else {
                     int elevatorId = properElevatorId(person);
+//                    System.out.println(person.getPersonId());
                     requestTables.get(elevatorId).AddRequest(person);
                 }
             }

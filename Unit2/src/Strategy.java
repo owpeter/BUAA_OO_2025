@@ -32,6 +32,11 @@ public class Strategy {
                 } else {
                     return Advice.REVERSE;
                 }
+//                if (reverseByWeight(curFloor, direction)) {
+//                    return Advice.REVERSE;
+//                } else {
+//                    return Advice.MOVE;
+//                }
             }
         }
     }
@@ -67,6 +72,43 @@ public class Strategy {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    private boolean reverseByWeight(Integer curFloor, Integer direction) {
+        double revert_sum = 0;
+        double same_sum = 0;
+        double gamma = 1.5;
+        if (direction > 0) {
+            for(int i = curFloor - 1; i >= 1; i--) {
+                double distance = curFloor - i;
+                for (Person person : requestTable.getFloorRequests(i)) {
+                    revert_sum += person.getPriority() / distance - gamma;
+                }
+            }
+            for (int i = curFloor + 1; i <= 11; i++) {
+                double distance = i - curFloor;
+                for (Person person : requestTable.getFloorRequests(i)) {
+                    same_sum += person.getPriority() / distance;
+                }
+            }
+        } else {
+            for(int i = curFloor - 1; i >= 1; i--) {
+                double distance = curFloor - i;
+                for (Person person : requestTable.getFloorRequests(i)) {
+                    same_sum += person.getPriority() / distance;
+                }
+            }
+            for (int i = curFloor + 1; i <= 11; i++) {
+                double distance = i - curFloor;
+                for (Person person : requestTable.getFloorRequests(i)) {
+                    revert_sum += person.getPriority() / distance - gamma;
+                }
+            }
+        }
+        if (revert_sum > same_sum + gamma) {
+            return true;
         }
         return false;
     }
