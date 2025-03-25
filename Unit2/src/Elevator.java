@@ -12,6 +12,7 @@ public class Elevator implements Runnable {
     private final RequestTable requestTable;
     private HashMap<Integer, HashSet<Person>> personInElevator; // dest-floor -> person
     private Strategy strategy;
+    private long last_time;
 
     public Elevator(Integer id, RequestTable requestTable) {
         this.id = id;
@@ -52,15 +53,27 @@ public class Elevator implements Runnable {
     }
 
     private void move() {
+        last_time = System.currentTimeMillis();
         if (direction == 1) {
             curFloor++;
         } else {
             curFloor--;
         }
+        long cur_time = System.currentTimeMillis();
+        if (cur_time - last_time < 400) {
+            try {
+                Thread.sleep(400 - (cur_time - last_time));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         TimableOutput.println(String.format("ARRIVE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+        this.last_time = System.currentTimeMillis();
     }
 
     private void openAndClose() {
+        TimableOutput.println(String.format("OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+        last_time = System.currentTimeMillis();
         // 似乎不是在这里考虑人数问题？
         // out
         for (Person person: personInElevator.get(curFloor)) {
@@ -73,6 +86,10 @@ public class Elevator implements Runnable {
         // 按person的priority大小顺序排列，优先让优先级高的进去
         List<Person> persons = requestTable.getSortedFloorRequests(curFloor);
         for (Person person: persons) {
+            if ((direction > 0 && person.getToFloor() < curFloor)
+                || (direction < 0 && person.getToFloor() > curFloor)) {
+                continue;
+            }
             if(curPersonNums <= 6) {
                 TimableOutput.println(String.format("IN-%d-%s-%d", person.getPersonId(),FloorConverter.convertNumberToFloor(curFloor), id));
                 personInElevator.get(person.getToFloor()).add(person);
@@ -82,5 +99,14 @@ public class Elevator implements Runnable {
                 break;
             }
         }
+        long cur_time = System.currentTimeMillis();
+        if (cur_time - last_time < 400) {
+            try {
+                Thread.sleep(400 - (cur_time - last_time));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        TimableOutput.println(String.format("CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
     }
 }

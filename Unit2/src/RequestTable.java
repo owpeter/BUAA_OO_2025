@@ -25,7 +25,7 @@ public class RequestTable {
 
     public synchronized void setEnd() {
         this.endFlag = true;
-        notify();
+        notifyAll();
     }
 
     public boolean isEnd() {return this.endFlag;}
