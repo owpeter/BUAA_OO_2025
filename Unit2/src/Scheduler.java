@@ -24,22 +24,16 @@ public class Scheduler implements Runnable{
                 for (RequestTable requestTable : requestTables.values()) {
                     requestTable.setEnd();
                 }
-                return;
+                break;
             }
-            synchronized (inputRequest) {
-                Person person = inputRequest.getRandomPerson();
-                if (person == null) {
-                    try {
-                        inputRequest.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    int elevatorId = properElevatorId(person);
+
+            Person person = inputRequest.getRandomPerson();
+            if (person == null) {
+                continue;
+            }
+            int elevatorId = properElevatorId(person);
 //                    System.out.println(person.getPersonId());
-                    requestTables.get(elevatorId).AddRequest(person);
-                }
-            }
+            requestTables.get(elevatorId).AddRequest(person);
         }
     }
 

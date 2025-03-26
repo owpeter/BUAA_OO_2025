@@ -10,7 +10,7 @@ public class Elevator implements Runnable {
     private Integer curPersonNums;
     private Integer direction;
     private final RequestTable requestTable;
-    private HashMap<Integer, HashSet<Person>> personInElevator; // dest-floor -> person
+    private HashMap<Integer, ArrayList<Person>> personInElevator; // dest-floor -> person
     private Strategy strategy;
     private long last_time;
 
@@ -22,7 +22,7 @@ public class Elevator implements Runnable {
         this.requestTable = requestTable;
         personInElevator = new HashMap<>();
         for (int i = 1; i <= 11; i++) {
-            HashSet<Person> persons = new HashSet<>();
+            ArrayList<Person> persons = new ArrayList<>();
             personInElevator.put(i, persons);
         }
         this.strategy = new Strategy(requestTable);
@@ -33,7 +33,11 @@ public class Elevator implements Runnable {
 //            synchronized (requestTable) {
             while (true) {
 //                System.out.println("Elevator " + id + " is running");
+//                System.out.println(this.requestTable.noRequests());
                 Advice advice = strategy.getAdvice(curFloor, curPersonNums, direction, personInElevator);
+//                System.out.println(Thread.currentThread().getName() + ": curFloor " + curFloor);
+
+//                System.out.println(Thread.currentThread().getName() +": advice " + advice);
                 if (advice == Advice.KILL) {
                     break;
                 } else if (advice == Advice.MOVE) {
@@ -74,31 +78,8 @@ public class Elevator implements Runnable {
     private void openAndClose() {
         TimableOutput.println(String.format("OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
         last_time = System.currentTimeMillis();
-        // 似乎不是在这里考虑人数问题？
-        // out
-        for (Person person: personInElevator.get(curFloor)) {
-            TimableOutput.println(String.format("OUT-%d-%s-%d", person.getPersonId(),FloorConverter.convertNumberToFloor(curFloor), id));
-            curPersonNums--;
-        }
-        personInElevator.get(curFloor).clear();
-        // in
-        // 谁该进来？？
-        // 按person的priority大小顺序排列，优先让优先级高的进去
-        List<Person> persons = requestTable.getSortedFloorRequests(curFloor);
-        for (Person person: persons) {
-            if ((direction > 0 && person.getToFloor() < curFloor)
-                || (direction < 0 && person.getToFloor() > curFloor)) {
-                continue;
-            }
-            if(curPersonNums <= 6) {
-                TimableOutput.println(String.format("IN-%d-%s-%d", person.getPersonId(),FloorConverter.convertNumberToFloor(curFloor), id));
-                personInElevator.get(person.getToFloor()).add(person);
-                requestTable.removeRequest(person);
-                curPersonNums++;
-            } else {
-                break;
-            }
-        }
+        goOut();
+        goIn();
         long cur_time = System.currentTimeMillis();
         if (cur_time - last_time < 400) {
             try {
@@ -108,5 +89,27 @@ public class Elevator implements Runnable {
             }
         }
         TimableOutput.println(String.format("CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+    }
+
+    private void goOut() {
+        Iterator<Person> iterator = personInElevator.get(curFloor).iterator();
+        while (iterator.hasNext()) {
+            Person person = iterator.next();
+            TimableOutput.println(String.format("OUT-%d-%s-%d", person.getPersonId(),FloorConverter.convertNumberToFloor(curFloor), id));
+            curPersonNums--;
+            iterator.remove();
+        }
+    }
+
+    private void goIn() {
+        while(curPersonNums <= 6) {
+            Person person = requestTable.getAndRemovePerson(curFloor, direction);
+            if (person == null) {
+                break;
+            }
+            personInElevator.get(person.getToFloor()).add(person);
+            curPersonNums++;
+            TimableOutput.println(String.format("IN-%d-%s-%d", person.getPersonId(),FloorConverter.convertNumberToFloor(curFloor), id));
+        }
     }
 }
