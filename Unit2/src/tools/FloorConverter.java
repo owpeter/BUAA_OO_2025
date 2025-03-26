@@ -26,12 +26,13 @@ public class FloorConverter {
     }
 
     public static String convertNumberToFloor(int floorNumber) {
-        if (floorNumber < 5) {
+        if (floorNumber < 5 && floorNumber >= 1) {
             return "B" + (5 - floorNumber);
-        } else if (floorNumber <= 11) {
+        } else if (floorNumber <= 11 && floorNumber >= 5) {
             return "F" + (floorNumber - 4);
         } else {
-            return "非法输入";
+            throw new IllegalArgumentException("Invalid floor number" + floorNumber);
+//            return "非法输入";
         }
     }
 }

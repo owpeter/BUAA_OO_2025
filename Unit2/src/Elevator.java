@@ -33,11 +33,11 @@ public class Elevator implements Runnable {
 //            synchronized (requestTable) {
             while (true) {
 //                System.out.println("Elevator " + id + " is running");
-                System.out.println(this.requestTable.noRequests());
+//                System.out.println(this.requestTable.noRequests());
                 Advice advice = strategy.getAdvice(curFloor, curPersonNums, direction, personInElevator);
 //                System.out.println(Thread.currentThread().getName() + ": curFloor " + curFloor);
 
-                System.out.println(Thread.currentThread().getName() +": advice " + advice);
+//                System.out.println(Thread.currentThread().getName() +": advice " + advice);
                 if (advice == Advice.KILL) {
                     break;
                 } else if (advice == Advice.MOVE) {
@@ -105,7 +105,7 @@ public class Elevator implements Runnable {
     }
 
     private void goIn() {
-        while(curPersonNums <= 6) {
+        while(curPersonNums < 6) {
             Person person = requestTable.getAndRemovePerson(curFloor, direction);
 
             if (person == null) {

@@ -34,16 +34,13 @@ public class Strategy {
 //                } else {
 //                    return Advice.REVERSE;
 //                }
-//                if(curFloor == 11 || curFloor == 1) {
-//                    return Advice.REVERSE;
-//                }
                 if (!reqAhead(curFloor, direction)) {
                     // TODO:
-                    System.out.println(Thread.currentThread().getName() + " reverse by reqAhead");
+//                    System.out.println(Thread.currentThread().getName() + " reverse by reqAhead");
                     return Advice.REVERSE;
                 } else if (reverseByWeight(curFloor, direction)) {
                     // TODO:
-                    System.out.println(Thread.currentThread().getName() + " reverse by weight");
+//                    System.out.println(Thread.currentThread().getName() + " reverse by weight");
                     return Advice.REVERSE;
                 } else {
 //                    System.out.println(Thread.currentThread().getName() + " go ahead");
@@ -69,11 +66,11 @@ public class Strategy {
     }
 
     private boolean reqAhead(Integer curFloor, Integer direction) {
-            for (int i = curFloor; i >= 1 && i <= 11; i += direction) {
-                if (!requestTable.getFloorRequests(i, 1).isEmpty() || !requestTable.getFloorRequests(i, -1).isEmpty()){
-                    return true;
-                }
+        for (int i = curFloor + direction; i >= 1 && i <= 11; i += direction) {
+            if (!requestTable.getFloorRequests(i, 1).isEmpty() || !requestTable.getFloorRequests(i, -1).isEmpty()){
+                return true;
             }
+        }
         return false;
     }
 
@@ -91,7 +88,7 @@ public class Strategy {
             }
 
             // TODO:
-            System.out.println(Thread.currentThread().getName() +"same: " + same_sum + " revert: " + revert_sum);
+//            System.out.println(Thread.currentThread().getName() +"same: " + same_sum + " revert: " + revert_sum);
 
             // 处理当前楼层的请求
             PriorityQueue<Person> sameDirectionRequests = requestTable.getFloorRequests(curFloor, direction);
@@ -107,7 +104,7 @@ public class Strategy {
                 }
             }
             // TODO:
-            System.out.println(Thread.currentThread().getName() + "same: " + same_sum + " revert: " + revert_sum);
+//            System.out.println(Thread.currentThread().getName() + "same: " + same_sum + " revert: " + revert_sum);
 
             if (revert_sum > same_sum + gamma) {
                 return true;
