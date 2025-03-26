@@ -6,19 +6,22 @@ import java.util.stream.Collectors;
 public class RequestTable {
     private boolean endFlag;
     private Integer requestNums;
-    private HashMap<Integer, PriorityQueue<Person>> requests; // floor -> set(requests)
+    private HashMap<Integer, Map<Integer,PriorityQueue<Person>>> requests; // floor -> (direction, persons)
 
     public RequestTable() {
         endFlag = false;
         requestNums = 0;
         requests = new HashMap<>();
         for (int i = 1; i <= 11; i++) {
-            requests.put(i, new PriorityQueue<>());
+            HashMap hashMap = new HashMap<>();
+            hashMap.put(1, new PriorityQueue<>());
+            hashMap.put(-1, new PriorityQueue<>());
+            requests.put(i, hashMap);
         }
     }
 
-    public synchronized PriorityQueue<Person> getFloorRequests(int floorNum) {
-        return requests.get(floorNum);
+    public synchronized PriorityQueue<Person> getFloorRequests(int floorNum, int direction) {
+        return requests.get(floorNum).get(direction);
     }
 
     public synchronized boolean noRequests() {
@@ -34,7 +37,7 @@ public class RequestTable {
 
     public synchronized void AddRequest(Person person) {
         int fromFloor = person.getFromFloor();
-        requests.get(fromFloor).add(person);
+        requests.get(fromFloor).get(person.getDirection()).add(person);
         requestNums++;
         notifyAll();
     }
@@ -44,20 +47,12 @@ public class RequestTable {
         if (requestNums == 0) {
             return null;
         }
-        PriorityQueue<Person> floorRequests = requests.get(curFloor);
+        PriorityQueue<Person> floorRequests = requests.get(curFloor).get(direction);
         if (floorRequests == null || floorRequests.isEmpty()) {
             return null;
         }
-        Person person = floorRequests.peek();
-        if((person.getToFloor() - curFloor) * direction > 0) {
-            requestNums--;
-            floorRequests.poll();
-//            System.out.println(Thread.currentThread().getName() + " remove person " + person.getPersonId() + " from floor " + curFloor);
-            return person;
-        }
-
-
-        return null;
+        requestNums--;
+        return floorRequests.poll();
     }
 
     public synchronized Person getRandomPerson() {
@@ -70,11 +65,14 @@ public class RequestTable {
             return null;
         }
 
-        for (PriorityQueue<Person> personRequests : requests.values()) {
-            if (!personRequests.isEmpty()) {
-                Person person = personRequests.poll();
-                requestNums--;
-                return person;
+        //TODO: check!!!
+        for (Map<Integer, PriorityQueue<Person>> personRequests : requests.values()) {
+            for (PriorityQueue<Person> request : personRequests.values()) {
+                if (!request.isEmpty()) {
+                    Person person = request.poll();
+                    requestNums--;
+                    return person;
+                }
             }
         }
         return null;

@@ -33,11 +33,11 @@ public class Elevator implements Runnable {
 //            synchronized (requestTable) {
             while (true) {
 //                System.out.println("Elevator " + id + " is running");
-//                System.out.println(this.requestTable.noRequests());
+                System.out.println(this.requestTable.noRequests());
                 Advice advice = strategy.getAdvice(curFloor, curPersonNums, direction, personInElevator);
 //                System.out.println(Thread.currentThread().getName() + ": curFloor " + curFloor);
 
-//                System.out.println(Thread.currentThread().getName() +": advice " + advice);
+                System.out.println(Thread.currentThread().getName() +": advice " + advice);
                 if (advice == Advice.KILL) {
                     break;
                 } else if (advice == Advice.MOVE) {
@@ -99,17 +99,26 @@ public class Elevator implements Runnable {
             curPersonNums--;
             iterator.remove();
         }
+
+        // TODO:
+//        System.out.println("In curPersonNums: " + curPersonNums);
     }
 
     private void goIn() {
         while(curPersonNums <= 6) {
             Person person = requestTable.getAndRemovePerson(curFloor, direction);
+
             if (person == null) {
                 break;
             }
             personInElevator.get(person.getToFloor()).add(person);
             curPersonNums++;
             TimableOutput.println(String.format("IN-%d-%s-%d", person.getPersonId(),FloorConverter.convertNumberToFloor(curFloor), id));
+
+            // TODO:
+//            System.out.println("is removed");
+//            System.out.println(requestTable.getFloorRequests(curFloor, direction).size());
+//            System.out.println("In curPersonNums: " + curPersonNums);
         }
     }
 }
