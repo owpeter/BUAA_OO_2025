@@ -33,15 +33,14 @@ public class Elevator implements Runnable {
     public void run() {
         while (true) {
             if (Debug.getDebug()) {
-                System.out.println("Elevator " + id + " is running");
-                System.out.println(Thread.currentThread().getName() + ": curFloor " + curFloor);
-                System.out.println(this.requestTable.noRequests());
+                //System.out.println(Thread.currentThread().getName() + ": curFloor " + curFloor);
+                System.out.println("request nums " + this.requestTable.getRequestNums());
             }
 
             Advice advice = strategy.getAdvice(curFloor, curPersonNums,
                 direction, personInElevator);
             if (Debug.getDebug()) {
-                System.out.println(Thread.currentThread().getName() + ": advice " + advice);
+                //System.out.println(Thread.currentThread().getName() + ": advice " + advice);
             }
             if (advice == Advice.KILL) {
                 break;

@@ -11,6 +11,10 @@ public class InputHandler implements Runnable {
         inputRequests = new RequestTable();
     }
 
+    public RequestTable getInputRequests() {
+        return inputRequests;
+    }
+
     public void run() {
         try {
             ElevatorInput input = new ElevatorInput(System.in);

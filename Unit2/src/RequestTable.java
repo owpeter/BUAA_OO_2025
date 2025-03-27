@@ -25,8 +25,8 @@ public class RequestTable {
 
     public synchronized PriorityQueue<Person> getFloorRequests(int floorNum, int direction) {
         if (Debug.getDebug()) {
-            System.out.println("get floor " + floorNum +
-                "size: " + requests.get(floorNum).get(direction).size());
+            //System.out.println("get floor " + floorNum +
+                //"size: " + requests.get(floorNum).get(direction).size());
         }
 
         return requests.get(floorNum).get(direction);
@@ -80,6 +80,7 @@ public class RequestTable {
                 if (!request.isEmpty()) {
                     Person person = request.poll();
                     requestNums--;
+                    notifyAll();
                     return person;
                 }
             }
@@ -93,5 +94,9 @@ public class RequestTable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public synchronized Integer  getRequestNums() {
+        return requestNums;
     }
 }

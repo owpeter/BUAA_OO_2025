@@ -7,7 +7,7 @@ public class Main {
         InputHandler inputHandler = new InputHandler();
         Thread inputThread = new Thread(inputHandler);
         inputThread.start();
-        Scheduler scheduler = new Scheduler(inputHandler.inputRequests, 6);
+        Scheduler scheduler = new Scheduler(inputHandler.getInputRequests(), 6);
         Thread schedulerThread = new Thread(scheduler);
         schedulerThread.start();
         for (int i = 1; i <= 6; i++) {
