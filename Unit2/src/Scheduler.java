@@ -19,11 +19,11 @@ public class Scheduler implements Runnable {
 
     public void run() {
         while (true) {
-            if (inputRequest.isEnd()) {
+            if (inputRequest.getRequestNums() == 0 && inputRequest.isEnd()) {
                 for (RequestTable requestTable : requestTables.values()) {
                     requestTable.setEnd();
                 }
-                break;
+                return;
             }
 
             Person person = inputRequest.getRandomPerson();

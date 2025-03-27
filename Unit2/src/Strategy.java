@@ -75,13 +75,15 @@ public class Strategy {
     }
 
     private boolean reqAhead(Integer curFloor, Integer direction) {
-        for (int i = curFloor + direction; i >= 1 && i <= 11; i += direction) {
-            if (!requestTable.getFloorRequests(i, 1).isEmpty()
-                || !requestTable.getFloorRequests(i, -1).isEmpty()) {
-                return true;
+        synchronized (requestTable) {
+            for (int i = curFloor + direction; i >= 1 && i <= 11; i += direction) {
+                if (!requestTable.getFloorRequests(i, 1).isEmpty()
+                        || !requestTable.getFloorRequests(i, -1).isEmpty()) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
     public boolean reverseByWeight(int curFloor, int direction) {

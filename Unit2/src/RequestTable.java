@@ -96,7 +96,7 @@ public class RequestTable {
         }
     }
 
-    public synchronized Integer  getRequestNums() {
+    public synchronized Integer getRequestNums() {
         return requestNums;
     }
 }
