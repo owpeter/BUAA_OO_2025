@@ -1,15 +1,6 @@
 package tools;
 
 public class FloorConverter {
-//    public static void main(String[] args) {
-//        String[] floors = {"B4", "B3", "B2", "B1", "F1", "F2", "F3", "F4", "F5", "F6", "F7"};
-//
-//        for (String floor : floors) {
-//            int floorNumber = convertFloorToNumber(floor);
-//            System.out.println(floor + " -> " + floorNumber);
-//        }
-//    }
-
     public static int convertFloorToNumber(String floor) {
         if (floor.startsWith("B")) {
             // 地下楼层：B4 是最低层，对应 1，B3 对应 2，依此类推
@@ -32,7 +23,6 @@ public class FloorConverter {
             return "F" + (floorNumber - 4);
         } else {
             throw new IllegalArgumentException("Invalid floor number" + floorNumber);
-//            return "非法输入";
         }
     }
 }

@@ -1,6 +1,6 @@
 import tools.FloorConverter;
 
-public class Person implements Comparable{
+public class Person implements Comparable {
     private Integer fromFloor;
     private Integer toFloor;
     private Integer personId;
@@ -9,7 +9,8 @@ public class Person implements Comparable{
     private Integer direction;
     private final Long inTime;
 
-    public Person(String fromFloor, String toFloor, Integer personId, Integer priority, Integer elevatorId) {
+    public Person(String fromFloor, String toFloor,
+        Integer personId, Integer priority, Integer elevatorId) {
         this.fromFloor = FloorConverter.convertFloorToNumber(fromFloor);
         this.toFloor = FloorConverter.convertFloorToNumber(toFloor);
         this.direction = this.toFloor > this.fromFloor ? 1 : -1;

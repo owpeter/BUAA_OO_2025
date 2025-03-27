@@ -1,26 +1,33 @@
-import org.junit.Test;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class MainClassTest {
 
     @org.junit.Test
     public void testMain() throws IOException, InterruptedException {
+        final Set<Thread> beforeThreads = new HashSet<>(Thread.getAllStackTraces().keySet());
+        final String projectRoot = System.getProperty("user.dir");
+        final Path testFilePath = Paths.get(projectRoot, "stdin.txt");
         // 建立 Piped 流，用以将数据写入 System.in
         final PipedInputStream inPipe = new PipedInputStream();
         final PipedOutputStream outPipe = new PipedOutputStream(inPipe);
         // 重定向 System.in 为 piped 输入流
         System.setIn(inPipe);
-//        System.setOut(inPipe);
+
         // 启动一个线程，根据 stdin.txt 中的时间延迟写入数据到 outPipe
         Thread inputSimulator = new Thread(() -> {
             try {
                 // 读取测试文件（请确保文件存在于项目工作目录中）
-                List<String> lines = Files.readAllLines(Paths.get(""), StandardCharsets.UTF_8);
+                List<String> lines = Files.readAllLines(testFilePath, StandardCharsets.UTF_8);
                 long startTime = System.currentTimeMillis();
                 for (String line : lines) {
                     if (line.trim().isEmpty()) {
@@ -58,33 +65,41 @@ public class MainClassTest {
             }
         });
         inputSimulator.start();
-        // 调用带有模拟输入的MainClass.main()方法
-        Main.main(new String[0]);
-        // 等待输入模拟线程执行结束
+        // 创建一个线程来执行MainClass.main方法
+        Thread mainThread = new Thread(() -> Main.main(new String[0]));
+        mainThread.start();
+
+        // 等待输入模拟器和主线程完成
+        mainThread.join();
         inputSimulator.join();
-    }
 
-    @Test
-    public void capturePipeContent() throws IOException {
-        PipedInputStream inPipe = new PipedInputStream();
-        PipedOutputStream outPipe = new PipedOutputStream(inPipe);
-
-        // 写入测试数据
-        outPipe.write("Test data 1\nTest data 2".getBytes());
-        outPipe.flush();
-
-        // 捕获内容
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = inPipe.read(buffer)) != -1) {
-            byteArrayOutputStream.write(buffer, 0, length);
+        Set<Thread> afterThreads = new HashSet<>(Thread.getAllStackTraces().keySet());
+        afterThreads.removeAll(beforeThreads);
+        List<Thread> userThreads = new ArrayList<>();
+        for (Thread t : afterThreads) {
+            if (t.isAlive() && !t.isDaemon()) {
+                userThreads.add(t);
+            }
+        }
+        // 循环等待这些线程结束
+        while (!userThreads.isEmpty()) {
+            Iterator<Thread> iterator = userThreads.iterator();
+            while (iterator.hasNext()) {
+                Thread t = iterator.next();
+                try {
+                    t.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace(System.err);
+                }
+                if (!t.isAlive()) {
+                    iterator.remove();
+                }
+            }
+            // 如果还有线程活着，则稍等一会儿
+            if (!userThreads.isEmpty()) {
+                TimeUnit.MILLISECONDS.sleep(50);
+            }
         }
 
-        String capturedContent = byteArrayOutputStream.toString();
-        System.out.println("捕获的内容: " + capturedContent);
-
-        outPipe.close();
-        inPipe.close();
     }
 }

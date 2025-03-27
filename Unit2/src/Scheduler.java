@@ -1,7 +1,6 @@
 import java.util.HashMap;
-import java.util.HashSet;
 
-public class Scheduler implements Runnable{
+public class Scheduler implements Runnable {
     private final RequestTable inputRequest;
     private HashMap<Integer, RequestTable> requestTables; // elevator -> table
 
@@ -32,7 +31,6 @@ public class Scheduler implements Runnable{
                 continue;
             }
             int elevatorId = properElevatorId(person);
-//                    System.out.println(person.getPersonId());
             requestTables.get(elevatorId).AddRequest(person);
         }
     }
@@ -40,6 +38,4 @@ public class Scheduler implements Runnable{
     private Integer properElevatorId(Person person) {
         return person.getElevatorId();
     }
-
-
 }

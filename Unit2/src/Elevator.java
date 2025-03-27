@@ -1,8 +1,10 @@
 import com.oocourse.elevator1.TimableOutput;
+import tools.Debug;
 import tools.FloorConverter;
 
-import javax.management.timer.TimerNotification;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Elevator implements Runnable {
     private Integer id;
@@ -12,7 +14,7 @@ public class Elevator implements Runnable {
     private final RequestTable requestTable;
     private HashMap<Integer, ArrayList<Person>> personInElevator; // dest-floor -> person
     private Strategy strategy;
-    private long last_time;
+    private long lastTime;
 
     public Elevator(Integer id, RequestTable requestTable) {
         this.id = id;
@@ -29,83 +31,88 @@ public class Elevator implements Runnable {
     }
 
     public void run() {
-//        try{
-//            synchronized (requestTable) {
-            while (true) {
-//                System.out.println("Elevator " + id + " is running");
-//                System.out.println(this.requestTable.noRequests());
-                Advice advice = strategy.getAdvice(curFloor, curPersonNums, direction, personInElevator);
-//                System.out.println(Thread.currentThread().getName() + ": curFloor " + curFloor);
-
-//                System.out.println(Thread.currentThread().getName() +": advice " + advice);
-                if (advice == Advice.KILL) {
-                    break;
-                } else if (advice == Advice.MOVE) {
-                    move();
-                } else if (advice == Advice.OPEN) {
-                    openAndClose();
-                } else if (advice == Advice.REVERSE) {
-                    direction = -direction;
-                } else if (advice == Advice.WAIT) {
-                    requestTable.waitRequest();
-                }
+        while (true) {
+            if (Debug.getDebug()) {
+                System.out.println("Elevator " + id + " is running");
+                System.out.println(Thread.currentThread().getName() + ": curFloor " + curFloor);
+                System.out.println(this.requestTable.noRequests());
             }
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+
+            Advice advice = strategy.getAdvice(curFloor, curPersonNums,
+                direction, personInElevator);
+            if (Debug.getDebug()) {
+                System.out.println(Thread.currentThread().getName() + ": advice " + advice);
+            }
+            if (advice == Advice.KILL) {
+                break;
+            } else if (advice == Advice.MOVE) {
+                move();
+            } else if (advice == Advice.OPEN) {
+                openAndClose();
+            } else if (advice == Advice.REVERSE) {
+                direction = -direction;
+            } else if (advice == Advice.WAIT) {
+                requestTable.waitRequest();
+            }
+        }
     }
 
     private void move() {
-        last_time = System.currentTimeMillis();
+        lastTime = System.currentTimeMillis();
         if (direction == 1) {
             curFloor++;
         } else {
             curFloor--;
         }
-        long cur_time = System.currentTimeMillis();
-        if (cur_time - last_time < 400) {
+        long curTime = System.currentTimeMillis();
+        if (curTime - lastTime < 400) {
             try {
-                Thread.sleep(400 - (cur_time - last_time));
+                Thread.sleep(400 - (curTime - lastTime));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        TimableOutput.println(String.format("ARRIVE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
-        this.last_time = System.currentTimeMillis();
+        TimableOutput.println(String.format(
+            "ARRIVE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+        this.lastTime = System.currentTimeMillis();
     }
 
     private void openAndClose() {
-        TimableOutput.println(String.format("OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
-        last_time = System.currentTimeMillis();
+        TimableOutput.println(String.format(
+            "OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+        lastTime = System.currentTimeMillis();
         goOut();
         goIn();
-        long cur_time = System.currentTimeMillis();
-        if (cur_time - last_time < 400) {
+        long curTime = System.currentTimeMillis();
+        if (curTime - lastTime < 400) {
             try {
-                Thread.sleep(400 - (cur_time - last_time));
+                Thread.sleep(400 - (curTime - lastTime));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        TimableOutput.println(String.format("CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+        TimableOutput.println(String.format(
+            "CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
     }
 
     private void goOut() {
         Iterator<Person> iterator = personInElevator.get(curFloor).iterator();
         while (iterator.hasNext()) {
             Person person = iterator.next();
-            TimableOutput.println(String.format("OUT-%d-%s-%d", person.getPersonId(),FloorConverter.convertNumberToFloor(curFloor), id));
+            TimableOutput.println(String.format(
+                "OUT-%d-%s-%d", person.getPersonId(),
+                FloorConverter.convertNumberToFloor(curFloor), id));
             curPersonNums--;
             iterator.remove();
         }
 
-        // TODO:
-//        System.out.println("In curPersonNums: " + curPersonNums);
+        if (Debug.getDebug()) {
+            System.out.println("In curPersonNums: " + curPersonNums);
+        }
     }
 
     private void goIn() {
-        while(curPersonNums < 6) {
+        while (curPersonNums < 6) {
             Person person = requestTable.getAndRemovePerson(curFloor, direction);
 
             if (person == null) {
@@ -113,12 +120,16 @@ public class Elevator implements Runnable {
             }
             personInElevator.get(person.getToFloor()).add(person);
             curPersonNums++;
-            TimableOutput.println(String.format("IN-%d-%s-%d", person.getPersonId(),FloorConverter.convertNumberToFloor(curFloor), id));
+            TimableOutput.println(String.format(
+                "IN-%d-%s-%d", person.getPersonId(),
+                FloorConverter.convertNumberToFloor(curFloor), id));
 
-            // TODO:
-//            System.out.println("is removed");
-//            System.out.println(requestTable.getFloorRequests(curFloor, direction).size());
-//            System.out.println("In curPersonNums: " + curPersonNums);
+
+            if (Debug.getDebug()) {
+                //System.out.println("is removed");
+                //System.out.println(requestTable.getFloorRequests(curFloor, direction).size());
+                //System.out.println("In curPersonNums: " + curPersonNums);
+            }
         }
     }
 }

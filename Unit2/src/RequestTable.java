@@ -1,12 +1,15 @@
 
+import tools.Debug;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 public class RequestTable {
     private boolean endFlag;
     private Integer requestNums;
-    private HashMap<Integer, Map<Integer,PriorityQueue<Person>>> requests; // floor -> (direction, persons)
+    private HashMap<Integer,
+        Map<Integer,PriorityQueue<Person>>> requests; // floor -> (direction, persons)
 
     public RequestTable() {
         endFlag = false;
@@ -21,7 +24,10 @@ public class RequestTable {
     }
 
     public synchronized PriorityQueue<Person> getFloorRequests(int floorNum, int direction) {
-//        System.out.println("get floor " + floorNum + "size: " + requests.get(floorNum).get(direction).size());
+        if (Debug.getDebug()) {
+            System.out.println("get floor " + floorNum +
+                "size: " + requests.get(floorNum).get(direction).size());
+        }
 
         return requests.get(floorNum).get(direction);
     }
@@ -35,7 +41,9 @@ public class RequestTable {
         notifyAll();
     }
 
-    public synchronized boolean isEnd() {return this.endFlag;}
+    public synchronized boolean isEnd() {
+        return this.endFlag;
+    }
 
     public synchronized void AddRequest(Person person) {
         int fromFloor = person.getFromFloor();
@@ -67,7 +75,6 @@ public class RequestTable {
             return null;
         }
 
-        //TODO: check!!!
         for (Map<Integer, PriorityQueue<Person>> personRequests : requests.values()) {
             for (PriorityQueue<Person> request : personRequests.values()) {
                 if (!request.isEmpty()) {

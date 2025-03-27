@@ -1,6 +1,7 @@
+import tools.Debug;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.PriorityQueue;
 
 public class Strategy {
@@ -11,16 +12,17 @@ public class Strategy {
     }
 
     public Advice getAdvice(Integer curFloor, Integer curPersonNums, Integer direction,
-                            HashMap<Integer, ArrayList<Person>> personInElevator) {
+        HashMap<Integer, ArrayList<Person>> personInElevator) {
         synchronized (requestTable) {
-            if (personOut(curFloor, personInElevator) || personIn(curFloor, curPersonNums, direction)) {
+            if (personOut(curFloor, personInElevator)
+                || personIn(curFloor, curPersonNums, direction)) {
                 return Advice.OPEN;
             }
             if (curPersonNums != 0) {
                 return Advice.MOVE;
             } else {
                 // 电梯里没人
-                if(requestTable.noRequests()){
+                if (requestTable.noRequests()) {
                     // 请求队列为空
                     if (requestTable.isEnd()) {
                         return Advice.KILL;
@@ -29,31 +31,39 @@ public class Strategy {
                     }
                 }
                 // 请求队列不为空
-//                if (reqAhead(curFloor, direction)) {
-//                    return Advice.MOVE;
-//                } else {
-//                    return Advice.REVERSE;
-//                }
+                //if (reqAhead(curFloor, direction)) {
+                //    return Advice.MOVE;
+                //} else {
+                //    return Advice.REVERSE;
+                //}
                 if (!reqAhead(curFloor, direction)) {
-                    // TODO:
-//                    System.out.println(Thread.currentThread().getName() + " reverse by reqAhead");
+                    if (Debug.getDebug()) {
+                        System.out.println(Thread.currentThread().getName() +
+                            " reverse by reqAhead");
+                    }
                     return Advice.REVERSE;
                 } else if (reverseByWeight(curFloor, direction)) {
-                    // TODO:
-//                    System.out.println(Thread.currentThread().getName() + " reverse by weight");
+                    if (Debug.getDebug()) {
+                        System.out.println(Thread.currentThread().getName() + " reverse by weight");
+                    }
                     return Advice.REVERSE;
                 } else {
-//                    System.out.println(Thread.currentThread().getName() + " go ahead");
+                    if (Debug.getDebug()) {
+                        System.out.println(Thread.currentThread().getName() + " go ahead");
+                    }
                     return Advice.MOVE;
                 }
             }
         }
     }
 
-    private boolean personOut(Integer curFloor, HashMap<Integer, ArrayList<Person>> personInElevator) {
-//        boolean flag = !personInElevator.get(curFloor).isEmpty();
-//        System.out.println("personOut: " + flag);
-//        return flag;
+    private boolean personOut(Integer curFloor,
+        HashMap<Integer, ArrayList<Person>> personInElevator) {
+        if (Debug.getDebug()) {
+            boolean flag = !personInElevator.get(curFloor).isEmpty();
+            System.out.println("personOut: " + flag);
+            return flag;
+        }
         return !personInElevator.get(curFloor).isEmpty();
     }
 
@@ -61,13 +71,13 @@ public class Strategy {
         if (curPersonNums == 6) {
             return false;
         }
-        //            System.out.println(requestTable.getFloorRequests(curFloor).size());
         return !requestTable.getFloorRequests(curFloor, direction).isEmpty();
     }
 
     private boolean reqAhead(Integer curFloor, Integer direction) {
         for (int i = curFloor + direction; i >= 1 && i <= 11; i += direction) {
-            if (!requestTable.getFloorRequests(i, 1).isEmpty() || !requestTable.getFloorRequests(i, -1).isEmpty()){
+            if (!requestTable.getFloorRequests(i, 1).isEmpty()
+                || !requestTable.getFloorRequests(i, -1).isEmpty()) {
                 return true;
             }
         }
@@ -77,43 +87,49 @@ public class Strategy {
     public boolean reverseByWeight(int curFloor, int direction) {
         double gamma = 1.5;
         synchronized (requestTable) {
-            double same_sum = 0, revert_sum = 0;
+            double sameSum = 0;
+            double revertSum = 0;
 
             if (direction > 0) {
-                revert_sum += calculateSum(curFloor - 1, 0, direction, true, gamma, curFloor);
-                same_sum += calculateSum(curFloor + 1, 12, direction, false, gamma, curFloor);
+                revertSum += calculateSum(curFloor - 1, 0, direction, true, gamma, curFloor);
+                sameSum += calculateSum(curFloor + 1, 12, direction, false, gamma, curFloor);
             } else {
-                same_sum += calculateSum(curFloor - 1, 0, direction, false, gamma, curFloor);
-                revert_sum += calculateSum(curFloor + 1, 12, direction, true, gamma, curFloor);
+                sameSum += calculateSum(curFloor - 1, 0, direction, false, gamma, curFloor);
+                revertSum += calculateSum(curFloor + 1, 12, direction, true, gamma, curFloor);
             }
 
-            // TODO:
-//            System.out.println(Thread.currentThread().getName() +"same: " + same_sum + " revert: " + revert_sum);
+            if (Debug.getDebug()) {
+                System.out.println(Thread.currentThread().getName()
+                    + "same: " + sameSum + " revert: " + revertSum);
+            }
 
             // 处理当前楼层的请求
-            PriorityQueue<Person> sameDirectionRequests = requestTable.getFloorRequests(curFloor, direction);
+            PriorityQueue<Person> sameDirectionRequests
+                = requestTable.getFloorRequests(curFloor, direction);
             if (sameDirectionRequests != null && !sameDirectionRequests.isEmpty()) {
                 for (Person person : sameDirectionRequests) {
-                    same_sum += person.getWaitTime() + person.getPriority();
+                    sameSum += person.getWaitTime() + person.getPriority();
                 }
             }
-            PriorityQueue<Person> revertDirectionRequests = requestTable.getFloorRequests(curFloor, -direction);
+            PriorityQueue<Person> revertDirectionRequests
+                = requestTable.getFloorRequests(curFloor, -direction);
             if (revertDirectionRequests != null && !revertDirectionRequests.isEmpty()) {
                 for (Person person : revertDirectionRequests) {
-                    revert_sum += person.getWaitTime() + person.getPriority() - gamma;
+                    revertSum += person.getWaitTime() + person.getPriority() - gamma;
                 }
             }
-            // TODO:
-//            System.out.println(Thread.currentThread().getName() + "same: " + same_sum + " revert: " + revert_sum);
 
-            if (revert_sum > same_sum + gamma) {
-                return true;
+            if (Debug.getDebug()) {
+                System.out.println(Thread.currentThread().getName()
+                    + "same: " + sameSum + " revert: " + revertSum);
             }
-            return false;
+
+            return revertSum > sameSum + gamma;
         }
     }
 
-    private double calculateSum(int start, int end, int direction, boolean isRevert, double gamma, int curFloor) {
+    private double calculateSum(int start, int end, int direction,
+        boolean isRevert, double gamma, int curFloor) {
         double sum = 0;
         for (int i = start; i != end; i += (end > start ? 1 : -1)) {
             double distance = Math.abs(curFloor - i);
@@ -123,7 +139,8 @@ public class Strategy {
         return sum;
     }
 
-    private double floorSum(int floor, int direction, boolean isRevert, double distance, double gamma){
+    private double floorSum(int floor, int direction, boolean isRevert,
+        double distance, double gamma) {
         // 计算一层中方向为direction的权重
         PriorityQueue<Person> floorRequests = requestTable.getFloorRequests(floor, direction);
         if (floorRequests == null || floorRequests.isEmpty()) {
