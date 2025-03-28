@@ -96,13 +96,15 @@ public class Elevator implements Runnable {
     }
 
     private void goOut() {
-        Iterator<Person> iterator = personInElevator.get(curFloor).iterator();
+        Iterator<Person> iterator = personInElevator.iterator();
         while (iterator.hasNext()) {
             Person person = iterator.next();
             TimableOutput.println(String.format(
                 "OUT-%d-%s-%d", person.getPersonId(),
                 FloorConverter.convertNumberToFloor(curFloor), id));
             curPersonNums--;
+            // 将电梯内所有人加入到电梯请求表
+            requestTable.AddRequest(person);
             iterator.remove();
         }
 
@@ -118,7 +120,7 @@ public class Elevator implements Runnable {
             if (person == null) {
                 break;
             }
-            personInElevator.get(person.getToFloor()).add(person);
+            personInElevator.add(person);
             curPersonNums++;
             TimableOutput.println(String.format(
                 "IN-%d-%s-%d", person.getPersonId(),
