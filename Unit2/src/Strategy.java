@@ -1,7 +1,6 @@
 import tools.Debug;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class Strategy {
@@ -11,7 +10,7 @@ public class Strategy {
         this.requestTable = requestTable;
     }
 
-    public Advice getAdvice(Integer curFloor, Integer curPersonNums, Integer direction,
+    public Advice getAdvice(int curFloor, int curPersonNums, int direction,
         ArrayList<Person> personInElevator) {
         synchronized (requestTable) {
             if (personOut(curFloor, personInElevator)
@@ -31,59 +30,59 @@ public class Strategy {
                     }
                 }
                 // 请求队列不为空
-                if (reqAhead(curFloor, direction)) {
-                    return Advice.MOVE;
-                } else {
+                //if (reqAhead(curFloor, direction)) {
+                //    return Advice.MOVE;
+                //} else {
+                //    return Advice.REVERSE;
+                //}
+                if (!reqAhead(curFloor, direction)) {
+                    if (Debug.getDebug()) {
+                        System.out.println(Thread.currentThread().getName() +
+                            " reverse by reqAhead");
+                    }
                     return Advice.REVERSE;
+                } else if (reverseByWeight(curFloor, direction)) {
+                    if (Debug.getDebug()) {
+                        System.out.println(Thread.currentThread().getName() + " reverse by weight");
+                    }
+                    return Advice.REVERSE;
+                } else {
+                    if (Debug.getDebug()) {
+                        System.out.println(Thread.currentThread().getName() + " go ahead");
+                    }
+                    return Advice.MOVE;
                 }
-//                if (!reqAhead(curFloor, direction)) {
-//                    if (Debug.getDebug()) {
-//                        System.out.println(Thread.currentThread().getName() +
-//                            " reverse by reqAhead");
-//                    }
-//                    return Advice.REVERSE;
-//                } else if (reverseByWeight(curFloor, direction)) {
-//                    if (Debug.getDebug()) {
-//                        System.out.println(Thread.currentThread().getName() + " reverse by weight");
-//                    }
-//                    return Advice.REVERSE;
-//                } else {
-//                    if (Debug.getDebug()) {
-//                        System.out.println(Thread.currentThread().getName() + " go ahead");
-//                    }
-//                    return Advice.MOVE;
-//                }
             }
         }
     }
 
     private boolean personOut(int curFloor,
         ArrayList<Person> personInElevator) {
-//        if (Debug.getDebug()) {
-//            boolean flag = !personInElevator.get(curFloor).isEmpty();
-//            System.out.println("personOut: " + flag);
-//            return flag;
-//        }
-        for(Person person : personInElevator) {
-            if(person.getToFloor() == curFloor) {
+        if (Debug.getDebug()) {
+            boolean flag = !personInElevator.isEmpty();
+            System.out.println("personOut: " + flag);
+            return flag;
+        }
+        for (Person person : personInElevator) {
+            if (person.getToFloor() == curFloor) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean personIn(Integer curFloor, Integer curPersonNums, Integer direction) {
+    private boolean personIn(int curFloor, int curPersonNums, int direction) {
         if (curPersonNums == 6) {
             return false;
         }
         return !requestTable.getFloorRequests(curFloor, direction).isEmpty();
     }
 
-    private boolean reqAhead(Integer curFloor, Integer direction) {
+    private boolean reqAhead(int curFloor, int direction) {
         synchronized (requestTable) {
             for (int i = curFloor + direction; i >= 1 && i <= 11; i += direction) {
                 if (!requestTable.getFloorRequests(i, 1).isEmpty()
-                        || !requestTable.getFloorRequests(i, -1).isEmpty()) {
+                    || !requestTable.getFloorRequests(i, -1).isEmpty()) {
                     return true;
                 }
             }

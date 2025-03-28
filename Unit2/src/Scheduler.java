@@ -33,12 +33,6 @@ public class Scheduler implements Runnable {
             int elevatorId = properElevatorId(person);
             requestTables.get(elevatorId).AddRequest(person);
         }
-
-//        try {
-//            throw new RuntimeException("Scheduler is finished");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     private Integer properElevatorId(Person person) {

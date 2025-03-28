@@ -3,20 +3,19 @@ import tools.Debug;
 import tools.FloorConverter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class Elevator implements Runnable {
-    private Integer id;
-    private Integer curFloor;
-    private Integer curPersonNums;
-    private Integer direction;
+    private int id;
+    private int curFloor;
+    private int curPersonNums;
+    private int direction;
     private final RequestTable requestTable;
     private ArrayList<Person> personInElevator; // dest-floor -> person
     private Strategy strategy;
     private long lastTime;
 
-    public Elevator(Integer id, RequestTable requestTable) {
+    public Elevator(int id, RequestTable requestTable) {
         this.id = id;
         this.curFloor = 5;
         this.curPersonNums = 0;
@@ -50,11 +49,6 @@ public class Elevator implements Runnable {
                 requestTable.waitRequest();
             }
         }
-//        try {
-//            throw new Exception("Elevator " + id + " is dead!");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     private void move() {
@@ -103,8 +97,12 @@ public class Elevator implements Runnable {
                 "OUT-%d-%s-%d", person.getPersonId(),
                 FloorConverter.convertNumberToFloor(curFloor), id));
             curPersonNums--;
-            // 将电梯内所有人加入到电梯请求表
-            requestTable.AddRequest(person);
+            // 将电梯内未到最终楼层的人加入到电梯请求表
+            if (person.getToFloor() != curFloor) {
+                person.setFromFloor(curFloor);
+                person.setDirection();
+                requestTable.AddRequest(person);
+            }
             iterator.remove();
         }
 
@@ -125,7 +123,6 @@ public class Elevator implements Runnable {
             TimableOutput.println(String.format(
                 "IN-%d-%s-%d", person.getPersonId(),
                 FloorConverter.convertNumberToFloor(curFloor), id));
-
 
             if (Debug.getDebug()) {
                 //System.out.println("is removed");

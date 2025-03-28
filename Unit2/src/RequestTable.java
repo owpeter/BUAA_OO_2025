@@ -7,9 +7,9 @@ import java.util.PriorityQueue;
 
 public class RequestTable {
     private boolean endFlag;
-    private Integer requestNums;
-    private HashMap<Integer,
-        Map<Integer,PriorityQueue<Person>>> requests; // floor -> (direction, persons)
+    private int requestNums;
+    private HashMap<Integer, Map<Integer,PriorityQueue<Person>>> requests;
+    // floor -> (direction, persons)
 
     public RequestTable() {
         endFlag = false;
@@ -96,7 +96,7 @@ public class RequestTable {
         }
     }
 
-    public synchronized Integer getRequestNums() {
+    public synchronized int getRequestNums() {
         return requestNums;
     }
 }
