@@ -12,7 +12,7 @@ public class Elevator implements Runnable {
     private Integer curPersonNums;
     private Integer direction;
     private final RequestTable requestTable;
-    private HashMap<Integer, ArrayList<Person>> personInElevator; // dest-floor -> person
+    private ArrayList<Person> personInElevator; // dest-floor -> person
     private Strategy strategy;
     private long lastTime;
 
@@ -22,11 +22,7 @@ public class Elevator implements Runnable {
         this.curPersonNums = 0;
         this.direction = 1;
         this.requestTable = requestTable;
-        personInElevator = new HashMap<>();
-        for (int i = 1; i <= 11; i++) {
-            ArrayList<Person> persons = new ArrayList<>();
-            personInElevator.put(i, persons);
-        }
+        personInElevator = new ArrayList<>();
         this.strategy = new Strategy(requestTable);
     }
 
@@ -54,6 +50,11 @@ public class Elevator implements Runnable {
                 requestTable.waitRequest();
             }
         }
+//        try {
+//            throw new Exception("Elevator " + id + " is dead!");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void move() {

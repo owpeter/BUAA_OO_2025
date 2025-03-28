@@ -12,7 +12,7 @@ public class Strategy {
     }
 
     public Advice getAdvice(Integer curFloor, Integer curPersonNums, Integer direction,
-        HashMap<Integer, ArrayList<Person>> personInElevator) {
+        ArrayList<Person> personInElevator) {
         synchronized (requestTable) {
             if (personOut(curFloor, personInElevator)
                 || personIn(curFloor, curPersonNums, direction)) {
@@ -31,40 +31,45 @@ public class Strategy {
                     }
                 }
                 // 请求队列不为空
-                //if (reqAhead(curFloor, direction)) {
-                //    return Advice.MOVE;
-                //} else {
-                //    return Advice.REVERSE;
-                //}
-                if (!reqAhead(curFloor, direction)) {
-                    if (Debug.getDebug()) {
-                        System.out.println(Thread.currentThread().getName() +
-                            " reverse by reqAhead");
-                    }
-                    return Advice.REVERSE;
-                } else if (reverseByWeight(curFloor, direction)) {
-                    if (Debug.getDebug()) {
-                        System.out.println(Thread.currentThread().getName() + " reverse by weight");
-                    }
-                    return Advice.REVERSE;
-                } else {
-                    if (Debug.getDebug()) {
-                        System.out.println(Thread.currentThread().getName() + " go ahead");
-                    }
+                if (reqAhead(curFloor, direction)) {
                     return Advice.MOVE;
+                } else {
+                    return Advice.REVERSE;
                 }
+//                if (!reqAhead(curFloor, direction)) {
+//                    if (Debug.getDebug()) {
+//                        System.out.println(Thread.currentThread().getName() +
+//                            " reverse by reqAhead");
+//                    }
+//                    return Advice.REVERSE;
+//                } else if (reverseByWeight(curFloor, direction)) {
+//                    if (Debug.getDebug()) {
+//                        System.out.println(Thread.currentThread().getName() + " reverse by weight");
+//                    }
+//                    return Advice.REVERSE;
+//                } else {
+//                    if (Debug.getDebug()) {
+//                        System.out.println(Thread.currentThread().getName() + " go ahead");
+//                    }
+//                    return Advice.MOVE;
+//                }
             }
         }
     }
 
-    private boolean personOut(Integer curFloor,
-        HashMap<Integer, ArrayList<Person>> personInElevator) {
-        if (Debug.getDebug()) {
-            boolean flag = !personInElevator.get(curFloor).isEmpty();
-            System.out.println("personOut: " + flag);
-            return flag;
+    private boolean personOut(int curFloor,
+        ArrayList<Person> personInElevator) {
+//        if (Debug.getDebug()) {
+//            boolean flag = !personInElevator.get(curFloor).isEmpty();
+//            System.out.println("personOut: " + flag);
+//            return flag;
+//        }
+        for(Person person : personInElevator) {
+            if(person.getToFloor() == curFloor) {
+                return true;
+            }
         }
-        return !personInElevator.get(curFloor).isEmpty();
+        return false;
     }
 
     private boolean personIn(Integer curFloor, Integer curPersonNums, Integer direction) {
