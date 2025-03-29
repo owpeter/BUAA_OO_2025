@@ -16,7 +16,7 @@ PROCESS_COUNT = 48
 ITERATIONS = 1000
 C_NAME = 'checker'
 PYTHON = 'python3'
-JAR_NAME = "code.jar"
+JAR_NAME = "Unit2.jar"
 
 
 def run_iteration(iteration, tell, shared_LAST_TIME:multiprocessing.managers.ValueProxy, shared_MT:multiprocessing.managers.ValueProxy, shared_W:multiprocessing.managers.ValueProxy, shared_cnt: multiprocessing.managers.ValueProxy):

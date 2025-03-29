@@ -13,7 +13,7 @@ public class Elevator implements Runnable {
     private final RequestTable requestTable;
     private ArrayList<Person> personInElevator; // dest-floor -> person
     private Strategy strategy;
-    private long lastTime;
+    private long lastTime = System.currentTimeMillis();
 
     public Elevator(int id, RequestTable requestTable) {
         this.id = id;
@@ -52,7 +52,6 @@ public class Elevator implements Runnable {
     }
 
     private void move() {
-        lastTime = System.currentTimeMillis();
         if (direction == 1) {
             curFloor++;
         } else {
@@ -74,9 +73,11 @@ public class Elevator implements Runnable {
     private void openAndClose() {
         TimableOutput.println(String.format(
             "OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
-        lastTime = System.currentTimeMillis();
+        this.lastTime = System.currentTimeMillis();
+
         goOut();
         goIn();
+
         long curTime = System.currentTimeMillis();
         if (curTime - lastTime < 400) {
             try {
@@ -87,6 +88,7 @@ public class Elevator implements Runnable {
         }
         TimableOutput.println(String.format(
             "CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+        this.lastTime = System.currentTimeMillis();
     }
 
     private void goOut() {

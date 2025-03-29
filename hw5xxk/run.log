@@ -1,19 +1,32 @@
-__________code.jar_________
-TIME: 2025.03.25 21:51:28
+__________Unit2.jar_________
+TIME: 2025.03.26 20:30:50
 ----------BEGIN-------------
-__________code.jar_________
-TIME: 2025.03.25 21:54:24
+__________Unit2.jar_________
+TIME: 2025.03.26 20:32:35
 ----------BEGIN-------------
-Iteration 996 finished: AVG_End in 32.348 s, AVG_MT is 9.18821 s, AVG_W is 90.862      
-AVG_LAST_TIME: 32.34846999999999
-AVG_MT: 9.188208623073528
-AVG_W: 90.8616000000001
------------END--------------
-__________oo_u2.jar_________
-TIME: 2025.03.25 22:06:26
+Iteration 9 finished: AVG_End in 33.354 s, AVG_MT is 11.07784 s, AVG_W is 85.870       Iteration 4 completed with checker output: Elevator3: Incorrectly move to 0.
+Oh! Some errors.
+Iteration 21 completed with checker output: Elevator1: Incorrectly move to 0.
+Oh! Some errors.
+Iteration 14 completed with checker output: Elevator2: Incorrectly move to 0.
+Oh! Some errors.
+__________Unit2.jar_________
+TIME: 2025.03.26 20:40:57
 ----------BEGIN-------------
-Iteration 988 finished: AVG_End in 34.004 s, AVG_MT is 9.46961 s, AVG_W is 87.198      
-AVG_LAST_TIME: 33.969648999999976
-AVG_MT: 9.460137308497256
-AVG_W: 87.11100000000006
------------END--------------
+Iteration 23 finished: AVG_End in 27.367 s, AVG_MT is 10.01610 s, AVG_W is 93.160      Iteration 47 completed with checker output: Elevator4: Incorrectly move to 0.
+Oh! Some errors.
+__________Unit2.jar_________
+TIME: 2025.03.26 20:44:05
+----------BEGIN-------------
+Iteration 12 finished: AVG_End in 30.335 s, AVG_MT is 10.12587 s, AVG_W is 89.317      Iteration 11 completed with checker output: Elevator3: Incorrectly move to 0.
+Oh! Some errors.
+__________Unit2.jar_________
+TIME: 2025.03.26 20:57:32
+----------BEGIN-------------
+Iteration 32 finished: AVG_End in 26.326 s, AVG_MT is 9.69883 s, AVG_W is 103.333      __________Unit2.jar_________
+TIME: 2025.03.26 21:06:33
+----------BEGIN-------------
+Iteration 552 finished: AVG_End in 35.308 s, AVG_MT is 10.28886 s, AVG_W is 93.000     __________Unit2.jar_________
+TIME: 2025.03.26 21:19:29
+----------BEGIN-------------
+Iteration 686 finished: AVG_End in 32.732 s, AVG_MT is 10.38422 s, AVG_W is 96.482     

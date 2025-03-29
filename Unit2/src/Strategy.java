@@ -30,27 +30,25 @@ public class Strategy {
                     }
                 }
                 // 请求队列不为空
-                //if (reqAhead(curFloor, direction)) {
-                //    return Advice.MOVE;
-                //} else {
-                //    return Advice.REVERSE;
-                //}
-                if (!reqAhead(curFloor, direction)) {
+                //                if (reqAhead(curFloor, direction)) {
+                //                    return Advice.MOVE;
+                //                } else {
+                //                    return Advice.REVERSE;
+                //                }
+                if (reqAhead(curFloor, direction)) {
                     if (Debug.getDebug()) {
                         System.out.println(Thread.currentThread().getName() +
                             " reverse by reqAhead");
                     }
-                    return Advice.REVERSE;
-                } else if (reverseByWeight(curFloor, direction)) {
-                    if (Debug.getDebug()) {
-                        System.out.println(Thread.currentThread().getName() + " reverse by weight");
+                    if (reverseByWeight(curFloor, direction)) {
+                        return Advice.REVERSE;
                     }
-                    return Advice.REVERSE;
+                    return Advice.MOVE;
                 } else {
                     if (Debug.getDebug()) {
                         System.out.println(Thread.currentThread().getName() + " go ahead");
                     }
-                    return Advice.MOVE;
+                    return Advice.REVERSE;
                 }
             }
         }
@@ -91,7 +89,7 @@ public class Strategy {
     }
 
     public boolean reverseByWeight(int curFloor, int direction) {
-        double gamma = 1.5;
+        double gamma = 15;
         synchronized (requestTable) {
             double sameSum = 0;
             double revertSum = 0;
@@ -125,12 +123,12 @@ public class Strategy {
                 }
             }
 
-            if (Debug.getDebug()) {
+            if (false) {
                 System.out.println(Thread.currentThread().getName()
                     + "same: " + sameSum + " revert: " + revertSum);
             }
 
-            return revertSum > sameSum + gamma;
+            return revertSum > sameSum + 100;
         }
     }
 

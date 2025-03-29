@@ -63,7 +63,7 @@ public class Person implements Comparable {
     }
 
     public Long getWaitTime() {
-        return (System.currentTimeMillis() - inTime) / 1000;
+        return (System.currentTimeMillis() - inTime) / 5000;
     }
 
     @Override
