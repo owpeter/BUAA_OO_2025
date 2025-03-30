@@ -16,7 +16,7 @@ public class RequestTable {
         requestNums = 0;
         requests = new HashMap<>();
         for (int i = 1; i <= 11; i++) {
-            HashMap hashMap = new HashMap<>();
+            HashMap<Integer, PriorityQueue<Person>> hashMap = new HashMap<>();
             hashMap.put(1, new PriorityQueue<>());
             hashMap.put(-1, new PriorityQueue<>());
             requests.put(i, hashMap);

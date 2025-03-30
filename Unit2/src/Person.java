@@ -1,3 +1,4 @@
+import com.oocourse.elevator1.PersonRequest;
 import tools.FloorConverter;
 
 public class Person implements Comparable {
@@ -10,14 +11,13 @@ public class Person implements Comparable {
     private final Long inTime;
     private boolean transfer;
 
-    public Person(String fromFloor, String toFloor,
-        int personId, int priority, int elevatorId) {
-        this.fromFloor = FloorConverter.convertFloorToNumber(fromFloor);
-        this.toFloor = FloorConverter.convertFloorToNumber(toFloor);
+    public Person(PersonRequest request) {
+        this.personId = request.getPersonId();
+        this.fromFloor = FloorConverter.convertFloorToNumber(request.getFromFloor());
+        this.toFloor = FloorConverter.convertFloorToNumber(request.getToFloor());
         this.direction = this.toFloor > this.fromFloor ? 1 : -1;
-        this.personId = personId;
-        this.priority = priority;
-        this.elevatorId = elevatorId;
+        this.priority = request.getPriority();
+        this.elevatorId = request.getElevatorId();
         this.transfer = false;
         this.inTime = System.currentTimeMillis();
     }

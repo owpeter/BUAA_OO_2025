@@ -26,12 +26,7 @@ public class InputHandler implements Runnable {
                 } else {
                     if (request instanceof PersonRequest) {
                         PersonRequest personRequest = (PersonRequest) request;
-                        Person person = new Person(
-                            personRequest.getFromFloor(),
-                            personRequest.getToFloor(),
-                            personRequest.getPersonId(),
-                            personRequest.getPriority(),
-                            personRequest.getElevatorId());
+                        Person person = new Person(personRequest);
                         inputRequests.AddRequest(person);
                     }
                 }

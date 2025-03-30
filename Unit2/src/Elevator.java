@@ -51,41 +51,40 @@ public class Elevator implements Runnable {
         }
     }
 
+    private void setLastTime() {
+        this.lastTime = System.currentTimeMillis();
+    }
+
+    private void trySleep() {
+        long curTime = System.currentTimeMillis();
+        if (curTime - lastTime < 400) {
+            try {
+                Thread.sleep(400 - (curTime - lastTime));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void move() {
         if (direction == 1) {
             curFloor++;
         } else {
             curFloor--;
         }
-        long curTime = System.currentTimeMillis();
-        if (curTime - lastTime < 400) {
-            try {
-                Thread.sleep(400 - (curTime - lastTime));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+       trySleep();
         TimableOutput.println(String.format(
             "ARRIVE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
-        this.lastTime = System.currentTimeMillis();
+        setLastTime();
     }
 
     private void openAndClose() {
         TimableOutput.println(String.format(
             "OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
-        this.lastTime = System.currentTimeMillis();
-
+        setLastTime();
         goOut();
         goIn();
-
-        long curTime = System.currentTimeMillis();
-        if (curTime - lastTime < 400) {
-            try {
-                Thread.sleep(400 - (curTime - lastTime));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        trySleep();
         TimableOutput.println(String.format(
             "CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
         this.lastTime = System.currentTimeMillis();
