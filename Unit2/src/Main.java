@@ -18,5 +18,6 @@ public class Main {
         schedulerThread.start();
 
         inputThread.start();
+//        throw new RuntimeException("main end");
     }
 }

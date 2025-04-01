@@ -6,13 +6,17 @@ import java.util.PriorityQueue;
 public class Strategy {
     private final RequestTable requestTable;
 
+
     public Strategy(RequestTable requestTable) {
         this.requestTable = requestTable;
     }
 
     public Advice getAdvice(int curFloor, int curPersonNums, int direction,
-        ArrayList<Person> personInElevator) {
+        ArrayList<Person> personInElevator, boolean simulate) {
         synchronized (requestTable) {
+            if (reverseByCantGo(curFloor, direction)) {
+                return Advice.REVERSE;
+            }
             if (personOut(curFloor, personInElevator)
                 || personIn(curFloor, curPersonNums, direction)) {
                 return Advice.OPEN;
@@ -30,25 +34,49 @@ public class Strategy {
                     }
                 }
                 // 请求队列不为空
-                //                if (reqAhead(curFloor, direction)) {
-                //                    return Advice.MOVE;
-                //                } else {
-                //                    return Advice.REVERSE;
-                //                }
-                if (reqAhead(curFloor, direction)) {
-                    if (Debug.getDebug()) {
-                        System.out.println(Thread.currentThread().getName() +
-                            " reverse by reqAhead");
-                    }
-                    if (reverseByWeight(curFloor, direction)) {
+//                                if (reqAhead(curFloor, direction)) {
+//                                    return Advice.MOVE;
+//                                } else {
+//                                    return Advice.REVERSE;
+//                                }
+                // -------------------------------------------------------------
+//                if (reqAhead(curFloor, direction)) {
+//                    if (Debug.getDebug()) {
+//                        System.out.println(Thread.currentThread().getName() +
+//                                " reverse by reqAhead");
+//                    }
+//                    if (reverseByWeight(curFloor, direction)) {
+//                        return Advice.REVERSE;
+//                    }
+//                    return Advice.MOVE;
+//                } else {
+//                    if (Debug.getDebug()) {
+//                        System.out.println(Thread.currentThread().getName() + " go ahead");
+//                    }
+//                    return Advice.REVERSE;
+//                }
+
+                if (simulate) {
+//                    System.out.println(Thread.currentThread().getName());
+//                    if (reverseByCantGo(curFloor, direction)) {
+//                        return Advice.REVERSE;
+//                    }
+//                    return Advice.MOVE;
+                    if (reqAhead(curFloor, direction)) {
+                        return Advice.MOVE;
+                    } else {
                         return Advice.REVERSE;
                     }
-                    return Advice.MOVE;
-                } else {
-                    if (Debug.getDebug()) {
-                        System.out.println(Thread.currentThread().getName() + " go ahead");
+                }
+                else {
+                    if (!reqAhead(curFloor, direction)) {
+                        return Advice.REVERSE;
                     }
-                    return Advice.REVERSE;
+                    if (reverseBySimulate(curFloor, curPersonNums, direction, requestTable, personInElevator)) {
+                        return Advice.REVERSE;
+                    } else {
+                        return Advice.MOVE;
+                    }
                 }
             }
         }
@@ -161,6 +189,18 @@ public class Strategy {
         return sum;
     }
 
-    // 影子电梯
+    private boolean reverseByCantGo(int curFloor, int direction) {
+        return ((curFloor == 11 && direction == 1) || (curFloor == 1 && direction == -1));
+    }
+
+    public boolean reverseBySimulate(int curFloor, int curPersonNums, int direction, RequestTable requestTable, ArrayList<Person> personInElevator) {
+        Elevator same = new Elevator(curFloor, curPersonNums, direction, requestTable.clone(), personInElevator);
+        Elevator revert = new Elevator(curFloor, curPersonNums, -direction, requestTable.clone(), personInElevator);
+        long sameTime =same.simulate(0) + same.getSimulateSumTime();
+        long revTime = revert.simulate(0) + revert.getSimulateSumTime();
+//        System.out.println("sameTime: " + sameTime + " revTime: " + revTime);
+//        System.out.println(requestTable.getRequestNums());
+        return sameTime > revTime;
+    }
 
 }

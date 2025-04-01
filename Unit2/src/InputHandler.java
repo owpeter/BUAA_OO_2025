@@ -32,6 +32,7 @@ public class InputHandler implements Runnable {
                 }
             }
             input.close();
+//            throw new RuntimeException("input is dead");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 
 import tools.Debug;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -21,6 +22,17 @@ public class RequestTable {
             hashMap.put(-1, new PriorityQueue<>());
             requests.put(i, hashMap);
         }
+    }
+
+    public RequestTable clone() {
+        RequestTable requestTable = new RequestTable();
+        for (int i = 1; i <= 11; i++) {
+            requestTable.requests.get(i).get(1).addAll(this.requests.get(i).get(1));
+            requestTable.requests.get(i).get(-1).addAll(this.requests.get(i).get(-1));
+        }
+        requestTable.requestNums = this.requestNums;
+        requestTable.endFlag = this.endFlag;
+        return requestTable;
     }
 
     public synchronized PriorityQueue<Person> getFloorRequests(int floorNum, int direction) {
