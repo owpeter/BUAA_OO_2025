@@ -1,8 +1,9 @@
 
+import com.oocourse.elevator2.ScheRequest;
 import tools.Debug;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
 
@@ -11,6 +12,7 @@ public class RequestTable {
     private int requestNums;
     private HashMap<Integer, Map<Integer,PriorityQueue<Person>>> requests;
     // floor -> (direction, persons)
+    private ScheRequest scheRequest;
 
     public RequestTable() {
         endFlag = false;
@@ -22,9 +24,10 @@ public class RequestTable {
             hashMap.put(-1, new PriorityQueue<>());
             requests.put(i, hashMap);
         }
+        scheRequest = null;
     }
 
-    public RequestTable clone() {
+    public synchronized RequestTable clone() {
         RequestTable requestTable = new RequestTable();
         for (int i = 1; i <= 11; i++) {
             requestTable.requests.get(i).get(1).addAll(this.requests.get(i).get(1));
@@ -57,11 +60,24 @@ public class RequestTable {
         return this.endFlag;
     }
 
-    public synchronized void AddRequest(Person person) {
+    public synchronized void addPerson(Person person) {
         int fromFloor = person.getFromFloor();
         requests.get(fromFloor).get(person.getDirection()).add(person);
         requestNums++;
         notifyAll();
+    }
+
+    public synchronized void addSche(ScheRequest request) {
+        this.scheRequest = request;
+        notifyAll();
+    }
+
+    public synchronized ScheRequest getSche() {
+        return this.scheRequest;
+    }
+
+    public synchronized void resetSche() {
+        this.scheRequest = null;
     }
 
     public synchronized Person getAndRemovePerson(int curFloor, int direction) {
@@ -77,31 +93,14 @@ public class RequestTable {
         return floorRequests.poll();
     }
 
-    public synchronized Person getRandomPerson() {
-        // for input requests
-        if (requestNums == 0 && !isEnd()) {
-            waitRequest();
-        }
-
-        if (requestNums == 0) {
-            return null;
-        }
-
-        for (Map<Integer, PriorityQueue<Person>> personRequests : requests.values()) {
-            for (PriorityQueue<Person> request : personRequests.values()) {
-                if (!request.isEmpty()) {
-                    Person person = request.poll();
-                    requestNums--;
-                    notifyAll();
-                    return person;
-                }
-            }
-        }
-        return null;
+    public synchronized boolean hasSche() {
+        return scheRequest != null;
     }
 
-    public synchronized void waitRequest() {
+    public synchronized void waitRequest(MainTable mainTable) {
         try {
+//            System.out.println(Thread.currentThread().getName() + " is waiting");
+            mainTable.checkKill();
             this.wait();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -110,5 +109,52 @@ public class RequestTable {
 
     public synchronized int getRequestNums() {
         return requestNums;
+    }
+
+    public synchronized void moveToMainTable(int curFloor, MainTable mainTable) {
+        // for normal, clean transfer requests
+        for (int direction : new int[]{1, -1}) {
+            PriorityQueue<Person> floorRequests = requests.get(curFloor).get(direction);
+            Iterator<Person> iterator = floorRequests.iterator();
+            while (iterator.hasNext()) {
+                Person person = iterator.next();
+                if (person.getTransfer()) {
+                    person.setTransfer(false);
+                    mainTable.addRequest(person);
+                    iterator.remove();
+                    requestNums--;
+                }
+            }
+        }
+    }
+
+    public synchronized void simulateMoveToMainTable(int curFloor) {
+        for (int direction : new int[]{1, -1}) {
+            PriorityQueue<Person> floorRequests = requests.get(curFloor).get(direction);
+            Iterator<Person> iterator = floorRequests.iterator();
+            while (iterator.hasNext()) {
+                Person person = iterator.next();
+                if (person.getTransfer()) {
+                    person.setTransfer(false);
+                    iterator.remove();
+                    requestNums--;
+                }
+            }
+        }
+    }
+
+    public synchronized void scheMoveToMainTable(MainTable mainTable) {
+        // for  SCHE, clean all requests
+        for (int floor = 1; floor <= 11; floor++) {
+            for (int direction : new int[]{1, -1}) {
+                PriorityQueue<Person> floorRequests = requests.get(floor).get(direction);
+                while (!floorRequests.isEmpty()) {
+                    Person person = floorRequests.poll();
+                    person.setTransfer(false);
+                    mainTable.addRequest(person);
+                    requestNums--;
+                }
+            }
+        }
     }
 }

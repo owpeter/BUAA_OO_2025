@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class MainClassTest {
+public class MainTest {
 
     @org.junit.Test
     public void testMain() throws IOException, InterruptedException {

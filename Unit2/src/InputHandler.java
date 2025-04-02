@@ -1,18 +1,19 @@
-import com.oocourse.elevator1.ElevatorInput;
-import com.oocourse.elevator1.PersonRequest;
-import com.oocourse.elevator1.Request;
+import com.oocourse.elevator2.ElevatorInput;
+import com.oocourse.elevator2.PersonRequest;
+import com.oocourse.elevator2.Request;
+import com.oocourse.elevator2.ScheRequest;
 
 import java.io.IOException;
 
 public class InputHandler implements Runnable {
-    private final RequestTable inputRequests;
+    private final MainTable mainTable;
 
     public InputHandler() {
-        inputRequests = new RequestTable();
+        mainTable = new MainTable();
     }
 
-    public RequestTable getInputRequests() {
-        return inputRequests;
+    public MainTable getMainTable() {
+        return mainTable;
     }
 
     public void run() {
@@ -21,14 +22,10 @@ public class InputHandler implements Runnable {
             while (true) {
                 Request request = input.nextRequest();
                 if (request == null) {
-                    inputRequests.setEnd();
+                    mainTable.setEnd();
                     break;
                 } else {
-                    if (request instanceof PersonRequest) {
-                        PersonRequest personRequest = (PersonRequest) request;
-                        Person person = new Person(personRequest);
-                        inputRequests.AddRequest(person);
-                    }
+                    mainTable.addRequest(request);
                 }
             }
             input.close();

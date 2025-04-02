@@ -2,6 +2,7 @@ import tools.Debug;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Strategy {
     private final RequestTable requestTable;
@@ -12,8 +13,11 @@ public class Strategy {
     }
 
     public Advice getAdvice(int curFloor, int curPersonNums, int direction,
-        ArrayList<Person> personInElevator, boolean simulate) {
+                            CopyOnWriteArrayList<Person> personInElevator, boolean simulate) {
         synchronized (requestTable) {
+            if (requestTable.hasSche()) {
+                return Advice.SCHE;
+            }
             if (reverseByCantGo(curFloor, direction)) {
                 return Advice.REVERSE;
             }
@@ -83,7 +87,7 @@ public class Strategy {
     }
 
     private boolean personOut(int curFloor,
-        ArrayList<Person> personInElevator) {
+        CopyOnWriteArrayList<Person> personInElevator) {
         if (Debug.getDebug()) {
             boolean flag = !personInElevator.isEmpty();
             System.out.println("personOut: " + flag);
@@ -193,9 +197,11 @@ public class Strategy {
         return ((curFloor == 11 && direction == 1) || (curFloor == 1 && direction == -1));
     }
 
-    public boolean reverseBySimulate(int curFloor, int curPersonNums, int direction, RequestTable requestTable, ArrayList<Person> personInElevator) {
-        Elevator same = new Elevator(curFloor, curPersonNums, direction, requestTable.clone(), personInElevator);
-        Elevator revert = new Elevator(curFloor, curPersonNums, -direction, requestTable.clone(), personInElevator);
+    public boolean reverseBySimulate(int curFloor, int curPersonNums, int direction, RequestTable requestTable, CopyOnWriteArrayList<Person> personInElevator) {
+        Elevator same = new Elevator(curFloor, curPersonNums, direction, requestTable.clone(),
+                (CopyOnWriteArrayList<Person>) personInElevator.clone());
+        Elevator revert = new Elevator(curFloor, curPersonNums, -direction, requestTable.clone(),
+                (CopyOnWriteArrayList<Person>) personInElevator.clone());
         long sameTime =same.simulate(0) + same.getSimulateSumTime();
         long revTime = revert.simulate(0) + revert.getSimulateSumTime();
 //        System.out.println("sameTime: " + sameTime + " revTime: " + revTime);

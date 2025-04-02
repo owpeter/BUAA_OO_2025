@@ -1,12 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="225851ac-ab0c-4fc0-bf30-e3f0a552392a" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/Elevator.java" beforeDir="false" afterPath="$PROJECT_DIR$/Elevator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RequestTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/RequestTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Strategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/Strategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../stdin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../stdin.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../hw5_note.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../hw5_note.md" afterDir="false" />
+    <list default="true" id="450f6004-de07-4e1c-a8ef-d9175afa29f1" name="更改" comment="">
+      <change beforePath="$PROJECT_DIR$/../Unit2/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/.idea/artifacts/Unit2_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/.idea/checkstyle-idea.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/.idea/material_theme_project_new.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/TestMain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/Unit2.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/.idea/checkstyle-idea.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/.idea/material_theme_project_new.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/Advice.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/Elevator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/InputHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/Person.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/RequestTable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/Scheduler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/Strategy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/Unit2.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/tools/Debug.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/src/tools/FloorConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/stdin.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Unit2/test/MainClassTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,23 +39,27 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
+  "associatedIndex": 0
 }]]></component>
-  <component name="ProjectId" id="2v2fkfx5rR9S3CE3jYRSKQC5VCX" />
+  <component name="ProjectId" id="2v9dkRrH4gUig1Saz4JeIviST9G" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "new__hw5",
+    "git-widget-placeholder": "hw6",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Code/java/BUAA_OO_2025/Unit2",
+    "last_opened_file_path": "D:/Code/java/BUAA_OO_2025/elevator2.jar",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -45,12 +74,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
-      <changelist id="225851ac-ab0c-4fc0-bf30-e3f0a552392a" name="更改" comment="" />
-      <created>1743348233886</created>
+      <changelist id="450f6004-de07-4e1c-a8ef-d9175afa29f1" name="更改" comment="" />
+      <created>1743561367381</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1743348233886</updated>
-      <workItem from="1743348234945" duration="12000" />
+      <updated>1743561367381</updated>
+      <workItem from="1743561368616" duration="111000" />
     </task>
     <servers />
   </component>
