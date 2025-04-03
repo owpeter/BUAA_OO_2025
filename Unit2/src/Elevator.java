@@ -69,6 +69,8 @@ public class Elevator implements Runnable {
 
     public void run() {
         while (true) {
+            //TODO: 在这里将requestTable.buffer中的请求放入requests，同时输出receive
+            requestTable.fromBufferToRequests(id, false);
             Advice advice = strategy.getAdvice(curFloor, curPersonNums,
                 direction, personInElevator, false);
             status = advice;
@@ -76,6 +78,7 @@ public class Elevator implements Runnable {
             if (advice == Advice.WAIT) {
                 requestTable.waitRequest(mainTable);
             } else if (advice == Advice.MOVE) {
+                setLastTime();
                 trySleep(speed);
                 Advice newAdvice = strategy.getAdvice(curFloor, curPersonNums,
                     direction, personInElevator, true);
@@ -216,7 +219,7 @@ public class Elevator implements Runnable {
                 person.setFromFloor(curFloor);
                 person.setDirection();
                 person.setTransfer(true);
-                requestTable.addPerson(person);
+                requestTable.addPersonToRequest(person);
             }
         }
         curPersonNums = 0;
@@ -233,7 +236,7 @@ public class Elevator implements Runnable {
                 person.setFromFloor(curFloor);
                 person.setDirection();
                 person.setTransfer(true);
-                requestTable.addPerson(person);
+                requestTable.addPersonToRequest(person);
             } else {
                 simulateSumTime += person.getPriority() * timeStamp;
 //                System.out.println("simulate person " + person.getPersonId() + " " + person.getPriority() + " " + timeStamp);
@@ -287,12 +290,14 @@ public class Elevator implements Runnable {
             System.out.println(this);
         }
 //        System.out.println(requestTable.getRequestNums());
+        //buffer -> requests
+        requestTable.fromBufferToRequests(id, true);
         long timeStamp = startTime;
         while(true) {
             Advice advice = strategy.getAdvice(curFloor, curPersonNums,
                     direction, personInElevator, true);
             if (Debug.getDebug()){
-                System.out.println(Thread.currentThread().getName() + ": advice " + advice);
+//                System.out.println(Thread.currentThread().getName() + ": advice " + advice);
             }
 
             if (advice == Advice.SCHE) {
@@ -323,7 +328,7 @@ public class Elevator implements Runnable {
     }
 
     public void addRequest(Person person) {
-        requestTable.addPerson(person);
+        requestTable.addPersonToBuffer(person);
     }
 
     @Override

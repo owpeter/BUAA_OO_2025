@@ -1,23 +1,21 @@
 
 import com.oocourse.elevator2.ScheRequest;
+import com.oocourse.elevator2.TimableOutput;
 import tools.Debug;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class RequestTable {
     private boolean endFlag;
     private int requestNums;
-    private HashMap<Integer, Map<Integer,PriorityQueue<Person>>> requests;
+    private ArrayList<Person> buffer = new ArrayList<>(); //TODO: buffer还需要复制吗？？？
+    private HashMap<Integer, Map<Integer,PriorityQueue<Person>>> requests = new HashMap<>();
     // floor -> (direction, persons)
     private ScheRequest scheRequest;
 
     public RequestTable() {
         endFlag = false;
         requestNums = 0;
-        requests = new HashMap<>();
         for (int i = 1; i <= 11; i++) {
             HashMap<Integer, PriorityQueue<Person>> hashMap = new HashMap<>();
             hashMap.put(1, new PriorityQueue<>());
@@ -56,11 +54,28 @@ public class RequestTable {
         return this.endFlag;
     }
 
-    public synchronized void addPerson(Person person) {
+    public synchronized void addPersonToBuffer(Person person) {
+        buffer.add(person);
+        notifyAll();
+    }
+
+    public synchronized void addPersonToRequest(Person person) {
+        // for go in and out
         int fromFloor = person.getFromFloor();
         requests.get(fromFloor).get(person.getDirection()).add(person);
         requestNums++;
-        notifyAll();
+    }
+
+    public synchronized void fromBufferToRequests(int id, boolean simulate) {
+        for (Person person : buffer) {
+            int fromFloor = person.getFromFloor();
+            requests.get(fromFloor).get(person.getDirection()).add(person);
+            requestNums++;
+            if (!simulate) {
+                TimableOutput.println(String.format("RECEIVE-%d-%d", person.getPersonId(), id));
+            }
+        }
+        buffer.clear();
     }
 
     public synchronized void addSche(ScheRequest request) {

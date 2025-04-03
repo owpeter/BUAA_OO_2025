@@ -46,14 +46,12 @@ public class Scheduler implements Runnable {
                 PersonRequest personRequest = (PersonRequest) request;
                 Person person = new Person(personRequest);
                 int elevatorId = properElevatorId(person);
-                TimableOutput.println(String.format("RECEIVE-%d-%d", person.getPersonId(), elevatorId));
 //            System.out.println("elevator id: " + elevatorId + "person: " + person.getPersonId());
-                requestTables.get(elevatorId).addPerson(person);
+                requestTables.get(elevatorId).addPersonToBuffer(person);
             } else if (request instanceof Person) {
                 Person person = (Person) request;
                 int elevatorId = properElevatorId(person);
-                TimableOutput.println(String.format("RECEIVE-%d-%d", person.getPersonId(), elevatorId));
-                requestTables.get(elevatorId).addPerson(person);
+                requestTables.get(elevatorId).addPersonToBuffer(person);
             } else if (request instanceof ScheRequest) {
                 ScheRequest scheRequest = (ScheRequest) request;
                 requestTables.get(scheRequest.getElevatorId()).addSche(scheRequest);
@@ -69,6 +67,7 @@ public class Scheduler implements Runnable {
         long minWaitTime = Integer.MAX_VALUE;
         int minElevatorId = 0;
         ArrayList<Elevator> clonedElevators = new ArrayList<>();
+        // TODO: for循环拿6把锁
         synchronized (elevators.get(0)) {
             synchronized (elevators.get(1)) {
                 synchronized (elevators.get(2)) {
@@ -101,7 +100,7 @@ public class Scheduler implements Runnable {
                                 if (minElevatorId == 0) {
                                     throw new RuntimeException("minElevatorId == 0");
                                 }
-//        System.out.println("----------------");
+//                              System.out.println("----------------");
                                 return minElevatorId;
                             }
                         }

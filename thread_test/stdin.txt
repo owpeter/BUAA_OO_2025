@@ -1,413 +1,87 @@
-Elevator 5: advice WAIT
-Elevator 3: advice WAIT
-Elevator 1: advice WAIT
-Elevator 2: advice WAIT
-Elevator 6: advice WAIT
-Elevator 4: advice WAIT
-cloning 1
-cloning 2
-cloning 3
-cloning 4
-cloning 5
-cloning 6
-simulating 1
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 1 cost: 3200
-simulating 2
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 2 cost: 3200
-simulating 3
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 3 cost: 3200
-simulating 4
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 4 cost: 3200
-simulating 5
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 5 cost: 3200
-simulating 6
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 6 cost: 3200
-[   1.2100]RECEIVE-417-1
-Elevator 1: advice MOVE
-Elevator 1: advice OPEN
-Elevator 1: advice MOVE
-Elevator 1: advice MOVE
-Elevator 1: advice MOVE
-Elevator 1: advice MOVE
-Elevator 1: advice MOVE
-Elevator 1: advice REVERSE
-Elevator 1: advice OPEN
-Elevator 1: advice WAIT
-Elevator 1: advice REVERSE
-Elevator 1: advice MOVE
-Elevator 1: advice OPEN
-Elevator 1: advice MOVE
-Elevator 1: advice MOVE
-Elevator 1: advice MOVE
-Elevator 1: advice MOVE
-Elevator 1: advice MOVE
-Elevator 1: advice REVERSE
-Elevator 1: advice OPEN
-Elevator 1: advice WAIT
-Elevator 1: advice MOVE
-[   1.2110]ARRIVE-F2-1
-Elevator 1: advice OPEN
-[   1.2110]OPEN-F2-1
-[   1.2110]IN-417-F2-1
-[   1.6110]CLOSE-F2-1
-Elevator 1: advice MOVE
-[   2.0060]SCHE-ACCEPT-1-0.3-B2
-[   2.0120]ARRIVE-F3-1
-Elevator 1: advice SCHE
-[   2.0120]SCHE-BEGIN-1
-[   2.3120]ARRIVE-F2-1
-cloning 1
-cloning 2
-cloning 3
-cloning 4
-cloning 5
-cloning 6
-simulating 1
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 1 cost: 10000
-simulating 2
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 2 cost: 2800
-simulating 3
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 3 cost: 2800
-simulating 4
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 4 cost: 2800
-simulating 5
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 5 cost: 2800
-simulating 6
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 6 cost: 2800
-[   2.4050]RECEIVE-4-2
-Elevator 2: advice MOVE
-Elevator 2: advice MOVE
-Elevator 2: advice REVERSE
-Elevator 2: advice OPEN
-Elevator 2: advice MOVE
-Elevator 2: advice MOVE
-Elevator 2: advice MOVE
-Elevator 2: advice OPEN
-Elevator 2: advice WAIT
-Elevator 2: advice REVERSE
-Elevator 2: advice MOVE
-Elevator 2: advice MOVE
-Elevator 2: advice REVERSE
-Elevator 2: advice OPEN
-Elevator 2: advice MOVE
-Elevator 2: advice MOVE
-Elevator 2: advice MOVE
-Elevator 2: advice OPEN
-Elevator 2: advice WAIT
-Elevator 2: advice MOVE
-[   2.4050]ARRIVE-F2-2
-Elevator 2: advice MOVE
-Elevator 2: advice REVERSE
-Elevator 2: advice OPEN
-Elevator 2: advice MOVE
-Elevator 2: advice MOVE
-Elevator 2: advice MOVE
-Elevator 2: advice OPEN
-Elevator 2: advice WAIT
-Elevator 2: advice REVERSE
-Elevator 2: advice MOVE
-Elevator 2: advice REVERSE
-Elevator 2: advice OPEN
-Elevator 2: advice MOVE
-Elevator 2: advice MOVE
-Elevator 2: advice MOVE
-Elevator 2: advice OPEN
-Elevator 2: advice WAIT
-Elevator 2: advice MOVE
-[   2.6120]ARRIVE-F1-1
-[   2.8120]ARRIVE-F3-2
-Elevator 2: advice REVERSE
-Elevator 2: advice OPEN
-[   2.8120]OPEN-F3-2
-[   2.8120]IN-4-F3-2
-[   2.9230]ARRIVE-B1-1
-[   3.2190]CLOSE-F3-2
-Elevator 2: advice MOVE
-[   3.2340]ARRIVE-B2-1
-[   3.2340]OPEN-B2-1
-[   3.2340]OUT-F-417-B2-1
-cloning 1
-cloning 2
-cloning 3
-cloning 4
-cloning 5
-cloning 6
-simulating 1
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 1 cost: 4000
-simulating 2
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 2 cost: 6000
-simulating 3
-Thread-3: advice REVERSE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 3 cost: 4800
-simulating 4
-Thread-3: advice REVERSE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 4 cost: 4800
-simulating 5
-Thread-3: advice REVERSE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 5 cost: 4800
-simulating 6
-Thread-3: advice REVERSE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice MOVE
-Thread-3: advice REVERSE
-Thread-3: advice OPEN
-Thread-3: advice WAIT
-elevator: 6 cost: 4800
-[   3.2370]RECEIVE-417-1
-[   3.6250]ARRIVE-F2-2
-Elevator 2: advice MOVE
-[   4.0260]ARRIVE-F1-2
-Elevator 2: advice MOVE
-[   4.2340]CLOSE-B2-1
-[   4.2340]SCHE-END-1
-Elevator 1: advice REVERSE
-Elevator 1: advice OPEN
-[   4.2340]OPEN-B2-1
-[   4.2340]IN-417-B2-1
-[   4.4260]ARRIVE-B1-2
-Elevator 2: advice OPEN
-[   4.4260]OPEN-B1-2
-[   4.4260]OUT-S-4-B1-2
-[   4.6380]CLOSE-B2-1
-Elevator 1: advice MOVE
-[   4.8400]CLOSE-B1-2
-Elevator 2: advice WAIT
-[   5.0420]ARRIVE-B1-1
-Elevator 1: advice MOVE
-[   5.4500]ARRIVE-F1-1
-Elevator 1: advice MOVE
-[   5.8550]ARRIVE-F2-1
-Elevator 1: advice MOVE
-[   6.2600]ARRIVE-F3-1
-Elevator 1: advice MOVE
-[   6.6670]ARRIVE-F4-1
-Elevator 1: advice MOVE
-[   7.0740]ARRIVE-F5-1
-Elevator 1: advice MOVE
-[   7.4790]ARRIVE-F6-1
-Elevator 1: advice MOVE
-[   7.8870]ARRIVE-F7-1
-Elevator 1: advice REVERSE
-Elevator 1: advice OPEN
-[   7.8870]OPEN-F7-1
-[   7.8890]OUT-S-417-F7-1
-[   8.2910]CLOSE-F7-1
+[   1.2200]RECEIVE-217-1
+[   1.2250]RECEIVE-200-1
+[   1.2270]RECEIVE-201-1
+[   1.2280]RECEIVE-202-1
+[   1.2290]RECEIVE-203-1
+[   1.2310]RECEIVE-204-1
+[   1.2320]RECEIVE-303-2
+[   1.2330]RECEIVE-300-2
+[   1.2340]RECEIVE-301-2
+[   1.2350]RECEIVE-302-2
+[   1.6290]ARRIVE-F2-1
+[   1.6300]OPEN-F2-1
+[   1.6310]IN-203-F2-1
+[   1.6320]IN-204-F2-1
+[   1.6320]IN-200-F2-1
+[   1.6330]IN-202-F2-1
+[   1.6330]IN-201-F2-1
+[   1.6340]IN-217-F2-1
+[   1.6380]ARRIVE-F2-2
+[   2.0330]CLOSE-F2-1
+[   2.0430]ARRIVE-F3-2
+[   2.0430]OPEN-F3-2
+[   2.0430]IN-303-F3-2
+[   2.0430]IN-302-F3-2
+[   2.0440]IN-301-F3-2
+[   2.0440]IN-300-F3-2
+[   2.4380]ARRIVE-F3-1
+[   2.4480]CLOSE-F3-2
+[   2.8440]ARRIVE-F4-1
+[   2.8530]ARRIVE-F4-2
+[   3.0130]SCHE-ACCEPT-1-0.2-B2
+[   3.2490]ARRIVE-F5-1
+[   3.2500]SCHE-BEGIN-1
+[   3.2590]ARRIVE-F5-2
+[   3.4540]ARRIVE-F4-1
+[   3.6590]ARRIVE-F3-1
+[   3.6660]ARRIVE-F6-2
+[   3.6670]OPEN-F6-2
+[   3.6670]OUT-S-303-F6-2
+[   3.6670]OUT-S-302-F6-2
+[   3.6680]OUT-S-301-F6-2
+[   3.6680]OUT-S-300-F6-2
+[   3.8630]ARRIVE-F2-1
+[   4.0680]ARRIVE-F1-1
+[   4.0730]CLOSE-F6-2
+[   4.2730]ARRIVE-B1-1
+[   4.4760]ARRIVE-B2-1
+[   4.4770]OPEN-B2-1
+[   4.4770]OUT-F-203-B2-1
+[   4.4780]OUT-F-204-B2-1
+[   4.4780]OUT-F-200-B2-1
+[   4.4780]OUT-F-202-B2-1
+[   4.4790]OUT-F-201-B2-1
+[   4.4790]OUT-F-217-B2-1
+[   4.4800]RECEIVE-203-3
+[   4.4810]RECEIVE-204-3
+[   4.4820]RECEIVE-201-3
+[   4.4830]RECEIVE-202-3
+[   4.4840]RECEIVE-200-3
+[   4.4850]RECEIVE-217-3
+[   4.8860]ARRIVE-B1-3
+[   5.2920]ARRIVE-B2-3
+[   5.2920]OPEN-B2-3
+[   5.2930]IN-203-B2-3
+[   5.2930]IN-204-B2-3
+[   5.2940]IN-200-B2-3
+[   5.2940]IN-202-B2-3
+[   5.2940]IN-201-B2-3
+[   5.2950]IN-217-B2-3
+[   5.4800]CLOSE-B2-1
+[   5.4800]SCHE-END-1
+[   5.6970]CLOSE-B2-3
+[   6.1030]ARRIVE-B1-3
+[   6.5060]ARRIVE-F1-3
+[   6.9080]ARRIVE-F2-3
+[   7.3130]ARRIVE-F3-3
+[   7.7180]ARRIVE-F4-3
+[   8.1230]ARRIVE-F5-3
+[   8.5280]ARRIVE-F6-3
+[   8.5290]OPEN-F6-3
+[   8.5290]OUT-S-203-F6-3
+[   8.5300]OUT-S-204-F6-3
+[   8.5300]OUT-S-200-F6-3
+[   8.5300]OUT-S-202-F6-3
+[   8.5310]OUT-S-201-F6-3
+[   8.5310]OUT-S-217-F6-3
+[   8.9340]CLOSE-F6-3
