@@ -89,9 +89,9 @@ public class Strategy {
     private boolean personOut(int curFloor,
         CopyOnWriteArrayList<Person> personInElevator) {
         if (Debug.getDebug()) {
-            boolean flag = !personInElevator.isEmpty();
-            System.out.println("personOut: " + flag);
-            return flag;
+//            boolean flag = !personInElevator.isEmpty();
+//            System.out.println("personOut: " + flag);
+//            return flag;
         }
         for (Person person : personInElevator) {
             if (person.getToFloor() == curFloor) {
@@ -135,8 +135,8 @@ public class Strategy {
             }
 
             if (Debug.getDebug()) {
-                System.out.println(Thread.currentThread().getName()
-                    + "same: " + sameSum + " revert: " + revertSum);
+//                System.out.println(Thread.currentThread().getName()
+//                    + "same: " + sameSum + " revert: " + revertSum);
             }
 
             // 处理当前楼层的请求

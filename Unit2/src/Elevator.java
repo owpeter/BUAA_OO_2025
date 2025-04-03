@@ -72,7 +72,7 @@ public class Elevator implements Runnable {
             Advice advice = strategy.getAdvice(curFloor, curPersonNums,
                 direction, personInElevator, false);
             status = advice;
-            System.out.println(Thread.currentThread().getName() + ": advice " + advice);
+//            System.out.println(Thread.currentThread().getName() + ": advice " + advice);
             if (advice == Advice.WAIT) {
                 requestTable.waitRequest(mainTable);
             } else if (advice == Advice.MOVE) {
@@ -146,6 +146,7 @@ public class Elevator implements Runnable {
         }
         ret += scheTime;
         simulateScheOpenAndClose();
+        requestTable.resetSche();
         return ret;
     }
 
@@ -170,9 +171,10 @@ public class Elevator implements Runnable {
     }
 
     private void openAndClose(int time) {
+        setLastTime();
         TimableOutput.println(String.format(
             "OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
-        setLastTime();
+
         goOut();
         goIn();
         requestTable.moveToMainTable(curFloor, mainTable, false);
@@ -183,9 +185,10 @@ public class Elevator implements Runnable {
     }
 
     private void scheOpenAndClose(int time) {
+        setLastTime();
         TimableOutput.println(String.format(
                 "OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
-        setLastTime();
+
         goOut();
         requestTable.scheMoveToMainTable(mainTable, false);
         trySleep(time);
@@ -220,7 +223,7 @@ public class Elevator implements Runnable {
         personInElevator.clear();
 
         if (Debug.getDebug()) {
-            System.out.println("In curPersonNums: " + curPersonNums);
+//            System.out.println("In curPersonNums: " + curPersonNums);
         }
     }
 
@@ -280,25 +283,31 @@ public class Elevator implements Runnable {
     }
 
     public long simulate(long startTime) {
-        System.out.println(this);
+        if (Debug.getDebug()){
+            System.out.println(this);
+        }
 //        System.out.println(requestTable.getRequestNums());
         long timeStamp = startTime;
         while(true) {
             Advice advice = strategy.getAdvice(curFloor, curPersonNums,
                     direction, personInElevator, true);
-
+            if (Debug.getDebug()){
                 System.out.println(Thread.currentThread().getName() + ": advice " + advice);
+            }
+
             if (advice == Advice.SCHE) {
-                System.out.println("-----------simulate sche-----------");
-                //TODO: unfinished
-//                int toFloor = FloorConverter.convertFloorToNumber(requestTable.getSche().getToFloor());
-//                requestTable.resetSche();
+                timeStamp += simulateSchedule();
+                if (Debug.getDebug()){
+                    System.out.println("-----------simulate sche-----------");
+                    System.out.println(this);
+                    System.out.println("-----------simulate sche end-----------");
+                }
             } else if (advice == Advice.MOVE) {
                 simulateMove();
-                timeStamp += 400;
+                timeStamp += speed;
             } else if (advice == Advice.OPEN) {
                 simulateOpenAndClose(timeStamp);
-                timeStamp += 400;
+                timeStamp += speed;
             } else if (advice == Advice.REVERSE) {
                 direction = -direction;
             } else if (advice == Advice.WAIT) {
@@ -319,6 +328,6 @@ public class Elevator implements Runnable {
 
     @Override
     public String toString() {
-        return "Elevator " + id + ", curF: " + curFloor + ", dir: " + direction + ", " + personInElevator.toString() + "hasSche: " + requestTable.hasSche();
+        return "Elevator " + id + ", curF: " + FloorConverter.convertNumberToFloor(curFloor) + ", dir: " + direction + ", " + personInElevator.toString() + requestTable.getRequestNums();
     }
 }

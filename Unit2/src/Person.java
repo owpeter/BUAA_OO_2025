@@ -21,6 +21,20 @@ public class Person extends Request implements Comparable {
         this.inTime = System.currentTimeMillis();
     }
 
+    public Person(int id, int fromFloor, int toFloor, int priority, int direction, boolean transfer, long inTime) {
+        this.personId = id;
+        this.fromFloor = fromFloor;
+        this.toFloor = toFloor;
+        this.priority = priority;
+        this.direction = direction;
+        this.transfer = transfer;
+        this.inTime = inTime;
+    }
+
+    public Person clone() {
+        return new Person(this.personId, this.fromFloor, this.toFloor, this.priority, this.direction, this.transfer, this.inTime);
+    }
+
     public int getToFloor() {
         return toFloor;
     }
@@ -65,6 +79,14 @@ public class Person extends Request implements Comparable {
     public int compareTo(Object o) {
         Person person = (Person) o;
         return Integer.compare(person.priority, this.priority);
+    }
+
+    public String toString() {
+        return "Person{" +
+                "fromFloor=" + fromFloor +
+                ", toFloor=" + toFloor +
+                ", personId=" + personId +
+                '}';
     }
 }
 

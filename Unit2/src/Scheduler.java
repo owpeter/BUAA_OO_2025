@@ -2,6 +2,7 @@ import com.oocourse.elevator2.PersonRequest;
 import com.oocourse.elevator2.Request;
 import com.oocourse.elevator2.ScheRequest;
 import com.oocourse.elevator2.TimableOutput;
+import tools.Debug;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +63,9 @@ public class Scheduler implements Runnable {
     }
 
     private int properElevatorId(Person person) {
-//        System.out.println("personId: " + person.getPersonId());
+        if (Debug.getDebug()){
+            System.out.println("simulating: " + person);
+        }
         long minWaitTime = Integer.MAX_VALUE;
         int minElevatorId = 0;
         ArrayList<Elevator> clonedElevators = new ArrayList<>();
@@ -72,32 +75,40 @@ public class Scheduler implements Runnable {
                     synchronized (elevators.get(3)) {
                         synchronized (elevators.get(4)) {
                             synchronized (elevators.get(5)) {
-                                TimableOutput.println("cloning....");
+                                if (Debug.getDebug()) {
+                                    TimableOutput.println("cloning....");
+                                }
                                 for (Elevator elevator : elevators) {
-                                    System.out.println("cloning " + elevator.getId());
+                                    if (Debug.getDebug()){
+                                        System.out.println("cloning " + elevator.getId());
+                                    }
                                     clonedElevators.add(elevator.clone());
                                 }
+                                for (Elevator elevator : clonedElevators) {
+                                    if (Debug.getDebug()){
+                                        System.out.println("simulating " + elevator.getId());
+                                    }
+                                    elevator.addRequest(person.clone());
+                                    long cost = elevator.simulate(0);
+                                    if (Debug.getDebug()){
+                                        System.out.println("elevator: " + elevator.getId() + " cost: " + cost);
+                                    }
+                                    if (cost < minWaitTime) {
+                                        minWaitTime = (int) cost;
+                                        minElevatorId = elevator.getId();
+                                    }
+                                }
+                                if (minElevatorId == 0) {
+                                    throw new RuntimeException("minElevatorId == 0");
+                                }
+//        System.out.println("----------------");
+                                return minElevatorId;
                             }
                         }
                     }
                 }
             }
         }
-        for (Elevator elevator : clonedElevators) {
-            System.out.println("simulating " + elevator.getId());
-            elevator.addRequest(person);
-            long cost = elevator.simulate(0);
-            System.out.println("elevator: " + elevator.getId() + " cost: " + cost);
-            if (cost < minWaitTime) {
-                minWaitTime = (int) cost;
-                minElevatorId = elevator.getId();
-            }
-        }
-        if (minElevatorId == 0) {
-            throw new RuntimeException("minElevatorId == 0");
-        }
-//        System.out.println("----------------");
-        return minElevatorId;
     }
 
     public void addElevator(Elevator elevator) {

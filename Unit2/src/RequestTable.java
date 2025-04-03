@@ -40,11 +40,6 @@ public class RequestTable {
     }
 
     public synchronized PriorityQueue<Person> getFloorRequests(int floorNum, int direction) {
-        if (Debug.getDebug()) {
-            //System.out.println("get floor " + floorNum +
-                //"size: " + requests.get(floorNum).get(direction).size());
-        }
-
         return requests.get(floorNum).get(direction);
     }
 
