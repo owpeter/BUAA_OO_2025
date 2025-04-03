@@ -72,6 +72,7 @@ public class Scheduler implements Runnable {
                     synchronized (elevators.get(3)) {
                         synchronized (elevators.get(4)) {
                             synchronized (elevators.get(5)) {
+                                TimableOutput.println("cloning....");
                                 for (Elevator elevator : elevators) {
                                     System.out.println("cloning " + elevator.getId());
                                     clonedElevators.add(elevator.clone());

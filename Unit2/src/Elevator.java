@@ -131,6 +131,24 @@ public class Elevator implements Runnable {
         TimableOutput.println(String.format("SCHE-END-%d", id));
     }
 
+    private long simulateSchedule() {
+        long ret = 0;
+        ScheRequest scheRequest = requestTable.getSche();
+        int toFloor = FloorConverter.convertFloorToNumber(scheRequest.getToFloor());
+        if (curFloor < toFloor) {
+            direction = 1;
+        } else {
+            direction = -1;
+        }
+        while (curFloor != toFloor) {
+            ret += (int) Math.round(scheRequest.getSpeed() * 1000);
+            simulateMove();
+        }
+        ret += scheTime;
+        simulateScheOpenAndClose();
+        return ret;
+    }
+
     private void move() {
         if (direction == 1) {
             curFloor++;
@@ -157,7 +175,7 @@ public class Elevator implements Runnable {
         setLastTime();
         goOut();
         goIn();
-        requestTable.moveToMainTable(curFloor, mainTable);
+        requestTable.moveToMainTable(curFloor, mainTable, false);
         trySleep(time);
         TimableOutput.println(String.format(
             "CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
@@ -169,7 +187,7 @@ public class Elevator implements Runnable {
                 "OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
         setLastTime();
         goOut();
-        requestTable.scheMoveToMainTable(mainTable);
+        requestTable.scheMoveToMainTable(mainTable, false);
         trySleep(time);
         TimableOutput.println(String.format(
                 "CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
@@ -179,7 +197,11 @@ public class Elevator implements Runnable {
     private void simulateOpenAndClose(long timeStamp) {
         simulateGoOut(timeStamp);
         simulateGoIn();
-        requestTable.simulateMoveToMainTable(curFloor);
+        requestTable.moveToMainTable(curFloor, mainTable, true);
+    }
+
+    private void simulateScheOpenAndClose() {
+        personInElevator.clear();
     }
 
     private void goOut() {
@@ -258,25 +280,27 @@ public class Elevator implements Runnable {
     }
 
     public long simulate(long startTime) {
+        System.out.println(this);
 //        System.out.println(requestTable.getRequestNums());
         long timeStamp = startTime;
         while(true) {
             Advice advice = strategy.getAdvice(curFloor, curPersonNums,
                     direction, personInElevator, true);
-//            if (Debug.getDebug()) {
+
                 System.out.println(Thread.currentThread().getName() + ": advice " + advice);
-//            }
-            if (advice == Advice.MOVE) {
+            if (advice == Advice.SCHE) {
+                System.out.println("-----------simulate sche-----------");
+                //TODO: unfinished
+//                int toFloor = FloorConverter.convertFloorToNumber(requestTable.getSche().getToFloor());
+//                requestTable.resetSche();
+            } else if (advice == Advice.MOVE) {
                 simulateMove();
                 timeStamp += 400;
-//                System.out.println("simulate move " + FloorConverter.convertNumberToFloor(curFloor));
             } else if (advice == Advice.OPEN) {
                 simulateOpenAndClose(timeStamp);
                 timeStamp += 400;
-//                System.out.println("simulate open " + FloorConverter.convertNumberToFloor(curFloor));
             } else if (advice == Advice.REVERSE) {
                 direction = -direction;
-//                System.out.println("simulate reverse at " + FloorConverter.convertNumberToFloor(curFloor));
             } else if (advice == Advice.WAIT) {
                 break;
             }
@@ -291,5 +315,10 @@ public class Elevator implements Runnable {
 
     public void addRequest(Person person) {
         requestTable.addPerson(person);
+    }
+
+    @Override
+    public String toString() {
+        return "Elevator " + id + ", curF: " + curFloor + ", dir: " + direction + ", " + personInElevator.toString() + "hasSche: " + requestTable.hasSche();
     }
 }

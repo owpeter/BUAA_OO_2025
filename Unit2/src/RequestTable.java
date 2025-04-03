@@ -33,6 +33,7 @@ public class RequestTable {
             requestTable.requests.get(i).get(1).addAll(this.requests.get(i).get(1));
             requestTable.requests.get(i).get(-1).addAll(this.requests.get(i).get(-1));
         }
+        requestTable.scheRequest = this.scheRequest;
         requestTable.requestNums = this.requestNums;
         requestTable.endFlag = this.endFlag;
         return requestTable;
@@ -111,7 +112,7 @@ public class RequestTable {
         return requestNums;
     }
 
-    public synchronized void moveToMainTable(int curFloor, MainTable mainTable) {
+    public synchronized void moveToMainTable(int curFloor, MainTable mainTable, boolean simulate) {
         // for normal, clean transfer requests
         for (int direction : new int[]{1, -1}) {
             PriorityQueue<Person> floorRequests = requests.get(curFloor).get(direction);
@@ -120,7 +121,9 @@ public class RequestTable {
                 Person person = iterator.next();
                 if (person.getTransfer()) {
                     person.setTransfer(false);
-                    mainTable.addRequest(person);
+                    if (!simulate) {
+                        mainTable.addRequest(person);
+                    }
                     iterator.remove();
                     requestNums--;
                 }
@@ -128,22 +131,7 @@ public class RequestTable {
         }
     }
 
-    public synchronized void simulateMoveToMainTable(int curFloor) {
-        for (int direction : new int[]{1, -1}) {
-            PriorityQueue<Person> floorRequests = requests.get(curFloor).get(direction);
-            Iterator<Person> iterator = floorRequests.iterator();
-            while (iterator.hasNext()) {
-                Person person = iterator.next();
-                if (person.getTransfer()) {
-                    person.setTransfer(false);
-                    iterator.remove();
-                    requestNums--;
-                }
-            }
-        }
-    }
-
-    public synchronized void scheMoveToMainTable(MainTable mainTable) {
+    public synchronized void scheMoveToMainTable(MainTable mainTable, boolean simulate) {
         // for  SCHE, clean all requests
         for (int floor = 1; floor <= 11; floor++) {
             for (int direction : new int[]{1, -1}) {
@@ -151,7 +139,9 @@ public class RequestTable {
                 while (!floorRequests.isEmpty()) {
                     Person person = floorRequests.poll();
                     person.setTransfer(false);
-                    mainTable.addRequest(person);
+                    if (!simulate) {
+                        mainTable.addRequest(person);
+                    }
                     requestNums--;
                 }
             }
