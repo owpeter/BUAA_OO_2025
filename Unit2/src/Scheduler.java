@@ -29,10 +29,8 @@ public class Scheduler implements Runnable {
     public void run() {
 
         while (true) {
-//            System.out.println("scheduler is run");
-//            System.out.println("is empty: " + mainTable.isEmpty() + " is end: " + mainTable.isEnd() + " allRequestTableEmpty: " + allRequestTableEmpty());
-            if (mainTable.isEmpty() && mainTable.isEnd() && allWaiting() && allRequestTableEmpty()) {
-//                System.out.println("scheduler is killing");
+            if (mainTable.isEmpty() && mainTable.isEnd() &&
+                allWaiting() && allRequestTableEmpty()) {
                 for (RequestTable requestTable : requestTables.values()) {
                     requestTable.setEnd();
                 }
@@ -46,7 +44,6 @@ public class Scheduler implements Runnable {
                 PersonRequest personRequest = (PersonRequest) request;
                 Person person = new Person(personRequest);
                 int elevatorId = properElevatorId(person);
-//            System.out.println("elevator id: " + elevatorId + "person: " + person.getPersonId());
                 requestTables.get(elevatorId).addPersonToBuffer(person);
             } else if (request instanceof Person) {
                 Person person = (Person) request;
@@ -57,17 +54,16 @@ public class Scheduler implements Runnable {
                 requestTables.get(scheRequest.getElevatorId()).addSche(scheRequest);
             }
         }
-//        throw new RuntimeException("scheduler is dead");
+        // throw new RuntimeException("scheduler is dead");
     }
 
     private int properElevatorId(Person person) {
-        if (Debug.getDebug()){
+        if (Debug.getDebug()) {
             System.out.println("simulating: " + person);
         }
         long minWaitTime = Integer.MAX_VALUE;
         int minElevatorId = 0;
         ArrayList<Elevator> clonedElevators = new ArrayList<>();
-        // TODO: for循环拿6把锁
         synchronized (elevators.get(0)) {
             synchronized (elevators.get(1)) {
                 synchronized (elevators.get(2)) {
@@ -78,19 +74,17 @@ public class Scheduler implements Runnable {
                                     TimableOutput.println("cloning....");
                                 }
                                 for (Elevator elevator : elevators) {
-                                    if (Debug.getDebug()){
-                                        System.out.println("cloning " + elevator.getId());
-                                    }
                                     clonedElevators.add(elevator.clone());
                                 }
                                 for (Elevator elevator : clonedElevators) {
-                                    if (Debug.getDebug()){
+                                    if (Debug.getDebug()) {
                                         System.out.println("simulating " + elevator.getId());
                                     }
                                     elevator.addRequest(person.clone());
                                     long cost = elevator.simulate(0);
-                                    if (Debug.getDebug()){
-                                        System.out.println("elevator: " + elevator.getId() + " cost: " + cost);
+                                    if (Debug.getDebug()) {
+                                        System.out.println("elevator: " + elevator.getId() +
+                                            " cost: " + cost);
                                     }
                                     if (cost < minWaitTime) {
                                         minWaitTime = (int) cost;
@@ -100,7 +94,10 @@ public class Scheduler implements Runnable {
                                 if (minElevatorId == 0) {
                                     throw new RuntimeException("minElevatorId == 0");
                                 }
-//                              System.out.println("----------------");
+                                if (Debug.getDebug()) {
+                                    System.out.println("schedule elevator "
+                                        + minElevatorId + " to receive this person");
+                                }
                                 return minElevatorId;
                             }
                         }

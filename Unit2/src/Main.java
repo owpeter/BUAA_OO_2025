@@ -9,7 +9,10 @@ public class Main {
         Thread schedulerThread = new Thread(scheduler);
 
         for (int i = 1; i <= 6; i++) {
-            Elevator elevator = new Elevator(i, inputHandler.getMainTable(), scheduler.getRequestTables().get(i));
+            Elevator elevator = new Elevator(
+                i,
+                inputHandler.getMainTable(),
+                scheduler.getRequestTables().get(i));
             scheduler.addElevator(elevator);
             Thread elevatorThread = new Thread(elevator);
             elevatorThread.setName("Elevator " + i);
@@ -19,6 +22,6 @@ public class Main {
         schedulerThread.start();
 
         inputThread.start();
-//        throw new RuntimeException("main end");
+        // throw new RuntimeException("main end");
     }
 }

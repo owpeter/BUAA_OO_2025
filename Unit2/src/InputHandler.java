@@ -1,8 +1,5 @@
 import com.oocourse.elevator2.ElevatorInput;
-import com.oocourse.elevator2.PersonRequest;
 import com.oocourse.elevator2.Request;
-import com.oocourse.elevator2.ScheRequest;
-
 import java.io.IOException;
 
 public class InputHandler implements Runnable {
@@ -29,7 +26,7 @@ public class InputHandler implements Runnable {
                 }
             }
             input.close();
-//            throw new RuntimeException("input is dead");
+            // throw new RuntimeException("input is dead");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -21,7 +21,8 @@ public class Person extends Request implements Comparable {
         this.inTime = System.currentTimeMillis();
     }
 
-    public Person(int id, int fromFloor, int toFloor, int priority, int direction, boolean transfer, long inTime) {
+    public Person(int id, int fromFloor, int toFloor, int priority,
+        int direction, boolean transfer, long inTime) {
         this.personId = id;
         this.fromFloor = fromFloor;
         this.toFloor = toFloor;
@@ -32,7 +33,8 @@ public class Person extends Request implements Comparable {
     }
 
     public Person clone() {
-        return new Person(this.personId, this.fromFloor, this.toFloor, this.priority, this.direction, this.transfer, this.inTime);
+        return new Person(this.personId, this.fromFloor, this.toFloor,
+        this.priority, this.direction, this.transfer, this.inTime);
     }
 
     public int getToFloor() {

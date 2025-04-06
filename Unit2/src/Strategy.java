@@ -1,19 +1,15 @@
-import tools.Debug;
-
-import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Strategy {
     private final RequestTable requestTable;
 
-
     public Strategy(RequestTable requestTable) {
         this.requestTable = requestTable;
     }
 
     public Advice getAdvice(int curFloor, int curPersonNums, int direction,
-                            CopyOnWriteArrayList<Person> personInElevator, boolean simulate) {
+        CopyOnWriteArrayList<Person> personInElevator, boolean simulate) {
         synchronized (requestTable) {
             if (requestTable.hasSche()) {
                 return Advice.SCHE;
@@ -38,34 +34,7 @@ public class Strategy {
                     }
                 }
                 // 请求队列不为空
-//                                if (reqAhead(curFloor, direction)) {
-//                                    return Advice.MOVE;
-//                                } else {
-//                                    return Advice.REVERSE;
-//                                }
-                // -------------------------------------------------------------
-//                if (reqAhead(curFloor, direction)) {
-//                    if (Debug.getDebug()) {
-//                        System.out.println(Thread.currentThread().getName() +
-//                                " reverse by reqAhead");
-//                    }
-//                    if (reverseByWeight(curFloor, direction)) {
-//                        return Advice.REVERSE;
-//                    }
-//                    return Advice.MOVE;
-//                } else {
-//                    if (Debug.getDebug()) {
-//                        System.out.println(Thread.currentThread().getName() + " go ahead");
-//                    }
-//                    return Advice.REVERSE;
-//                }
-
                 if (simulate) {
-//                    System.out.println(Thread.currentThread().getName());
-//                    if (reverseByCantGo(curFloor, direction)) {
-//                        return Advice.REVERSE;
-//                    }
-//                    return Advice.MOVE;
                     if (reqAhead(curFloor, direction)) {
                         return Advice.MOVE;
                     } else {
@@ -76,7 +45,8 @@ public class Strategy {
                     if (!reqAhead(curFloor, direction)) {
                         return Advice.REVERSE;
                     }
-                    if (reverseBySimulate(curFloor, curPersonNums, direction, requestTable, personInElevator)) {
+                    if (reverseBySimulate(curFloor, curPersonNums,
+                        direction, requestTable, personInElevator)) {
                         return Advice.REVERSE;
                     } else {
                         return Advice.MOVE;
@@ -88,11 +58,6 @@ public class Strategy {
 
     private boolean personOut(int curFloor,
         CopyOnWriteArrayList<Person> personInElevator) {
-        if (Debug.getDebug()) {
-//            boolean flag = !personInElevator.isEmpty();
-//            System.out.println("personOut: " + flag);
-//            return flag;
-        }
         for (Person person : personInElevator) {
             if (person.getToFloor() == curFloor) {
                 return true;
@@ -117,50 +82,6 @@ public class Strategy {
                 }
             }
             return false;
-        }
-    }
-
-    public boolean reverseByWeight(int curFloor, int direction) {
-        double gamma = 15;
-        synchronized (requestTable) {
-            double sameSum = 0;
-            double revertSum = 0;
-
-            if (direction > 0) {
-                revertSum += calculateSum(curFloor - 1, 0, direction, true, gamma, curFloor);
-                sameSum += calculateSum(curFloor + 1, 12, direction, false, gamma, curFloor);
-            } else {
-                sameSum += calculateSum(curFloor - 1, 0, direction, false, gamma, curFloor);
-                revertSum += calculateSum(curFloor + 1, 12, direction, true, gamma, curFloor);
-            }
-
-            if (Debug.getDebug()) {
-//                System.out.println(Thread.currentThread().getName()
-//                    + "same: " + sameSum + " revert: " + revertSum);
-            }
-
-            // 处理当前楼层的请求
-            PriorityQueue<Person> sameDirectionRequests
-                = requestTable.getFloorRequests(curFloor, direction);
-            if (sameDirectionRequests != null && !sameDirectionRequests.isEmpty()) {
-                for (Person person : sameDirectionRequests) {
-                    sameSum += person.getWaitTime() + person.getPriority();
-                }
-            }
-            PriorityQueue<Person> revertDirectionRequests
-                = requestTable.getFloorRequests(curFloor, -direction);
-            if (revertDirectionRequests != null && !revertDirectionRequests.isEmpty()) {
-                for (Person person : revertDirectionRequests) {
-                    revertSum += person.getWaitTime() + person.getPriority() - gamma;
-                }
-            }
-
-            if (false) {
-                System.out.println(Thread.currentThread().getName()
-                    + "same: " + sameSum + " revert: " + revertSum);
-            }
-
-            return revertSum > sameSum + 100;
         }
     }
 
@@ -197,16 +118,22 @@ public class Strategy {
         return ((curFloor == 11 && direction == 1) || (curFloor == 1 && direction == -1));
     }
 
-    public boolean reverseBySimulate(int curFloor, int curPersonNums, int direction, RequestTable requestTable, CopyOnWriteArrayList<Person> personInElevator) {
+    public boolean reverseBySimulate(int curFloor, int curPersonNums, int direction,
+        RequestTable requestTable, CopyOnWriteArrayList<Person> personInElevator) {
+        CopyOnWriteArrayList<Person> personInElevatorCopy1 = new CopyOnWriteArrayList<>();
+        for (Person person : personInElevator) {
+            personInElevatorCopy1.add(person.clone());
+        }
         Elevator same = new Elevator(curFloor, curPersonNums, direction, requestTable.clone(),
-                (CopyOnWriteArrayList<Person>) personInElevator.clone());
+            personInElevatorCopy1);
+        CopyOnWriteArrayList<Person> personInElevatorCopy2 = new CopyOnWriteArrayList<>();
+        for (Person person : personInElevator) {
+            personInElevatorCopy2.add(person.clone());
+        }
         Elevator revert = new Elevator(curFloor, curPersonNums, -direction, requestTable.clone(),
-                (CopyOnWriteArrayList<Person>) personInElevator.clone());
-        long sameTime =same.simulate(0) + same.getSimulateSumTime();
+            personInElevatorCopy2);
+        long sameTime = same.simulate(0) + same.getSimulateSumTime();
         long revTime = revert.simulate(0) + revert.getSimulateSumTime();
-//        System.out.println("sameTime: " + sameTime + " revTime: " + revTime);
-//        System.out.println(requestTable.getRequestNums());
         return sameTime > revTime;
     }
-
 }

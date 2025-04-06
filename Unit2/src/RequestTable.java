@@ -3,12 +3,16 @@ import com.oocourse.elevator2.ScheRequest;
 import com.oocourse.elevator2.TimableOutput;
 import tools.Debug;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.PriorityQueue;
+import java.util.Map;
 
 public class RequestTable {
     private boolean endFlag;
     private int requestNums;
-    private ArrayList<Person> buffer = new ArrayList<>(); //TODO: buffer还需要复制吗？？？
+    private ArrayList<Person> buffer = new ArrayList<>();
     private HashMap<Integer, Map<Integer,PriorityQueue<Person>>> requests = new HashMap<>();
     // floor -> (direction, persons)
     private ScheRequest scheRequest;
@@ -28,8 +32,19 @@ public class RequestTable {
     public synchronized RequestTable clone() {
         RequestTable requestTable = new RequestTable();
         for (int i = 1; i <= 11; i++) {
-            requestTable.requests.get(i).get(1).addAll(this.requests.get(i).get(1));
-            requestTable.requests.get(i).get(-1).addAll(this.requests.get(i).get(-1));
+            PriorityQueue<Person> queue1 = this.requests.get(i).get(1);
+            Iterator<Person> iterator1 = queue1.iterator();
+            while (iterator1.hasNext()) {
+                requestTable.requests.get(i).get(1).add(iterator1.next().clone());
+            }
+            PriorityQueue<Person> queue2 = this.requests.get(i).get(-1);
+            Iterator<Person> iterator2 = queue2.iterator();
+            while (iterator2.hasNext()) {
+                requestTable.requests.get(i).get(-1).add(iterator2.next().clone());
+            }
+        }
+        for (Person person : buffer) {
+            requestTable.buffer.add(person.clone());
         }
         requestTable.scheRequest = this.scheRequest;
         requestTable.requestNums = this.requestNums;
@@ -110,7 +125,6 @@ public class RequestTable {
 
     public synchronized void waitRequest(MainTable mainTable) {
         try {
-//            System.out.println(Thread.currentThread().getName() + " is waiting");
             mainTable.checkKill();
             this.wait();
         } catch (InterruptedException e) {
@@ -141,20 +155,40 @@ public class RequestTable {
         }
     }
 
-    public synchronized void scheMoveToMainTable(MainTable mainTable, boolean simulate) {
+    public synchronized void scheMoveToMainTable(MainTable mainTable) {
+        if (Debug.getDebug()) {
+            System.out.println("-----------scheMoveToMainTable----------------");
+        }
         // for  SCHE, clean all requests
         for (int floor = 1; floor <= 11; floor++) {
             for (int direction : new int[]{1, -1}) {
                 PriorityQueue<Person> floorRequests = requests.get(floor).get(direction);
                 while (!floorRequests.isEmpty()) {
                     Person person = floorRequests.poll();
-                    person.setTransfer(false);
-                    if (!simulate) {
-                        mainTable.addRequest(person);
+                    if (Debug.getDebug()) {
+                        System.out.println(person);
                     }
+                    person.setTransfer(false);
+                    mainTable.addRequest(person);
                     requestNums--;
                 }
             }
         }
+    }
+
+    public synchronized String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 1; i <= 11; i++) {
+            for (int direction : new int[]{1, -1}) {
+                if (requests.get(i).get(direction).isEmpty()) {
+                    continue;
+                }
+                sb.append(requests.get(i).get(direction).toString());
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }

@@ -1,42 +1,149 @@
 import sys
 import argparse
-import io # 导入 io 模块，用于类型提示 (可选但推荐)
+import io # For type hinting
+from collections import defaultdict
+import re
 
-def classify_elevator_output(input_source: io.TextIOBase):
+# --- Updated Regular Expression for Timestamp ---
+# Matches:
+#   ^\[       Start with '['
+#   \s*       Optional leading whitespace
+#   (         Start capturing group 1 (the full number)
+#     \d+     One or more digits (integer part)
+#     (\.\d+)? Optional: a literal dot followed by one or more digits (fractional part) - captured in group 2
+#   )         End capturing group 1
+#   \s*       Optional trailing whitespace
+#   \]        Ending ']'
+#   (.*)      Capture the rest of the line as the event part (group 3)
+TIMESTAMP_PATTERN = re.compile(r'^\[\s*(\d+(\.\d+)?)\s*\](.*)')
+
+# --- Person ID Classification Function ---
+def classify_by_person(input_source: io.TextIOBase):
     """
-    从指定的输入源读取电梯日志，并按电梯ID分类和排序。
-    输出直接打印到当前的 sys.stdout (该流可能已被重定向到文件)。
+    从指定的输入源读取电梯日志，按 personID 分类和排序（按浮点数时间戳）。
+    结果直接打印到当前的 sys.stdout (可能已被重定向到文件)。
 
     Args:
-        input_source: 一个可迭代的文本IO对象，用于逐行读取输入
-                      (例如文件对象或 sys.stdin)。
+        input_source: 一个可迭代的文本IO对象，用于逐行读取输入。
     """
-    # 创建一个字典来存储不同电梯的输出
-    elevator_outputs = {}
-    line_number = 0 # 添加行号用于更清晰的警告
+    person_data = defaultdict(list)
+    line_number = 0
 
-    # 从指定的输入源读取数据
+    print("--- Person ID 输出分类结果 ---") # Header for the output file
+
     try:
         for line in input_source:
             line_number += 1
-            line = line.strip()  # 去除首尾的空白字符
+            line = line.strip()
             if not line:
                 continue
 
-            # 提取时间戳和事件描述
-            timestamp_end = line.find(']')
-            if timestamp_end == -1 or not line.startswith('['):
-                # 警告信息打印到 stderr，这样即使用户重定向了 stdout 也能看到
-                print(f"警告 (行 {line_number}): 跳过格式错误的行 (缺少时间戳 '[...]') - {line}", file=sys.stderr)
+            match = TIMESTAMP_PATTERN.match(line) # Use the updated pattern
+            if not match:
+                print(f"警告 (行 {line_number}): 跳过格式错误的行 (无法匹配时间戳格式 '[ time ]') - {line}", file=sys.stderr)
                 continue
 
-            timestamp_str = line[1:timestamp_end]
-            event_desc = line[timestamp_end+1:].strip()
+            # Group 1 contains the full number string (e.g., "11.5720", "10")
+            # Group 3 contains the event part after the timestamp
+            time_str = match.group(1)
+            event_part = match.group(3).strip() # Get event part and strip spaces
 
-            # 从事件描述中提取电梯ID
-            parts = event_desc.split('-')
-            if len(parts) < 1 or not parts[-1]:
-                print(f"警告 (行 {line_number}): 跳过格式错误的行 (无法提取电梯ID) - {line}", file=sys.stderr)
+            try:
+                # Convert timestamp string to float for accurate sorting
+                time_float = float(time_str)
+            except ValueError:
+                print(f"警告 (行 {line_number}): 跳过格式错误的行 (无效的时间数值 '{time_str}') - {line}", file=sys.stderr)
+                continue
+
+            parts = event_part.split('-')
+            person_id = None
+
+            # Determine personID based on event type
+            try:
+                event_type = parts[0]
+                if event_type == 'RECEIVE' and len(parts) >= 3:
+                    person_id = parts[1]
+                elif event_type == 'IN' and len(parts) >= 4:
+                    person_id = parts[1]
+                elif event_type == 'OUT' and len(parts) >= 5 and parts[1] in ('S', 'F'):
+                    person_id = parts[2]
+                # Add more rules here if needed for other person-related events
+            except IndexError:
+                 pass # Silently ignore lines without personID in this mode
+
+            # Store if person_id was found
+            if person_id is not None and person_id.strip(): # Check if ID is not empty
+                 person_id = person_id.strip()
+                 # Store the float time and original line
+                 person_data[person_id].append((time_float, line))
+            # else:
+                 # Pass silently for lines without personID
+                 pass
+
+    except Exception as e:
+        print(f"读取输入时发生错误 (大约在行 {line_number} 附近): {e}", file=sys.stderr)
+
+    # --- Sorting and Outputting Person Data ---
+    if not person_data:
+        print("未找到包含 Person ID 的有效数据。") # Writes to output file
+        return
+
+    # Sort person IDs (numerically if possible)
+    sorted_person_ids = []
+    try:
+        sorted_person_ids = sorted(person_data.keys(), key=int)
+    except ValueError:
+        print("提示：部分 Person ID 不是纯数字，将按字符串顺序排序。", file=sys.stderr)
+        sorted_person_ids = sorted(person_data.keys())
+
+    # Print sorted data
+    first_person = True
+    for pid in sorted_person_ids:
+        if not first_person:
+             print() # Add a blank line between persons in the output file
+        first_person = False
+
+        print(f"接下来要输出的内容为personID为{pid}的内容") # Writes to output file
+        records = person_data[pid]
+        # Sort by float timestamp (first element of tuple)
+        records.sort()
+        for _, original_line in records:
+            print(original_line) # Writes to output file
+
+# --- Elevator ID Classification Function ---
+def classify_by_elevator(input_source: io.TextIOBase):
+    """
+    从指定的输入源读取电梯日志，并按电梯ID分类和排序。
+    输出直接打印到当前的 sys.stdout (该流可能已被重定向到文件)。
+    注意：此模式内部不对每个电梯的行进行时间排序。
+
+    Args:
+        input_source: 一个可迭代的文本IO对象，用于逐行读取输入。
+    """
+    elevator_outputs = defaultdict(list)
+    line_number = 0
+
+    print("--- 电梯输出分类结果 ---") # Header for the output file
+
+    try:
+        for line in input_source:
+            line_number += 1
+            line = line.strip()
+            if not line:
+                continue
+
+            match = TIMESTAMP_PATTERN.match(line) # Use the updated pattern
+            if not match:
+                print(f"警告 (行 {line_number}): 跳过格式错误的行 (无法匹配时间戳格式 '[ time ]') - {line}", file=sys.stderr)
+                continue
+
+            # Group 3 contains the event part after the timestamp
+            event_part = match.group(3).strip() # Get event part
+
+            # Extract elevator ID (assuming it's the last part)
+            parts = event_part.split('-')
+            if not parts:
+                print(f"警告 (行 {line_number}): 跳过格式错误的行 (事件描述为空) - {line}", file=sys.stderr)
                 continue
 
             elevator_id = parts[-1].strip()
@@ -45,95 +152,103 @@ def classify_elevator_output(input_source: io.TextIOBase):
                  print(f"警告 (行 {line_number}): 跳过格式错误的行 (提取的电梯ID为空) - {line}", file=sys.stderr)
                  continue
 
-            if elevator_id not in elevator_outputs:
-                elevator_outputs[elevator_id] = []
-
+            # Store the original line associated with this elevator ID
             elevator_outputs[elevator_id].append(line)
 
     except Exception as e:
-        # 读取输入时的错误也打印到 stderr
         print(f"读取输入时发生错误 (大约在行 {line_number} 附近): {e}", file=sys.stderr)
-        # 根据需要决定是否在出错后继续处理已读取的数据
-        # return # 如果希望错误时完全不输出，取消注释此行
 
-    # --- 排序 ---
+    # --- Sorting and Outputting Elevator Data ---
+    if not elevator_outputs:
+        print("未找到有效的电梯输出数据。") # Writes to output file
+        return
+
+    # Sort elevator IDs (numerically if possible)
     elevator_ids = list(elevator_outputs.keys())
     try:
         sorted_elevator_ids = sorted(elevator_ids, key=int)
     except ValueError:
-        # 提示信息打印到 stderr
         print("提示：部分电梯ID不是纯数字，将按字符串顺序排序。", file=sys.stderr)
         sorted_elevator_ids = sorted(elevator_ids)
 
-    # --- 输出到当前的 sys.stdout (可能已被重定向到文件) ---
-    if not sorted_elevator_ids:
-        # “未找到数据”的消息也发送到 stdout (即文件)
-        print("未找到有效的电梯输出数据。")
-        return
-
-    print("--- 电梯输出分类结果 ---") # 这会写入文件
+    # Print sorted data
+    first_elevator = True
     for elevator_id in sorted_elevator_ids:
-        outputs = elevator_outputs[elevator_id]
-        print(f"电梯 {elevator_id} 的输出：") # 这会写入文件
-        for output in outputs:
-            print(output) # 这会写入文件
-        print() # 这会写入文件 (空行)
+        if not first_elevator:
+            print()
+        first_elevator = False
 
+        outputs = elevator_outputs[elevator_id]
+        # Reminder: Lines within each elevator are NOT sorted by time in this mode.
+        print(f"电梯 {elevator_id} 的输出：")
+        for output_line in outputs:
+            print(output_line)
+
+
+# --- Main Execution Block ---
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='对电梯日志进行分类和排序输出，并将结果写入 stdout.txt。')
+    parser = argparse.ArgumentParser(description='根据选择的模式（电梯ID或Person ID）对电梯日志进行分类和排序，并将结果写入 stdout.txt。')
     parser.add_argument('-f', '--file', type=str, help='指定要读取的输入文件名。如果省略，则从标准输入读取。')
+    parser.add_argument('--mode', choices=['elevator', 'person'], required=True,
+                        help='选择分类模式: "elevator" (按电梯ID) 或 "person" (按Person ID)。')
 
     args = parser.parse_args()
 
-    # 定义输出文件名
     output_filename = "stdout.txt"
-
-    # 保存原始的标准输出流
     original_stdout = sys.stdout
     output_file_stream = None
+    input_file_stream = None
 
     try:
-        # 打开（或创建）输出文件 'stdout.txt'，模式为 'w' (写入，覆盖)
         output_file_stream = open(output_filename, 'w', encoding='utf-8')
+        sys.stdout = output_file_stream # Redirect standard output
 
-        # --- 重定向标准输出 ---
-        sys.stdout = output_file_stream
-
-        # --- 处理输入并调用核心函数 ---
-        # 现在的 print() 调用（在 classify_elevator_output 内部，
-        # 且没有指定 file=sys.stderr）都会写入 output_file_stream
+        actual_input_source = None
         if args.file:
             try:
-                # 使用 'with' 确保输入文件正确关闭
-                with open(args.file, 'r', encoding='utf-8') as file_input:
-                    classify_elevator_output(file_input)
+                input_file_stream = open(args.file, 'r', encoding='utf-8')
+                actual_input_source = input_file_stream
             except FileNotFoundError:
-                # 文件未找到的错误打印到原始控制台 (stderr)
-                print(f"错误：输入文件 '{args.file}' 未找到。", file=sys.stderr)
-                sys.exit(1) # 退出程序
+                print(f"错误：输入文件 '{args.file}' 未找到。", file=sys.stderr) # Error to stderr
+                sys.exit(1)
             except Exception as e:
-                # 其他读取错误打印到原始控制台 (stderr)
-                print(f"错误：无法读取文件 '{args.file}': {e}", file=sys.stderr)
-                sys.exit(1) # 退出程序
+                print(f"错误：无法读取文件 '{args.file}': {e}", file=sys.stderr) # Error to stderr
+                sys.exit(1)
         else:
-            # 从标准输入读取时的提示信息打印到原始控制台 (stderr)
-            print("正在从标准输入读取数据... (按 Ctrl+D 或 Ctrl+Z 后回车 结束输入)", file=sys.stderr)
-            classify_elevator_output(sys.stdin)
+            print("正在从标准输入读取数据... (按 Ctrl+D 或 Ctrl+Z 后回车 结束输入)", file=sys.stderr) # Prompt to stderr
+            actual_input_source = sys.stdin
+
+        if actual_input_source:
+            if args.mode == 'elevator':
+                classify_by_elevator(actual_input_source)
+            elif args.mode == 'person':
+                classify_by_person(actual_input_source)
+            else:
+                print(f"错误：无效的模式 '{args.mode}'。", file=sys.stderr) # Error to stderr
+                sys.exit(1)
 
     except Exception as e:
-        # 捕获打开输出文件或其他意外错误
-        # 确保错误信息打印到原始控制台 (stderr)
-        print(f"处理过程中发生严重错误: {e}", file=sys.stderr)
-        sys.exit(1) # 退出程序
+        print(f"处理过程中发生严重错误: {e}", file=sys.stderr) # Error to stderr
+        # Try to restore stdout even if error happens before the main finally block
+        if sys.stdout is not original_stdout:
+            sys.stdout = original_stdout
+        sys.exit(1)
     finally:
-        # --- 恢复标准输出 ---
-        # 无论处理是否成功或发生异常，都确保恢复原始的 stdout
-        # 并且关闭我们打开的文件流
+        # --- Restore standard output and close files ---
+        if sys.stdout is not original_stdout:
+             sys.stdout = original_stdout # Restore stdout
+
         if output_file_stream:
-            sys.stdout = original_stdout # 恢复 stdout
-            output_file_stream.close()   # 关闭文件
-            # 可以在恢复后打印一条完成消息到控制台
-            print(f"输出已成功写入到文件: {output_filename}", file=sys.stderr)
-        else:
-            # 如果连输出文件都没能打开，仍然尝试恢复（尽管可能没变）
-             sys.stdout = original_stdout
+            try:
+                output_file_stream.close()
+                # Confirmation message goes to stderr (console)
+                print(f"输出已成功写入到文件: {output_filename}", file=sys.stderr)
+            except Exception as e:
+                print(f"关闭输出文件 '{output_filename}' 时出错: {e}", file=sys.stderr)
+
+
+        if input_file_stream: # Close the input file if we opened it
+             try:
+                 input_file_stream.close()
+             except Exception as e:
+                 print(f"关闭输入文件时出错: {e}", file=sys.stderr)
