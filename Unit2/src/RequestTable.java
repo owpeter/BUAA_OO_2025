@@ -1,6 +1,7 @@
 
-import com.oocourse.elevator2.ScheRequest;
-import com.oocourse.elevator2.TimableOutput;
+import com.oocourse.elevator3.ScheRequest;
+import com.oocourse.elevator3.TimableOutput;
+import com.oocourse.elevator3.UpdateRequest;
 import tools.Debug;
 
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ public class RequestTable {
     private ArrayList<Person> buffer = new ArrayList<>();
     private HashMap<Integer, Map<Integer,PriorityQueue<Person>>> requests = new HashMap<>();
     // floor -> (direction, persons)
-    private ScheRequest scheRequest;
+    private ScheRequest scheRequest = null;
+    private UpdateRequest updateRequest = null;
 
     public RequestTable() {
         endFlag = false;
@@ -26,7 +28,6 @@ public class RequestTable {
             hashMap.put(-1, new PriorityQueue<>());
             requests.put(i, hashMap);
         }
-        scheRequest = null;
     }
 
     public synchronized RequestTable clone() {
@@ -98,12 +99,33 @@ public class RequestTable {
         notifyAll();
     }
 
+    public synchronized boolean hasSche() {
+        return scheRequest != null;
+    }
+
     public synchronized ScheRequest getSche() {
         return this.scheRequest;
     }
 
     public synchronized void resetSche() {
         this.scheRequest = null;
+    }
+
+    public synchronized void addUpdate(UpdateRequest request) {
+        this.updateRequest = request;
+        notifyAll();
+    }
+
+    public synchronized boolean hasUpdate() {
+        return updateRequest != null;
+    }
+
+    public synchronized UpdateRequest getUpdate() {
+        return this.updateRequest;
+    }
+
+    public synchronized void resetUpdate() {
+        this.updateRequest = null;
     }
 
     public synchronized Person getAndRemovePerson(int curFloor, int direction) {
@@ -119,9 +141,7 @@ public class RequestTable {
         return floorRequests.poll();
     }
 
-    public synchronized boolean hasSche() {
-        return scheRequest != null;
-    }
+
 
     public synchronized void waitRequest(MainTable mainTable) {
         try {
@@ -159,7 +179,7 @@ public class RequestTable {
         if (Debug.getDebug()) {
             System.out.println("-----------scheMoveToMainTable----------------");
         }
-        // for  SCHE, clean all requests
+        // for  SCHE and UPDATE, clean all requests
         for (int floor = 1; floor <= 11; floor++) {
             for (int direction : new int[]{1, -1}) {
                 PriorityQueue<Person> floorRequests = requests.get(floor).get(direction);

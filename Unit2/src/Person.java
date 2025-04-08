@@ -1,10 +1,11 @@
-import com.oocourse.elevator2.PersonRequest;
-import com.oocourse.elevator2.Request;
+import com.oocourse.elevator3.PersonRequest;
+import com.oocourse.elevator3.Request;
 import tools.FloorConverter;
 
 public class Person extends Request implements Comparable {
     private int fromFloor;
     private int toFloor;
+    private int realToFloor;
     private int personId;
     private int priority;
     private int direction;
@@ -41,6 +42,10 @@ public class Person extends Request implements Comparable {
         return toFloor;
     }
 
+    public int getRealToFloor() {
+        return realToFloor;
+    }
+
     public int getFromFloor() {
         return fromFloor;
     }
@@ -63,6 +68,10 @@ public class Person extends Request implements Comparable {
 
     public void setFromFloor(int fromFloor) {
         this.fromFloor = fromFloor;
+    }
+
+    public void setToFloor(int toFloor) {
+        this.toFloor = toFloor;
     }
 
     public void setDirection() {

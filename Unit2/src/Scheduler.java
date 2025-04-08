@@ -1,11 +1,11 @@
-import com.oocourse.elevator2.PersonRequest;
-import com.oocourse.elevator2.Request;
-import com.oocourse.elevator2.ScheRequest;
-import com.oocourse.elevator2.TimableOutput;
+import com.oocourse.elevator3.*;
+import org.omg.CORBA.TIMEOUT;
 import tools.Debug;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 
 public class Scheduler implements Runnable {
     private final MainTable mainTable;
@@ -40,6 +40,7 @@ public class Scheduler implements Runnable {
             if (request == null) {
                 continue;
             }
+//            TimableOutput.println(String.format("REQUEST-%s", request));
             if (request instanceof PersonRequest) {
                 PersonRequest personRequest = (PersonRequest) request;
                 Person person = new Person(personRequest);
@@ -52,9 +53,27 @@ public class Scheduler implements Runnable {
             } else if (request instanceof ScheRequest) {
                 ScheRequest scheRequest = (ScheRequest) request;
                 requestTables.get(scheRequest.getElevatorId()).addSche(scheRequest);
+            } else if (request instanceof UpdateRequest) {
+                Thread updateThreadThread = getThread((UpdateRequest) request);
+                updateThreadThread.start();
             }
         }
         // throw new RuntimeException("scheduler is dead");
+    }
+
+    private Thread getThread(UpdateRequest request) {
+        UpdateRequest updateRequest = request;
+        CyclicBarrier phase1End = new CyclicBarrier(3);
+        CyclicBarrier phase2End = new CyclicBarrier(3);
+        CountDownLatch phase1Latch = new CountDownLatch(2);
+        CountDownLatch phase2Latch = new CountDownLatch(2);
+        // run UpdateThread
+        UpdateThread updateThread = new UpdateThread(phase1End, phase2End, phase1Latch, phase2Latch,
+                requestTables, updateRequest,
+                elevators.get(updateRequest.getElevatorAId() - 1),
+                elevators.get(updateRequest.getElevatorBId() - 1));
+        Thread updateThreadThread = new Thread(updateThread);
+        return updateThreadThread;
     }
 
     private int properElevatorId(Person person) {

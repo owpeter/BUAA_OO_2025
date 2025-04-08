@@ -1,5 +1,5 @@
-import com.oocourse.elevator2.ElevatorInput;
-import com.oocourse.elevator2.Request;
+import com.oocourse.elevator3.ElevatorInput;
+import com.oocourse.elevator3.Request;
 import java.io.IOException;
 
 public class InputHandler implements Runnable {

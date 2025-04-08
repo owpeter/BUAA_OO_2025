@@ -1,24 +1,36 @@
-import com.oocourse.elevator2.ScheRequest;
-import com.oocourse.elevator2.TimableOutput;
+import com.oocourse.elevator3.ScheRequest;
+import com.oocourse.elevator3.TimableOutput;
 import tools.Debug;
 import tools.FloorConverter;
 
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Elevator implements Runnable {
     private int id;
     private int curFloor;
     private int curPersonNums;
     private int direction;
+    private int TFloor = -1;
+    private int topFloor = 11;
+    private int bottomFloor = 1;
     private Advice status;
     private MainTable mainTable;
     private final RequestTable requestTable;
     private CopyOnWriteArrayList<Person> personInElevator = new CopyOnWriteArrayList<>();
     private Strategy strategy;
+    private ReentrantLock TfloorLock;
+    private CyclicBarrier phase1End, phase2End;
+    private CountDownLatch phase1Latch, phase2Latch;
     private long lastTime = System.currentTimeMillis();
     private long simulateSumTime = 0;
-    private final int speed = 400;
+    private int speed = 400;
+    private int openCloseTime = 400;
     private final int scheTime = 1000;
+    private final int updateTime = 1000;
 
     public Elevator(int id, MainTable mainTable, RequestTable requestTable) {
         this.id = id;
@@ -30,43 +42,29 @@ public class Elevator implements Runnable {
         this.strategy = new Strategy(requestTable);
     }
 
-    public Elevator(int curFloor, int curPersonNums, int direction,
+    public Elevator(int curFloor, int curPersonNums, int direction, int TopFloor, int BottomFloor,
         RequestTable requestTable, CopyOnWriteArrayList<Person> personInElevator) {
         this.curFloor = curFloor;
         this.curPersonNums = curPersonNums;
         this.direction = direction;
+        this.topFloor = TopFloor;
+        this.bottomFloor = BottomFloor;
         this.requestTable = requestTable;
         this.personInElevator = personInElevator;
         this.strategy = new Strategy(requestTable);
     }
 
-    public Elevator(int id, int curFloor, int curPersonNums, int direction,
+    public Elevator(int id, int curFloor, int curPersonNums, int direction, int TopFloor, int BottomFloor,
         RequestTable requestTable, CopyOnWriteArrayList<Person> personInElevator) {
         this.id = id;
         this.curFloor = curFloor;
         this.curPersonNums = curPersonNums;
         this.direction = direction;
+        this.topFloor = TopFloor;
+        this.bottomFloor = BottomFloor;
         this.requestTable = requestTable;
         this.personInElevator = personInElevator;
         this.strategy = new Strategy(requestTable);
-    }
-
-    public Elevator clone() {
-        CopyOnWriteArrayList<Person> newPersonInElevator = new CopyOnWriteArrayList<>();
-        for (Person person : personInElevator) {
-            newPersonInElevator.add(person.clone());
-        }
-        Elevator elevator = new Elevator(id, curFloor, curPersonNums, direction,
-            requestTable.clone(), newPersonInElevator);
-        return elevator;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public Advice getStatus() {
-        return status;
     }
 
     public void run() {
@@ -74,34 +72,35 @@ public class Elevator implements Runnable {
             //在这里将requestTable.buffer中的请求放入requests，同时输出receive
             requestTable.fromBufferToRequests(id, false);
             Advice advice = strategy.getAdvice(curFloor, curPersonNums,
-                direction, personInElevator, false);
-            System.out.println("advice:" + advice);
+                    direction, personInElevator, false, topFloor, bottomFloor);
             status = advice;
             if (advice == Advice.WAIT) {
                 requestTable.waitRequest(mainTable);
             } else if (advice == Advice.MOVE) {
                 setLastTime();
-                trySleep(speed);
-                move();
-//                Advice newAdvice = strategy.getAdvice(curFloor, curPersonNums,
-//                    direction, personInElevator, true);
-//                if (newAdvice == Advice.OPEN) {
-//                    openAndClose(speed);
-//                } else {
-//                    move();
-//                }
+                move(speed);
             } else if (advice == Advice.OPEN) {
-                openAndClose(speed);
+                if (curFloor == TFloor) {
+                    TFloorOpenAndClose(openCloseTime);
+                } else {
+                    openAndClose(openCloseTime);
+                }
             } else if (advice == Advice.REVERSE) {
                 direction = -direction;
             } else if (advice == Advice.KILL) {
                 break;
             } else if (advice == Advice.SCHE) {
                 schedule();
+            } else if (advice == Advice.UPDATE) {
+                update();
             }
         }
         // throw new RuntimeException("Elevator " + id + " is dead");
     }
+
+
+
+
 
     private void setLastTime() {
         this.lastTime = System.currentTimeMillis();
@@ -129,8 +128,7 @@ public class Elevator implements Runnable {
             direction = -1;
         }
         while (curFloor != toFloor) {
-            trySleep((int) Math.round(scheRequest.getSpeed() * 1000));
-            move();
+            move((int) Math.round(scheRequest.getSpeed() * 1000));
         }
         scheOpenAndClose(scheTime);
         requestTable.resetSche();
@@ -156,12 +154,56 @@ public class Elevator implements Runnable {
         return ret;
     }
 
-    private void move() {
+    private void update(){
+        try {
+            TimableOutput.println(String.format(
+                    "OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+            setLastTime();
+            goOut();
+            TimableOutput.println(String.format(
+                    "CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+            phase1Latch.countDown(); // notify scheduler
+            phase1End.await(); // 等待scheduler输出update begin
+            setLastTime();
+            requestTable.scheMoveToMainTable(mainTable);
+            //TODO: 其他更新相关设置？
+            TFloor = FloorConverter.convertFloorToNumber(requestTable.getUpdate().getTransferFloor());
+            if (id == requestTable.getUpdate().getElevatorAId()) {
+                bottomFloor = TFloor;
+                curFloor = bottomFloor + 1;
+            } else {
+                topFloor = TFloor;
+                curFloor = topFloor - 1;
+            }
+            trySleep(updateTime);
+            requestTable.resetUpdate();
+            phase2Latch.countDown(); // notify scheduler
+            phase2End.await();
+        } catch (InterruptedException | BrokenBarrierException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void move(int time) {
+        if (TFloor != -1) {
+            if (curFloor + direction == TFloor) {
+                // 将要到达TFloor，获得锁
+                TfloorLock.lock();
+                curFloor = TFloor;
+                trySleep(time);
+                TimableOutput.println(String.format(
+                        "ARRIVE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+                setLastTime();
+                return;
+            }
+        }
+        // normal condition
         if (direction == 1) {
             curFloor++;
         } else {
             curFloor--;
         }
+        trySleep(time);
         TimableOutput.println(String.format(
             "ARRIVE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
         setLastTime();
@@ -212,6 +254,27 @@ public class Elevator implements Runnable {
         curPersonNums = 0;
     }
 
+    private void TFloorOpenAndClose(int time) {
+        TimableOutput.println(String.format(
+                "OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+        setLastTime();
+        TFloorGoOut();
+        if ((topFloor == TFloor && direction == 1) || (bottomFloor == TFloor && direction == -1)) {
+            // TODO: maybe bug??
+            // 考虑到空载过来已经掉过头了才会开门
+            direction = -direction;
+        }
+        goIn();
+        trySleep(time);
+        TimableOutput.println(String.format(
+                "CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
+        setLastTime();
+        move(speed);
+        // 离开TFloor，释放锁
+        TfloorLock.unlock();
+        requestTable.moveToMainTable(TFloor, mainTable, false);
+    }
+
     private void goOut() {
         for (Person person : personInElevator) {
 
@@ -244,6 +307,28 @@ public class Elevator implements Runnable {
                 requestTable.addPersonToRequest(person);
             } else {
                 simulateSumTime += person.getPriority() * timeStamp;
+            }
+        }
+        curPersonNums = 0;
+        personInElevator.clear();
+    }
+
+    private void TFloorGoOut() {
+        for (Person person : personInElevator) {
+            if (person.getRealToFloor() == curFloor) {
+                TimableOutput.println(String.format(
+                    "OUT-S-%d-%s-%d",
+                    person.getPersonId(),
+                    FloorConverter.convertNumberToFloor(curFloor), id));
+            } else {
+                TimableOutput.println(String.format(
+                        "OUT-F-%d-%s-%d",
+                        person.getPersonId(),
+                        FloorConverter.convertNumberToFloor(curFloor), id));
+                person.setFromFloor(curFloor);
+                person.setToFloor(person.getRealToFloor());
+                person.setTransfer(true);
+                requestTable.addPersonToRequest(person);
             }
         }
         curPersonNums = 0;
@@ -300,7 +385,7 @@ public class Elevator implements Runnable {
         long timeStamp = startTime;
         while (true) {
             Advice advice = strategy.getAdvice(curFloor, curPersonNums,
-                direction, personInElevator, true);
+                direction, personInElevator, true, topFloor, bottomFloor);
             if (Debug.getDebug()) {
                 System.out.println(
                     Thread.currentThread().getName() +
@@ -318,8 +403,9 @@ public class Elevator implements Runnable {
                 simulateMove();
                 timeStamp += speed;
             } else if (advice == Advice.OPEN) {
+                //TODO: TFopen and close???
                 simulateOpenAndClose(timeStamp);
-                timeStamp += speed;
+                timeStamp += openCloseTime;
             } else if (advice == Advice.REVERSE) {
                 direction = -direction;
             } else if (advice == Advice.WAIT) {
@@ -335,6 +421,35 @@ public class Elevator implements Runnable {
 
     public void addRequest(Person person) {
         requestTable.addPersonToBuffer(person);
+    }
+
+    public Elevator clone() {
+        CopyOnWriteArrayList<Person> newPersonInElevator = new CopyOnWriteArrayList<>();
+        for (Person person : personInElevator) {
+            newPersonInElevator.add(person.clone());
+        }
+        Elevator elevator = new Elevator(id, curFloor, curPersonNums, direction, topFloor, bottomFloor,
+                requestTable.clone(), newPersonInElevator);
+        return elevator;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Advice getStatus() {
+        return status;
+    }
+
+    public void setLatches (CountDownLatch phase1Latch, CountDownLatch phase2Latch, CyclicBarrier phase1End, CyclicBarrier phase2End) {
+        this.phase1End = phase1End;
+        this.phase2End = phase2End;
+        this.phase1Latch = phase1Latch;
+        this.phase2Latch = phase2Latch;
+    }
+
+    public void setTfloorLock(ReentrantLock TfloorLock) {
+        this.TfloorLock = TfloorLock;
     }
 
     @Override
