@@ -1,5 +1,4 @@
 import com.oocourse.elevator3.*;
-import org.omg.CORBA.TIMEOUT;
 import tools.Debug;
 
 import java.util.ArrayList;
@@ -62,6 +61,7 @@ public class Scheduler implements Runnable {
     }
 
     private Thread getThread(UpdateRequest request) {
+        // for doing update
         UpdateRequest updateRequest = request;
         CyclicBarrier phase1End = new CyclicBarrier(3);
         CyclicBarrier phase2End = new CyclicBarrier(3);
@@ -99,8 +99,17 @@ public class Scheduler implements Runnable {
                                     if (Debug.getDebug()) {
                                         System.out.println("simulating " + elevator.getId());
                                     }
-                                    elevator.addRequest(person.clone());
-                                    long cost = elevator.simulate(0);
+                                    Person clonedPerson = person.clone();
+                                    long cost;
+                                    if (fitCondition(elevator, clonedPerson)) {
+                                        elevator.addPersonToBuffer(clonedPerson);
+                                        cost = elevator.simulate(0) + elevator.getSimulateSumTime();
+                                        if (elevator.getStatus().equals(Advice.UPDATE)) {
+                                            cost += 1000;
+                                        }
+                                    } else {
+                                        cost = Integer.MAX_VALUE;
+                                    }
                                     if (Debug.getDebug()) {
                                         System.out.println("elevator: " + elevator.getId() +
                                             " cost: " + cost);
@@ -124,6 +133,23 @@ public class Scheduler implements Runnable {
                 }
             }
         }
+    }
+
+    private boolean fitCondition(Elevator elevator, Person person) {
+        if (elevator.getStatus().equals(Advice.UPDATE)) {
+            elevator.updateFloor();
+        }
+        if (inRange(elevator, person.getFromFloor())) {
+            if (person.getFromFloor() == elevator.getTFloor()) {
+                return inRange(elevator, person.getToFloor());
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean inRange(Elevator elevator, int floor) {
+        return !(floor < elevator.getBottomFloor() || floor > elevator.getTopFloor());
     }
 
     public void addElevator(Elevator elevator) {

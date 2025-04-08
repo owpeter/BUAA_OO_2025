@@ -54,7 +54,6 @@ public class MainTable {
     }
 
     public void addRequest(Request request) {
-        // InputHandler
         lock.lock();
         try {
             requests.add(request);

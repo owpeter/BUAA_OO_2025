@@ -48,6 +48,7 @@ public class RequestTable {
             requestTable.buffer.add(person.clone());
         }
         requestTable.scheRequest = this.scheRequest;
+        requestTable.updateRequest = this.updateRequest;
         requestTable.requestNums = this.requestNums;
         requestTable.endFlag = this.endFlag;
         return requestTable;
@@ -82,8 +83,15 @@ public class RequestTable {
         requestNums++;
     }
 
-    public synchronized void fromBufferToRequests(int id, boolean simulate) {
+    public synchronized void fromBufferToRequests(int TFloor, int topFloor, int bottomFloor, int id, boolean simulate) {
         for (Person person : buffer) {
+            if (person.getToFloor() > topFloor || person.getToFloor() < bottomFloor) {
+                // 要换乘
+                person.setRealToFloor(person.getToFloor());
+                person.setToFloor(TFloor);
+            } else {
+                person.setRealToFloor(person.getToFloor());
+            }
             int fromFloor = person.getFromFloor();
             requests.get(fromFloor).get(person.getDirection()).add(person);
             requestNums++;

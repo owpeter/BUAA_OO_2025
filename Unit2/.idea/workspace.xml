@@ -10,19 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ed1e71f-1ac1-4463-a49b-c8564c04ffff" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/src/UpdateThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Unit2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Unit2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Unit2/Elevator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Unit2/Elevator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Advice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Advice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Unit2/MainTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Unit2/MainTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Unit2/Person.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Unit2/Person.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Unit2/RequestTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Unit2/RequestTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Unit2/Scheduler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Unit2/Scheduler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Unit2/Strategy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Unit2/Strategy.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Unit2/UpdateThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Unit2/UpdateThread.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Elevator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Elevator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MainTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Person.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RequestTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RequestTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Scheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Strategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Strategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/Debug.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Debug.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stdin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/stdin.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../hw6xxk/Unit2 copy.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../hw6xxk/masProgress.py" beforeDir="false" afterPath="$PROJECT_DIR$/../hw6xxk/masProgress.py" afterDir="false" />
@@ -142,11 +143,22 @@
       <workItem from="1743934631759" duration="1706000" />
       <workItem from="1743942195827" duration="14000" />
       <workItem from="1744000682651" duration="4921000" />
-      <workItem from="1744074322147" duration="21997000" />
+      <workItem from="1744074322147" duration="32795000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Scheduler.java</url>
+          <line>103</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

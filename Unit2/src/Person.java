@@ -74,6 +74,10 @@ public class Person extends Request implements Comparable {
         this.toFloor = toFloor;
     }
 
+    public void setRealToFloor(int realToFloor) {
+        this.realToFloor = realToFloor;
+    }
+
     public void setDirection() {
         direction = this.toFloor > this.fromFloor ? 1 : -1;
     }
@@ -94,8 +98,8 @@ public class Person extends Request implements Comparable {
 
     public String toString() {
         return "Person{" +
-                "fromFloor=" + fromFloor +
-                ", toFloor=" + toFloor +
+                "fromFloor=" + FloorConverter.convertNumberToFloor(fromFloor) +
+                ", toFloor=" + FloorConverter.convertNumberToFloor(toFloor) +
                 ", personId=" + personId +
                 '}';
     }
