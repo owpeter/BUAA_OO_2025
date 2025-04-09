@@ -12,17 +12,6 @@
     <list default="true" id="9ed1e71f-1ac1-4463-a49b-c8564c04ffff" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Elevator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Elevator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Person.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RequestTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RequestTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Scheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Strategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Strategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tools/FloorConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/FloorConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stdin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/stdin.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../elevator3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../elevator3.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../hw6xxk/Unit2 copy.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../hw6xxk/masProgress.py" beforeDir="false" afterPath="$PROJECT_DIR$/../hw6xxk/masProgress.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../hw6xxk/run.log" beforeDir="false" afterPath="$PROJECT_DIR$/../hw6xxk/run.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../hw6xxk/stdin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../hw6xxk/stdin.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +54,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
-    "git-widget-placeholder": "hw7",
+    "git-widget-placeholder": "hw6",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/PT909/Downloads/checkstyle_config_new.xml",
     "node.js.detected.package.eslint": "true",
@@ -73,10 +62,10 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "项目",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "org.infernus.idea.checkstyle.CheckStyleConfigurable",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.配色方案字体",
     "vue.rearranger.settings.migration": "true",
     "应用程序.Main.executor": "Run"
   }
@@ -140,21 +129,11 @@
       <workItem from="1744074322147" duration="33001000" />
       <workItem from="1744156747729" duration="10000" />
       <workItem from="1744158943025" duration="16622000" />
+      <workItem from="1744204686689" duration="2400000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Scheduler.java</url>
-          <line>104</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -273,6 +273,7 @@ public class Elevator implements Runnable {
             direction = -direction;
         }
         goIn();
+        requestTable.moveToMainTable(TFloor, mainTable, false);
         trySleep(time);
         TimableOutput.println(String.format(
                 "CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
@@ -280,7 +281,7 @@ public class Elevator implements Runnable {
         move(speed);
         // 离开TFloor，释放锁
         TfloorLock.unlock();
-        requestTable.moveToMainTable(TFloor, mainTable, false);
+//        requestTable.moveToMainTable(TFloor, mainTable, false);
     }
 
     private void goOut() {
