@@ -11,7 +11,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9ed1e71f-1ac1-4463-a49b-c8564c04ffff" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Unit2/Elevator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Unit2/Elevator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Elevator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Elevator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stdin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/stdin.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +56,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": "",
-    "git-widget-placeholder": "hw6",
+    "git-widget-placeholder": "hw7",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/PT909/Downloads/checkstyle_config_new.xml",
     "node.js.detected.package.eslint": "true",
@@ -80,9 +82,11 @@
   </component>
   <component name="RunManager">
     <configuration name="MainTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <output_file path="D:\Code\java\BUAA_OO_2025\Unit2\stdout.txt" is_save="true" />
       <module name="Unit2" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MainTest" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -129,7 +133,7 @@
       <workItem from="1744074322147" duration="33001000" />
       <workItem from="1744156747729" duration="10000" />
       <workItem from="1744158943025" duration="16622000" />
-      <workItem from="1744204686689" duration="2400000" />
+      <workItem from="1744204686689" duration="7586000" />
     </task>
     <servers />
   </component>

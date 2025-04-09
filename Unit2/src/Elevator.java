@@ -343,6 +343,7 @@ public class Elevator implements Runnable {
                         FloorConverter.convertNumberToFloor(curFloor), id));
                 person.setFromFloor(curFloor);
                 person.setToFloor(person.getRealToFloor());
+                person.setRealToFloor(-1);
                 person.setTransfer(true);
                 requestTable.addPersonToRequest(person);
             }
