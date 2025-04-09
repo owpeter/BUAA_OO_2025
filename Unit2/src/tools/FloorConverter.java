@@ -21,6 +21,8 @@ public class FloorConverter {
             return "B" + (5 - floorNumber);
         } else if (floorNumber <= 11 && floorNumber >= 5) {
             return "F" + (floorNumber - 4);
+        } else if (floorNumber == -1 || floorNumber == 0) {
+            return "None";
         } else {
             throw new IllegalArgumentException("Invalid floor number" + floorNumber);
         }

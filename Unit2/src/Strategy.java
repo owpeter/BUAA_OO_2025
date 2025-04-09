@@ -1,3 +1,6 @@
+import tools.Debug;
+
+import java.util.Date;
 import java.util.PriorityQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -8,9 +11,9 @@ public class Strategy {
         this.requestTable = requestTable;
     }
 
-    public Advice getAdvice(int curFloor, int curPersonNums, int direction,
+    public Advice getAdvice(int curFloor, int curPersonNums, int direction, int speed,
         CopyOnWriteArrayList<Person> personInElevator, boolean simulate,
-                            int TopFloor, int BottomFloor) {
+                            int TopFloor, int BottomFloor, int TFloor) {
 //        synchronized (requestTable) {
         if (requestTable.hasSche()) {
             return Advice.SCHE;
@@ -50,7 +53,7 @@ public class Strategy {
                     return Advice.REVERSE;
                 }
                 if (reverseBySimulate(curFloor, curPersonNums,
-                    direction, TopFloor, BottomFloor,requestTable, personInElevator)) {
+                    direction, speed, TopFloor, BottomFloor, TFloor,requestTable, personInElevator)) {
                     return Advice.REVERSE;
                 } else {
                     return Advice.MOVE;
@@ -93,22 +96,31 @@ public class Strategy {
         return ((curFloor == TopFloor && direction == 1) || (curFloor == BottomFloor && direction == -1));
     }
 
-    public boolean reverseBySimulate(int curFloor, int curPersonNums, int direction, int TopFloor, int BottomFloor,
+    public boolean reverseBySimulate(int curFloor, int curPersonNums, int direction, int speed, int TopFloor, int BottomFloor, int TFloor,
         RequestTable requestTable, CopyOnWriteArrayList<Person> personInElevator) {
+        if (Debug.getDebug()) {
+            System.out.println("simulating reverse");
+        }
         CopyOnWriteArrayList<Person> personInElevatorCopy1 = new CopyOnWriteArrayList<>();
         for (Person person : personInElevator) {
             personInElevatorCopy1.add(person.clone());
         }
-        Elevator same = new Elevator(curFloor, curPersonNums, direction, TopFloor, BottomFloor, requestTable.clone(),
-            personInElevatorCopy1);
+        Elevator same = new Elevator(0, curFloor, curPersonNums, direction, speed, TopFloor, BottomFloor, TFloor, requestTable.clone(),
+            personInElevatorCopy1, null);
         CopyOnWriteArrayList<Person> personInElevatorCopy2 = new CopyOnWriteArrayList<>();
         for (Person person : personInElevator) {
             personInElevatorCopy2.add(person.clone());
         }
-        Elevator revert = new Elevator(curFloor, curPersonNums, -direction, TopFloor, BottomFloor, requestTable.clone(),
-            personInElevatorCopy2);
+        Elevator revert = new Elevator(0, curFloor, curPersonNums, -direction, speed, TopFloor, BottomFloor, TFloor, requestTable.clone(),
+                personInElevatorCopy2, null);
+        if (Debug.getDebug()) {
+            System.out.println("get two elevator cloned");
+        }
         long sameTime = same.simulate(0) + same.getSimulateSumTime();
         long revTime = revert.simulate(0) + revert.getSimulateSumTime();
+        if (Debug.getDebug()) {
+            System.out.println("simulate sameTime: " + sameTime + " revTime: " + revTime);
+        }
         return sameTime > revTime;
     }
 }

@@ -39,7 +39,6 @@ public class Scheduler implements Runnable {
             if (request == null) {
                 continue;
             }
-//            TimableOutput.println(String.format("REQUEST-%s", request));
             if (request instanceof PersonRequest) {
                 PersonRequest personRequest = (PersonRequest) request;
                 Person person = new Person(personRequest);
@@ -97,16 +96,13 @@ public class Scheduler implements Runnable {
                                 }
                                 for (Elevator elevator : clonedElevators) {
                                     if (Debug.getDebug()) {
-                                        System.out.println("simulating " + elevator.getId());
+                                        System.out.println("-------------simulating " + elevator.getId() + "------------------");
                                     }
                                     Person clonedPerson = person.clone();
                                     long cost;
                                     if (fitCondition(elevator, clonedPerson)) {
                                         elevator.addPersonToBuffer(clonedPerson);
                                         cost = elevator.simulate(0) + elevator.getSimulateSumTime();
-                                        if (elevator.getStatus().equals(Advice.UPDATE)) {
-                                            cost += 1000;
-                                        }
                                     } else {
                                         cost = Integer.MAX_VALUE;
                                     }

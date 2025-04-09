@@ -31,6 +31,7 @@ public class RequestTable {
     }
 
     public synchronized RequestTable clone() {
+        // TODO: clone的范围要确定
         RequestTable requestTable = new RequestTable();
         for (int i = 1; i <= 11; i++) {
             PriorityQueue<Person> queue1 = this.requests.get(i).get(1);
@@ -59,7 +60,7 @@ public class RequestTable {
     }
 
     public synchronized boolean noRequests() {
-        return requestNums == 0;
+        return requestNums == 0 && buffer.isEmpty() && !hasSche() && !hasUpdate();
     }
 
     public synchronized void setEnd() {
@@ -85,12 +86,14 @@ public class RequestTable {
 
     public synchronized void fromBufferToRequests(int TFloor, int topFloor, int bottomFloor, int id, boolean simulate) {
         for (Person person : buffer) {
-            if (person.getToFloor() > topFloor || person.getToFloor() < bottomFloor) {
-                // 要换乘
-                person.setRealToFloor(person.getToFloor());
-                person.setToFloor(TFloor);
-            } else {
-                person.setRealToFloor(person.getToFloor());
+            if (person.getRealToFloor() == -1) {
+                if (person.getToFloor() > topFloor || person.getToFloor() < bottomFloor) {
+                    // 要换乘
+                    person.setRealToFloor(person.getToFloor());
+                    person.setToFloor(TFloor);
+                } else {
+                    person.setRealToFloor(person.getToFloor());
+                }
             }
             int fromFloor = person.getFromFloor();
             requests.get(fromFloor).get(person.getDirection()).add(person);
@@ -202,6 +205,21 @@ public class RequestTable {
                 }
             }
         }
+    }
+
+    public synchronized int sumWeight() {
+        int sum = 0;
+        for (int floor = 1; floor <= 11; floor++) {
+            for (int direction : new int[]{1, -1}) {
+                PriorityQueue<Person> floorRequests = requests.get(floor).get(direction);
+                Iterator<Person> iterator = floorRequests.iterator();
+                while (iterator.hasNext()) {
+                    Person person = iterator.next();
+                    sum += person.getPriority();
+                }
+            }
+        }
+        return sum;
     }
 
     public synchronized String toString() {

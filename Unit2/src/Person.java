@@ -5,7 +5,7 @@ import tools.FloorConverter;
 public class Person extends Request implements Comparable {
     private int fromFloor;
     private int toFloor;
-    private int realToFloor;
+    private int realToFloor = -1;
     private int personId;
     private int priority;
     private int direction;
@@ -22,11 +22,12 @@ public class Person extends Request implements Comparable {
         this.inTime = System.currentTimeMillis();
     }
 
-    public Person(int id, int fromFloor, int toFloor, int priority,
+    public Person(int id, int fromFloor, int toFloor,int realToFloor, int priority,
         int direction, boolean transfer, long inTime) {
         this.personId = id;
         this.fromFloor = fromFloor;
         this.toFloor = toFloor;
+        this.realToFloor = realToFloor;
         this.priority = priority;
         this.direction = direction;
         this.transfer = transfer;
@@ -34,7 +35,7 @@ public class Person extends Request implements Comparable {
     }
 
     public Person clone() {
-        return new Person(this.personId, this.fromFloor, this.toFloor,
+        return new Person(this.personId, this.fromFloor, this.toFloor, this.realToFloor,
         this.priority, this.direction, this.transfer, this.inTime);
     }
 
@@ -100,6 +101,7 @@ public class Person extends Request implements Comparable {
         return "Person{" +
                 "fromFloor=" + FloorConverter.convertNumberToFloor(fromFloor) +
                 ", toFloor=" + FloorConverter.convertNumberToFloor(toFloor) +
+                ", realToFloor=" + FloorConverter.convertNumberToFloor(realToFloor) +
                 ", personId=" + personId +
                 '}';
     }
