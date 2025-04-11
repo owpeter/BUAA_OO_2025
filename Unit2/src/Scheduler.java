@@ -1,6 +1,7 @@
 import com.oocourse.elevator3.*;
 import tools.Debug;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
@@ -132,9 +133,8 @@ public class Scheduler implements Runnable {
     }
 
     private boolean fitCondition(Elevator elevator, Person person) {
-        if (elevator.getStatus().equals(Advice.UPDATE)) {
-            elevator.updateFloor();
-        }
+
+        elevator.updateFloor();
         if (inRange(elevator, person.getFromFloor())) {
             if (person.getFromFloor() == elevator.getTFloor()) {
                 return inRange(elevator, person.getToFloor());

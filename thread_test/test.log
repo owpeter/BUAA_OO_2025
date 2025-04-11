@@ -1,0 +1,39 @@
+-------------simulating 1------------------
+Elevator 1, curF: F4, dir: 1, speed: 200 personInElevator: 
+floor: [F3, F7]-F3
+[]
+ requestable: [[Person{fromFloor=F7, toFloor=F3, realToFloor=B4, personId=1}, Person{fromFloor=F7, toFloor=F3, realToFloor=B4, personId=2}],]
+Thread-3: advice UPDATE , curTime: 0
+Thread-3: advice MOVE , curTime: 1000
+Thread-3: advice MOVE , curTime: 1200
+Thread-3: advice MOVE , curTime: 1400
+Thread-3: advice REVERSE , curTime: 1600
+Thread-3: advice OPEN , curTime: 1600
+Thread-3: advice MOVE , curTime: 2000
+Thread-3: advice MOVE , curTime: 2200
+Thread-3: advice MOVE , curTime: 2400
+Thread-3: advice MOVE , curTime: 2600
+Thread-3: advice REVERSE , curTime: 2800
+Thread-3: advice OPEN , curTime: 2800
+Thread-3: advice WAIT , curTime: 8000
+
+
+-------------simulating 1------------------
+Elevator 1, curF: F4, dir: 1, speed: 200 personInElevator: 
+floor: [F3, F7]-F3
+[]
+ requestable: [[Person{fromFloor=F7, toFloor=F3, realToFloor=B4, personId=1}],]
+Thread-3: advice UPDATE , curTime: 0
+Thread-3: advice MOVE , curTime: 1000
+Thread-3: advice MOVE , curTime: 1200
+Thread-3: advice MOVE , curTime: 1400
+Thread-3: advice REVERSE , curTime: 1600
+Thread-3: advice OPEN , curTime: 1600
+Thread-3: advice MOVE , curTime: 2000
+Thread-3: advice MOVE , curTime: 2200
+Thread-3: advice MOVE , curTime: 2400
+Thread-3: advice MOVE , curTime: 2600
+Thread-3: advice REVERSE , curTime: 2800
+Thread-3: advice OPEN , curTime: 2800
+Thread-3: advice WAIT , curTime: 5600
+elevator: 1 cost: 5600

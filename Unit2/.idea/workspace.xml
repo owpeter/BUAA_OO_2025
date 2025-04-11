@@ -11,16 +11,13 @@
   <component name="ChangeListManager">
     <list default="true" id="9ed1e71f-1ac1-4463-a49b-c8564c04ffff" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Unit2_jar/Unit2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/Unit2_jar/stdin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/Unit2_jar/stdin.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Elevator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Elevator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RequestTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RequestTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Scheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Scheduler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Strategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Strategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools/Debug.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tools/Debug.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stdin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/stdin.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stdout.txt" beforeDir="false" afterPath="$PROJECT_DIR$/stdout.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../thread_test/proc.py" beforeDir="false" afterPath="$PROJECT_DIR$/../thread_test/proc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../thread_test/stdin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../thread_test/stdin.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../thread_test/stdin2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../thread_test/stdout.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../thread_test/stdout.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +86,7 @@
   </component>
   <component name="RunManager">
     <configuration name="MainTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <output_file path="D:\Code\java\BUAA_OO_2025\Unit2\stdout.txt" is_save="true" />
+      <output_file path="$PROJECT_DIR$/stdout.txt" is_save="true" />
       <module name="Unit2" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="MainTest" />
@@ -143,6 +140,7 @@
       <workItem from="1744204686689" duration="7586000" />
       <workItem from="1744297115708" duration="2572000" />
       <workItem from="1744330844139" duration="3759000" />
+      <workItem from="1744336587921" duration="5647000" />
     </task>
     <servers />
   </component>

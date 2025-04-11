@@ -45,6 +45,9 @@ public class Strategy {
                 if (reqAhead(curFloor, direction, TopFloor, BottomFloor)) {
                     return Advice.MOVE;
                 } else {
+                    if (Debug.getDebug()) {
+                        System.out.println(requestTable);
+                    }
                     return Advice.REVERSE;
                 }
             }

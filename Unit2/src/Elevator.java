@@ -7,6 +7,7 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static java.lang.Math.max;
@@ -161,7 +162,7 @@ public class Elevator implements Runnable {
             phase1Latch.countDown(); // notify scheduler
             phase1End.await(); // 等待scheduler输出update begin
             setLastTime();
-            requestTable.scheMoveToMainTable(mainTable);
+            requestTable.scheMoveToMainTable(mainTable, false);
             TFloor = FloorConverter.convertFloorToNumber(requestTable.getUpdate().getTransferFloor());
             speed = 200;
             updateFloor();
@@ -177,17 +178,21 @@ public class Elevator implements Runnable {
     private void simulateUpdate() {
         updateFloor();
         personInElevator.clear();
+        requestTable.scheMoveToMainTable(mainTable, true);
         curPersonNums = 0;
         requestTable.resetUpdate();
     }
 
     public void updateFloor() {
-        if (id == requestTable.getUpdate().getElevatorAId()) {
-            bottomFloor = TFloor;
-            curFloor = bottomFloor + 1;
-        } else {
-            topFloor = TFloor;
-            curFloor = topFloor - 1;
+        if (requestTable.hasUpdate()) {
+            TFloor = FloorConverter.convertFloorToNumber(requestTable.getUpdate().getTransferFloor());
+            if (id == requestTable.getUpdate().getElevatorAId()) {
+                bottomFloor = TFloor;
+                curFloor = bottomFloor + 1;
+            } else {
+                topFloor = TFloor;
+                curFloor = topFloor - 1;
+            }
         }
     }
 
@@ -250,7 +255,7 @@ public class Elevator implements Runnable {
             "OPEN-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
         setLastTime();
         goOut();
-        requestTable.scheMoveToMainTable(mainTable);
+        requestTable.scheMoveToMainTable(mainTable, false);
         trySleep(time);
         TimableOutput.println(String.format(
             "CLOSE-%s-%d", FloorConverter.convertNumberToFloor(curFloor), id));
@@ -342,7 +347,6 @@ public class Elevator implements Runnable {
                         FloorConverter.convertNumberToFloor(curFloor), id));
                 person.setFromFloor(curFloor);
                 person.setToFloor(person.getRealToFloor());
-//                person.setRealToFloor(-1);
                 person.setTransfer(true);
                 requestTable.addPersonToRequest(person);
             }

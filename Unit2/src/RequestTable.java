@@ -56,6 +56,9 @@ public class RequestTable {
     }
 
     public synchronized PriorityQueue<Person> getFloorRequests(int floorNum, int direction) {
+        if (floorNum < 1 || floorNum > 11) {
+            throw new IllegalArgumentException(String.format("Invalid floor number %d", floorNum));
+        }
         return requests.get(floorNum).get(direction);
     }
 
@@ -177,6 +180,8 @@ public class RequestTable {
                 if (person.getTransfer()) {
                     person.setTransfer(false);
                     if (!simulate) {
+                        // TODO: 在这里恢复person原态？？
+                        person.setToFloor(person.getRealToFloor());
                         mainTable.addRequest(person);
                     }
                     iterator.remove();
@@ -186,7 +191,7 @@ public class RequestTable {
         }
     }
 
-    public synchronized void scheMoveToMainTable(MainTable mainTable) {
+    public synchronized void scheMoveToMainTable(MainTable mainTable, boolean simulate) {
         if (Debug.getDebug()) {
             System.out.println("-----------scheMoveToMainTable----------------");
         }
@@ -200,7 +205,10 @@ public class RequestTable {
                         System.out.println(person);
                     }
                     person.setTransfer(false);
-                    mainTable.addRequest(person);
+                    if (!simulate) {
+                        person.setToFloor(person.getRealToFloor());
+                        mainTable.addRequest(person);
+                    }
                     requestNums--;
                 }
             }
