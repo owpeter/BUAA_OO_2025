@@ -268,7 +268,6 @@ public class Elevator implements Runnable {
         setLastTime();
         TFloorGoOut();
         if ((topFloor == TFloor && direction == 1) || (bottomFloor == TFloor && direction == -1)) {
-            // TODO: maybe bug??
             // 考虑到空载过来已经掉过头了才会开门
             direction = -direction;
         }
@@ -318,7 +317,7 @@ public class Elevator implements Runnable {
             } else {
                 if (person.getRealToFloor() != curFloor) {
                     maxTransferTime = max(openCloseTime * 2L + speed * 2L + (long) (Math.abs(person.getRealToFloor() - curFloor)) * speed, maxTransferTime);
-                    simulateSumTime += person.getPriority() * (timeStamp + speed * 2L + (long) (person.getRealToFloor() - curFloor) * speed);
+                    simulateSumTime += person.getPriority() * (timeStamp + speed * 2L + (long) (Math.abs(person.getRealToFloor() - curFloor)) * speed);
                 } else {
                     simulateSumTime += person.getPriority() * timeStamp;
                 }
@@ -343,7 +342,7 @@ public class Elevator implements Runnable {
                         FloorConverter.convertNumberToFloor(curFloor), id));
                 person.setFromFloor(curFloor);
                 person.setToFloor(person.getRealToFloor());
-                person.setRealToFloor(-1);
+//                person.setRealToFloor(-1);
                 person.setTransfer(true);
                 requestTable.addPersonToRequest(person);
             }

@@ -98,9 +98,6 @@ public class Strategy {
 
     public boolean reverseBySimulate(int curFloor, int curPersonNums, int direction, int speed, int TopFloor, int BottomFloor, int TFloor,
         RequestTable requestTable, CopyOnWriteArrayList<Person> personInElevator) {
-        if (Debug.getDebug()) {
-            System.out.println("simulating reverse");
-        }
         CopyOnWriteArrayList<Person> personInElevatorCopy1 = new CopyOnWriteArrayList<>();
         for (Person person : personInElevator) {
             personInElevatorCopy1.add(person.clone());
@@ -113,14 +110,8 @@ public class Strategy {
         }
         Elevator revert = new Elevator(0, curFloor, curPersonNums, -direction, speed, TopFloor, BottomFloor, TFloor, requestTable.clone(),
                 personInElevatorCopy2, null);
-        if (Debug.getDebug()) {
-            System.out.println("get two elevator cloned");
-        }
         long sameTime = same.simulate(0) + same.getSimulateSumTime();
         long revTime = revert.simulate(0) + revert.getSimulateSumTime();
-        if (Debug.getDebug()) {
-            System.out.println("simulate sameTime: " + sameTime + " revTime: " + revTime);
-        }
         return sameTime > revTime;
     }
 }

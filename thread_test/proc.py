@@ -194,7 +194,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    output_filename = "stdout.txt"
+    output_filename = f'stdout_{args.mode}.log'
     original_stdout = sys.stdout
     output_file_stream = None
     input_file_stream = None
