@@ -1,0 +1,162 @@
+Complexity metrics,ÖÜ¶þ, 18 3ÔÂ 2025 00:15:57 CST
+Method,CogC,ev(G),iv(G),v(G)
+Main.main(String[]),0,1,1,1
+expr.Constant.Constant(BigInteger),0,1,1,1
+expr.Constant.toMono(),0,1,1,1
+expr.Constant.toPoly(),0,1,1,1
+expr.Expression.Expression(),0,1,1,1
+"expr.Expression.Expression(ArrayList<Term>, BigInteger)",0,1,1,1
+"expr.Expression.Expression(Term, BigInteger)",0,1,1,1
+expr.Expression.addTerm(Term),0,1,1,1
+expr.Expression.getExponential(),0,1,1,1
+expr.Expression.getTerms(),0,1,1,1
+expr.Expression.setExponential(String),0,1,1,1
+expr.Expression.toMono(),0,1,1,1
+expr.Expression.toPoly(),6,1,4,4
+"expr.RecursiveFunc.callFunc(String, Integer, ArrayList<Factor>)",3,1,3,3
+expr.RecursiveFunc.paraLength(String),0,1,1,1
+expr.RecursiveFunc.setFunc(Scanner),1,1,2,2
+"expr.SelfFunc.callFunc(String, ArrayList<Factor>)",1,1,2,2
+expr.SelfFunc.paraLength(String),0,1,1,1
+expr.SelfFunc.setFunc(Scanner),1,1,2,2
+expr.Term.Term(boolean),0,1,1,1
+"expr.Term.Term(boolean, ArrayList<Factor>)",0,1,1,1
+"expr.Term.Term(boolean, Factor)",0,1,1,1
+expr.Term.addFactor(Factor),0,1,1,1
+expr.Term.getFactors(),0,1,1,1
+expr.Term.getSign(),0,1,1,1
+expr.Term.toMono(),0,1,1,1
+expr.Term.toPoly(),7,1,4,6
+"expr.TrigonometricFunction.TrigonometricFunction(String, Factor, BigInteger)",0,1,1,1
+expr.TrigonometricFunction.getExponent(),0,1,1,1
+expr.TrigonometricFunction.getFactor(),0,1,1,1
+expr.TrigonometricFunction.getType(),0,1,1,1
+expr.TrigonometricFunction.toMono(),21,7,11,15
+expr.TrigonometricFunction.toPoly(),0,1,1,1
+expr.Variable.Variable(BigInteger),0,1,1,1
+expr.Variable.getExp(),0,1,1,1
+expr.Variable.toMono(),0,1,1,1
+expr.Variable.toPoly(),0,1,1,1
+parse.Lexer.Lexer(String),0,1,1,1
+parse.Lexer.getNumber(),2,1,3,3
+parse.Lexer.next(),9,2,7,13
+parse.Lexer.peek(),0,1,1,1
+parse.Lexer.preProcess(String),0,1,1,1
+parse.Parser.Parser(Lexer),0,1,1,1
+parse.Parser.parseConstant(),3,1,3,3
+parse.Parser.parseExpression(),5,1,4,4
+parse.Parser.parseFactor(),9,7,9,9
+parse.Parser.parseFactorLeft(),1,1,2,2
+parse.Parser.parseRecFunc(),1,1,2,2
+parse.Parser.parseSelfFunc(String),1,1,2,2
+parse.Parser.parseTerm(boolean),1,1,2,2
+parse.Parser.parseTrigonometricFunction(),2,2,2,2
+parse.Parser.parseVariable(),2,2,2,2
+"poly.Add.monoAdd(Mono, Mono)",0,1,1,1
+"poly.Add.polyAdd(Poly, Poly)",1,1,2,2
+poly.Derivate.dExpr(Expression),3,2,4,4
+poly.Derivate.dFactor(Factor),12,9,7,10
+poly.Derivate.dTerm(Term),5,2,3,3
+poly.Derivate.dTrig(TrigonometricFunction),1,1,1,3
+"poly.Math.isPowerOfTwoNMultipliedByMTwo(BigInteger, BigInteger)",3,3,2,4
+"poly.Mono.Mono(BigInteger, BigInteger)",0,1,1,1
+"poly.Mono.addCosTrig(Poly, BigInteger)",0,1,1,1
+"poly.Mono.addSinTrig(Poly, BigInteger)",0,1,1,1
+poly.Mono.copy(),0,1,1,1
+poly.Mono.copy(boolean),5,1,4,4
+poly.Mono.equals(Object),4,3,4,6
+poly.Mono.getCoe(),0,1,1,1
+poly.Mono.getCosMap(),0,1,1,1
+poly.Mono.getExp(),0,1,1,1
+poly.Mono.getSinMap(),0,1,1,1
+poly.Mono.hashCode(),0,1,1,1
+poly.Mono.isZero(),0,1,1,1
+poly.Mono.noTrig(),1,1,2,2
+poly.Mono.setCoe(BigInteger),0,1,1,1
+"poly.Mono.setCosMap(HashMap<Poly, BigInteger>)",0,1,1,1
+poly.Mono.setExp(BigInteger),0,1,1,1
+"poly.Mono.setSinMap(HashMap<Poly, BigInteger>)",0,1,1,1
+poly.Mono.toString(boolean),0,1,1,1
+poly.Mono.twiceMono(),0,1,1,1
+"poly.Multiply.monoMultiply(Mono, Mono)",2,1,3,3
+"poly.Multiply.monoMultiplyNew(Mono, Mono)",0,1,1,1
+"poly.Multiply.polyMultiply(Poly, Poly)",3,1,3,3
+"poly.Multiply.polyMultiplyMono(Poly, Mono)",1,1,2,2
+poly.Poly.Poly(),0,1,1,1
+poly.Poly.addMono(Mono),12,5,5,7
+poly.Poly.allZero(),4,4,2,4
+poly.Poly.copy(),1,1,2,2
+poly.Poly.equals(Object),13,8,5,10
+poly.Poly.getMonos(),3,1,3,3
+poly.Poly.hashCode(),3,1,3,3
+poly.Poly.negative(),1,1,2,2
+poly.Poly.setMonos(List<Mono>),0,1,1,1
+poly.Poly.toString(),0,1,1,1
+poly.Poly.twicePoly(),0,1,1,1
+"poly.Power.polyPower(Poly, BigInteger)",1,1,2,2
+"poly.TrigSimpify.isSingleElementSwap(Set<Poly>, Set<Poly>, Set<Poly>, Set<Poly>)",1,1,4,4
+"poly.TrigSimpify.simplifyAddCosMap(Mono, Poly, BigInteger)",4,3,4,4
+"poly.TrigSimpify.simplifyAddSinMap(Mono, Poly, BigInteger)",6,3,5,5
+"poly.TrigSimpify.toOne(Mono, Mono)",26,5,16,19
+"poly.TrigSimpify.twiceTrig(String, Mono, Poly, BigInteger)",7,3,5,5
+"procstring.FunctionDefinitionParser.ParseRecursiveFunc.ParseRecursiveFunc(String, String, ArrayList<String>, String)",0,1,1,1
+procstring.FunctionDefinitionParser.ParseRecursiveFunc.getExpression(),0,1,1,1
+procstring.FunctionDefinitionParser.ParseRecursiveFunc.getFunctionName(),0,1,1,1
+procstring.FunctionDefinitionParser.ParseRecursiveFunc.getParameters(),0,1,1,1
+procstring.FunctionDefinitionParser.ParseRecursiveFunc.getSequenceNumber(),0,1,1,1
+"procstring.FunctionDefinitionParser.ParseSelfFunc.ParseSelfFunc(String, ArrayList<String>, String)",0,1,1,1
+procstring.FunctionDefinitionParser.ParseSelfFunc.getExpression(),0,1,1,1
+procstring.FunctionDefinitionParser.ParseSelfFunc.getFunctionName(),0,1,1,1
+procstring.FunctionDefinitionParser.ParseSelfFunc.getParameters(),0,1,1,1
+procstring.FunctionDefinitionParser.parse(String),2,2,2,3
+procstring.FunctionDefinitionParser.parseSelfFunc(String),2,2,2,3
+procstring.PreProcess.prePreProcess(String),4,1,4,4
+"procstring.PreProcess.process(Integer, String)",53,1,22,26
+procstring.ToString.allZero(Poly),4,4,2,4
+"procstring.ToString.appendCoeWithX(StringBuilder, Mono)",3,1,3,3
+procstring.ToString.coeCnt(Mono),1,1,1,2
+"procstring.ToString.monoToString(Mono, boolean)",9,2,7,8
+procstring.ToString.needsExtraParentheses(Poly),3,3,2,3
+procstring.ToString.onlyTrigWithCoeOneOrMinusOne(Mono),3,1,5,5
+procstring.ToString.polyToString(Poly),8,2,4,5
+"procstring.ToString.trigToString(StringBuilder, Mono)",16,1,9,9
+procstring.ToString.varCnt(Mono),1,1,1,2
+
+Class,OCavg,OCmax,WMC
+Main,1.00,1,1
+expr.Constant,1.00,1,3
+expr.Expression,1.33,4,12
+expr.RecursiveFunc,2.00,3,6
+expr.SelfFunc,1.67,2,5
+expr.Term,1.38,4,11
+expr.TrigonometricFunction,2.83,12,17
+expr.Variable,1.00,1,4
+parse.Lexer,2.60,8,13
+parse.Parser,2.60,7,26
+poly.Add,1.50,2,3
+poly.Derivate,5.00,9,20
+poly.Math,4.00,4,4
+poly.Mono,1.26,4,24
+poly.Multiply,2.25,3,9
+poly.Poly,3.00,8,33
+poly.Power,2.00,2,2
+poly.TrigSimpify,5.20,13,26
+procstring.FunctionDefinitionParser,3.00,3,6
+procstring.FunctionDefinitionParser.ParseRecursiveFunc,1.00,1,5
+procstring.FunctionDefinitionParser.ParseSelfFunc,1.00,1,4
+procstring.PreProcess,9.50,16,19
+procstring.ToString,4.00,9,36
+
+Package,v(G)avg,v(G)tot
+,1.00,1
+expr,1.75,63
+parse,3.20,48
+poly,2.94,138
+procstring,3.91,86
+
+Module,v(G)avg,v(G)tot
+hw1,2.78,336
+
+Project,v(G)avg,v(G)tot
+project,2.78,336
+
