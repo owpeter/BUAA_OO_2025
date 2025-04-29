@@ -1,6 +1,6 @@
-import com.oocourse.spec1.exceptions.*;
-import com.oocourse.spec1.main.PersonInterface;
-import com.oocourse.spec1.main.TagInterface; // Assuming you have a Tag implementation
+import com.oocourse.spec2.exceptions.*;
+import com.oocourse.spec2.main.PersonInterface;
+import com.oocourse.spec2.main.TagInterface; // Assuming you have a Tag implementation
 import org.junit.Before;
 import org.junit.Test;
 

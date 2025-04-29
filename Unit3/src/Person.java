@@ -195,4 +195,13 @@ public class Person implements PersonInterface {
         this.bestAcquaintanceId = currentBestId;
         this.bestAcquaintanceValue = currentMaxValue;
     }
+
+    // Helper method for Network.queryReceivedArticles
+    public void receiveArticle(int articleId) {
+        receivedArticles.add(0, articleId);
+    }
+
+    public void removeReceivedArticle(int articleId) {
+        receivedArticles.remove(Integer.valueOf(articleId));
+    }
 }
