@@ -1,4 +1,4 @@
-package com.oocourse.spec1.exceptions;
+package com.oocourse.spec2.exceptions;
 
 /**
  * {@code AcquaintanceNotFoundException} 类用于表示当尝试查询不存在的 acquaintance 时抛出的异常。

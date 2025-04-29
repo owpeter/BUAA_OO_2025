@@ -1,4 +1,4 @@
-package com.oocourse.spec1.main;
+package com.oocourse.spec2.main;
 
 public interface TagInterface {
 
@@ -35,6 +35,12 @@ public interface TagInterface {
 
     //@ ensures \result == (\exists int i; 0 <= i && i < persons.length; persons[i].equals(person));
     public /*@ pure @*/ boolean hasPerson(PersonInterface person);
+
+    /*@ ensures \result == (\sum int i; 0 <= i && i < persons.length; 
+      @          (\sum int j; 0 <= j && j < persons.length && 
+      @           persons[i].isLinked(persons[j]); persons[i].queryValue(persons[j])));
+      @*/
+    public /*@ pure @*/ int getValueSum();
 
     /*@ ensures \result == (persons.length == 0? 0:
       @          ((\sum int i; 0 <= i && i < persons.length; persons[i].getAge()) / persons.length));

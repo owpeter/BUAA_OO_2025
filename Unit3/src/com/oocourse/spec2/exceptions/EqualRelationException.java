@@ -1,4 +1,4 @@
-package com.oocourse.spec1.exceptions;
+package com.oocourse.spec2.exceptions;
 
 /**
  * {@code EqualRelationException} 类用于表示当尝试添加的关系已经存在时抛出的异常。

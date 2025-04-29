@@ -1,4 +1,4 @@
-package com.oocourse.spec1.exceptions;
+package com.oocourse.spec2.exceptions;
 
 /**
  * {@code TagIdNotFoundException} 类用于表示当尝试获取不存在的 tag 时抛出的异常。

@@ -1,4 +1,4 @@
-package com.oocourse.spec1.exceptions;
+package com.oocourse.spec2.exceptions;
 
 /**
  * {@code EqualTagIdException} 类用于表示当不满足标签 ID 唯一性要求时抛出的异常。

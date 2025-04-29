@@ -1,7 +1,6 @@
-package com.oocourse.spec1.main;
+package com.oocourse.spec2.main;
 
-import com.oocourse.spec1.exceptions.*;
-import com.oocourse.spec1.main.TagInterface;
+import java.util.List;
 
 public interface PersonInterface {
 
@@ -11,9 +10,11 @@ public interface PersonInterface {
       @ public instance model non_null PersonInterface[] acquaintance;
       @ public instance model non_null int[] value;
       @ public instance model non_null TagInterface[] tags;
+      @ public instance model non_null int[] receivedArticles;
       @*/
 
-    /*@ invariant acquaintance != null && value != null && tags != null && acquaintance.length == value.length &&
+
+    /*@ invariant acquaintance != null && value != null && tags != null && receivedArticles != null && acquaintance.length == value.length &&
       @  (\forall int i,j; 0 <= i && i < j && j < acquaintance.length;
       @   !acquaintance[i].equals(acquaintance[j])) &&
       @  (\forall int i,j; 0 <= i && i < j && j < tags.length;
@@ -89,5 +90,19 @@ public interface PersonInterface {
       @ ensures \result == 0;
       @*/
     public /*@ pure @*/ int queryValue(PersonInterface person);
+
+    /*@ ensures (\result.size() == receivedArticles.length) &&
+      @           (\forall int i; 0 <= i && i < receivedArticles.length;
+      @             receivedArticles[i] == \result.get(i));
+      @*/
+    public /*@ pure @*/ List<Integer> getReceivedArticles();
+
+    /*@ public normal_behavior
+      @ assignable \nothing;
+      @ ensures (\forall int i; 0 <= i && i < receivedArticles.length && i <= 4;
+      @           \result.contains(receivedArticles[i]) && \result.get(i) == receivedArticles[i]);
+      @ ensures \result.size() == ((receivedArticles.length < 5)? receivedArticles.length: 5);
+     */
+    public /*@ pure @*/ List<Integer> queryReceivedArticles();
 
 }

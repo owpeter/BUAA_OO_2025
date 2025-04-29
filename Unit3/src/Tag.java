@@ -1,8 +1,8 @@
 import java.util.HashMap;
 import java.util.Map;
 
-import com.oocourse.spec1.main.PersonInterface;
-import com.oocourse.spec1.main.TagInterface;
+import com.oocourse.spec2.main.PersonInterface;
+import com.oocourse.spec2.main.TagInterface;
 
 public class Tag implements TagInterface {
 
@@ -43,6 +43,27 @@ public class Tag implements TagInterface {
             return false; // Cannot contain a null person
         }
         return this.persons.containsKey(person.getId());
+    }
+
+    @Override
+    public int getValueSum() {
+        // The JML defines a sum over persons within the tag.
+        // Iterate through all pairs of persons in the 'persons' map.
+        long valueSum = 0; // Use long for summation to avoid potential overflow
+
+        for (PersonInterface personI : persons.values()) {
+            for (PersonInterface personJ : persons.values()) {
+                // Check if personI is linked to personJ according to the PersonInterface
+                // and the JML condition persons[i].isLinked(persons[j])
+                if (personI.isLinked(personJ)) {
+                    // Add the value of the link persons[i].queryValue(persons[j])
+                    valueSum += personI.queryValue(personJ);
+                }
+            }
+        }
+
+        // Cast the final sum to int as per the JML return type
+        return (int) valueSum;
     }
 
     @Override

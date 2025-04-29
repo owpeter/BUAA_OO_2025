@@ -1,7 +1,9 @@
-import com.oocourse.spec1.main.PersonInterface;
-import com.oocourse.spec1.main.TagInterface;
+import com.oocourse.spec2.main.PersonInterface;
+import com.oocourse.spec2.main.TagInterface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Person implements PersonInterface {
@@ -11,6 +13,7 @@ public class Person implements PersonInterface {
     private final HashMap<Integer, Person> acquaintance = new HashMap<>();
     private final HashMap<Integer, Integer> value = new HashMap<>();
     private final HashMap<Integer, TagInterface> tags = new HashMap<>();
+    private final ArrayList<Integer> receivedArticles = new ArrayList<>();
 
     private int bestAcquaintanceId;
     private int bestAcquaintanceValue; // Store the value too
@@ -88,6 +91,22 @@ public class Person implements PersonInterface {
         }
         return 0;
     }
+
+    @Override
+    public List<Integer> getReceivedArticles() {
+        return receivedArticles;
+    }
+
+    public List<Integer> queryReceivedArticles() {
+        int limit = Math.min(receivedArticles.size(), 5);
+        return receivedArticles.subList(0, limit);
+    }
+
+//    public void receiveArticle(int articleId) {
+//        // Add the article ID to the end of the list.
+//        // ArrayList.add() is amortized O(1).
+//        receivedArticles.add(articleId);
+//    }
 
     public void addRelation(Person person, int value) {
         if (!acquaintance.containsKey(person.getId())) {

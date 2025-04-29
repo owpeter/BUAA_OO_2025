@@ -1,11 +1,12 @@
-package com.oocourse.spec1.main;
+package com.oocourse.spec2.main;
 
 import java.io.FileReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Scanner;
 
-import com.oocourse.spec1.exceptions.*;
+import com.oocourse.spec2.exceptions.*;
 
 public class Runner {
 
@@ -67,6 +68,10 @@ public class Runner {
                 case "del_from_tag":
                     delFromTag();
                     break;
+                case "qtvs":
+                case "query_tag_value_sum":
+                    queryTagValueSum();
+                    break;
                 case "qtav":
                 case "query_tag_age_var":
                     queryTagAgeVar();
@@ -79,10 +84,49 @@ public class Runner {
                 case "query_best_acquaintance":
                     queryBestAcquaintance();
                     break;
+                case "qcs":
+                case "query_couple_sum":
+                    queryCoupleSum();
+                    break;
+                case "qsp":
+                case "query_shortest_path":
+                    queryShortestPath();
+                    break;
                 case "dt":
                 case "del_tag":
                     delTag();
                     break;
+
+                //hw10新增
+                case "coa":
+                case "create_official_account":
+                    createOfficialAccount();
+                    break;
+                case "doa":
+                case "delete_official_account":
+                    deleteOfficialAccount();
+                    break;
+                case "ca":
+                case "contribute_article":
+                    contributeArticle();
+                    break;
+                case "da":
+                case "delete_article":
+                    deleteArticle();
+                    break;
+                case "foa":
+                case "follow_official_account":
+                    followOfficialAccount();
+                    break;
+                case "qbc":
+                case "query_best_contributor":
+                    queryBestContributor();
+                    break;
+                case "qra":
+                case "query_received_articles":
+                    queryReceivedArticles();
+                    break;
+
                 case "ln":
                 case "load_network":
                     loadNetwork(scanner);
@@ -100,7 +144,135 @@ public class Runner {
                     throw new RuntimeException("No such command");
             }
         }
+//        network.print();
         scanner.close();
+    }
+
+    private void createOfficialAccount() {
+        int personId = Integer.parseInt(commands[1]);
+        int accountId = Integer.parseInt(commands[2]);
+        try {
+            network.createOfficialAccount(personId, accountId, commands[3]);
+        } catch (PersonIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (EqualOfficialAccountIdException e) {
+            e.print();
+            return;
+        }
+        System.out.println("Ok");
+    }
+
+    private void deleteOfficialAccount() {
+        int personId = Integer.parseInt(commands[1]);
+        int accountId = Integer.parseInt(commands[2]);
+        try {
+            network.deleteOfficialAccount(personId, accountId);
+        } catch (PersonIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (OfficialAccountIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (DeleteOfficialAccountPermissionDeniedException e) {
+            e.print();
+            return;
+        }
+        System.out.println("Ok");
+    }
+
+    private void contributeArticle() {
+        int personId = Integer.parseInt(commands[1]);
+        int accountId = Integer.parseInt(commands[2]);
+        int articleId = Integer.parseInt(commands[3]);
+        try {
+            network.contributeArticle(personId, accountId, articleId);
+        } catch (PersonIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (OfficialAccountIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (EqualArticleIdException e) {
+            e.print();
+            return;
+        } catch (ContributePermissionDeniedException e) {
+            e.print();
+            return;
+        }
+        System.out.println("Ok");
+    }
+
+    private void deleteArticle() {
+        int personId = Integer.parseInt(commands[1]);
+        int accountId = Integer.parseInt(commands[2]);
+        int articleId = Integer.parseInt(commands[3]);
+        try {
+            network.deleteArticle(personId, accountId, articleId);
+        } catch (PersonIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (OfficialAccountIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (ArticleIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (DeleteArticlePermissionDeniedException e) {
+            e.print();
+            return;
+        }
+        System.out.println("Ok");
+    }
+
+    private void followOfficialAccount() {
+        int personId = Integer.parseInt(commands[1]);
+        int accountId = Integer.parseInt(commands[2]);
+        try {
+            network.followOfficialAccount(personId, accountId);
+        } catch (PersonIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (OfficialAccountIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (EqualPersonIdException e) {
+            e.print();
+            return;
+        }
+        System.out.println("Ok");
+    }
+
+    private void queryBestContributor() {
+        int accountId = Integer.parseInt(commands[1]);
+        int ret;
+        try {
+            ret = network.queryBestContributor(accountId);
+        } catch (OfficialAccountIdNotFoundException e) {
+            e.print();
+            return;
+        }
+        System.out.println(ret);
+    }
+
+    private void queryReceivedArticles() {
+        int personId = Integer.parseInt(commands[1]);
+        int ret;
+        try {
+            List<Integer> list = network.queryReceivedArticles(personId);
+            if (list.isEmpty()) {
+                System.out.print("None");
+            } else {
+                for (Integer articleId : list) {
+                    System.out.print(articleId + " ");
+                }
+            }
+        } catch (PersonIdNotFoundException e) {
+            //throw new RuntimeException(e);
+            e.print();
+            return;
+        }
+        System.out.println();
     }
 
     private void delTag() {
@@ -118,8 +290,28 @@ public class Runner {
         System.out.println("Ok");
     }
 
+    private void queryCoupleSum() {
+        System.out.println(network.queryCoupleSum());
+    }
+
     private void queryTripleSum() {
         System.out.println(network.queryTripleSum());
+    }
+
+    private void queryShortestPath() {
+        int id1 = Integer.parseInt(commands[1]);
+        int id2 = Integer.parseInt(commands[2]);
+        int ret;
+        try {
+            ret = network.queryShortestPath(id1, id2);
+        } catch (PersonIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (PathNotFoundException e) {
+            e.print();
+            return;
+        }
+        System.out.println(ret);
     }
 
     private void delFromTag() {
@@ -144,6 +336,22 @@ public class Runner {
         int ret;
         try {
             ret = network.queryTagAgeVar(id, tagId);
+        } catch (TagIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (PersonIdNotFoundException e) {
+            e.print();
+            return;
+        }
+        System.out.println(ret);
+    }
+
+    private void queryTagValueSum() {
+        int id = Integer.parseInt(commands[1]);
+        int tagId = Integer.parseInt(commands[2]);
+        int ret;
+        try {
+            ret = network.queryTagValueSum(id, tagId);
         } catch (TagIdNotFoundException e) {
             e.print();
             return;

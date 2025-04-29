@@ -1,4 +1,4 @@
-package com.oocourse.spec1.exceptions;
+package com.oocourse.spec2.exceptions;
 
 /**
  * {@code RelationNotFoundException} 类用于表示当查找的关系不存在时抛出的异常。

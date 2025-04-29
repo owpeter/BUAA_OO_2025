@@ -1,4 +1,4 @@
-package com.oocourse.spec1.exceptions;
+package com.oocourse.spec2.exceptions;
 
 /**
  * {@code EqualPersonIdException} 类用于表示当不满足人员 ID 唯一性要求时抛出的异常。

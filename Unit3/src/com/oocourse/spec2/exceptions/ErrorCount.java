@@ -1,10 +1,10 @@
-package com.oocourse.spec1.exceptions;
+package com.oocourse.spec2.exceptions;
 
 import java.util.HashMap;
 
 public class ErrorCount {
     private int count;
-    private final HashMap<Integer, Integer> errorId;
+    private HashMap<Integer, Integer> errorId;
 
     public ErrorCount() {
         count = 0;

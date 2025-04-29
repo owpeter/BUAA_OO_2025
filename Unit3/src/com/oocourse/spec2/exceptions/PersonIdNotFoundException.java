@@ -1,4 +1,4 @@
-package com.oocourse.spec1.exceptions;
+package com.oocourse.spec2.exceptions;
 
 /**
  * {@code PersonIdNotFoundException} 类用于表示当尝试访问不存在的人员 ID 时抛出的异常。
