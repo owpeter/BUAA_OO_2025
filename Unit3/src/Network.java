@@ -397,8 +397,8 @@ public class Network implements NetworkInterface {
         if (containsAccount(accountId)) {
             throw new EqualOfficialAccountIdException(accountId);
         }
-        Person owner = getPerson(personId); // Get owner Person object
-        OfficialAccount newAccount = new OfficialAccount(accountId, name, personId);
+        Person owner = getPerson(personId);
+        OfficialAccount newAccount = new OfficialAccount(personId, accountId, name);
         accounts.put(accountId, newAccount);
         newAccount.addFollower(owner);
     }

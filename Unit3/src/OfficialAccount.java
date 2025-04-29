@@ -19,7 +19,7 @@ public class OfficialAccount implements OfficialAccountInterface {
     private int bestContributorId;
     private int maxContribution;
 
-    public OfficialAccount(int id, String name, int ownerId) {
+    public OfficialAccount(int ownerId, int id, String name) {
         this.id = id;
         this.name = name;
         this.ownerId = ownerId;
