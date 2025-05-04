@@ -8,6 +8,7 @@ public class Tag implements TagInterface {
 
     private final int id;
     private final Map<Integer, PersonInterface> persons;
+    private int valueSum = 0;
 
     public Tag(int id) {
         this.id = id;
@@ -33,6 +34,11 @@ public class Tag implements TagInterface {
     public void addPerson(PersonInterface person) {
         if (person != null) {
             this.persons.put(person.getId(), person);
+            for (PersonInterface personI : persons.values()) {
+                if(personI.isLinked(person)) {
+                    valueSum += personI.queryValue(person);
+                }
+            }
         }
     }
 
@@ -46,16 +52,7 @@ public class Tag implements TagInterface {
 
     @Override
     public int getValueSum() {
-        long valueSum = 0;
-
-        for (PersonInterface personI : persons.values()) {
-            for (PersonInterface personJ : persons.values()) {
-                if (personI.isLinked(personJ)) {
-                    valueSum += personI.queryValue(personJ);
-                }
-            }
-        }
-        return (int) valueSum;
+        return this.valueSum;
     }
 
     @Override
@@ -87,6 +84,11 @@ public class Tag implements TagInterface {
     @Override
     public void delPerson(PersonInterface person) {
         if (person != null) {
+            for (PersonInterface personI : persons.values()) {
+                if(personI.isLinked(person)) {
+                    valueSum -= personI.queryValue(person);
+                }
+            }
             this.persons.remove(person.getId());
         }
     }

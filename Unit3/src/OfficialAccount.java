@@ -32,7 +32,7 @@ public class OfficialAccount implements OfficialAccountInterface {
 
     @Override
     public int getOwnerId() {
-        return ownerId; // O(1)
+        return ownerId;
     }
 
     @Override
@@ -42,6 +42,7 @@ public class OfficialAccount implements OfficialAccountInterface {
         followersMap.put(personId, person);
         followerContributions.put(personId, 0);
 
+        // update bestContribute
         int newContrib = 0;
         if (newContrib > maxContribution) {
             maxContribution = newContrib;

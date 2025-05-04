@@ -300,7 +300,6 @@ public interface NetworkInterface {
     public /*@ pure @*/ int queryBestAcquaintance(int id) throws
             PersonIdNotFoundException, AcquaintanceNotFoundException;
 
-    // ---------------------- ---------------------------------- ----------------------------
 
     /*@ ensures \result ==
       @         (\sum int i, j; 0 <= i && i < j && j < persons.length
@@ -386,7 +385,7 @@ public interface NetworkInterface {
      */
     public /*@ safe @*/ void deleteOfficialAccount(int personId, int accountId) throws PersonIdNotFoundException, OfficialAccountIdNotFoundException, DeleteOfficialAccountPermissionDeniedException;
 
-    //@ ensures \result == (\exists int i; 0 <= i && i < articles.length; articles[i].getId() == id);
+    //@ ensures \result == (\exists int i; 0 <= i && i < articles.length; articles[i] == id);
     public /*@ pure @*/ boolean containsArticle(int id);
 
     /*@ public normal_behavior
@@ -433,6 +432,13 @@ public interface NetworkInterface {
       @                                     (\exists int j; 0 <= j && j < accounts.get(accountId).followers.length;
       @                                                                   accounts.get(accountId).followers[j].getId() == articleContributors[i] &&
       @                                                                   accounts.get(accountId).contributions[j] == \old(accounts.get(accountId).contributions[j]) - 1));
+      @ ensures (\forall PersonInterface p; accounts.get(accountId).containsFollower(p);
+      @          (\forall int i; 0 <= i && i < (p.getReceivedArticles().size());
+      @           (\forall int j; i < j && j < (p.getReceivedArticles().size());
+      @                   \old(p.getReceivedArticles()).indexOf(
+      @                   p.getReceivedArticles().get(i)) <
+      @                   \old(p.getReceivedArticles()).indexOf(
+      @                   p.getReceivedArticles().get(j)))));
       @ also
       @ public exceptional_behavior
       @ signals (PersonIdNotFoundException e) !containsPerson(personId);
@@ -441,7 +447,7 @@ public interface NetworkInterface {
       @ signals (ArticleIdNotFoundException e) containsPerson(personId) &&
       @                                     containsAccount(accountId) &&
       @                                     !accounts.get(accountId).containsArticle(articleId);
-      @ signals (DeleteArticlePermissionDenied e) containsPerson(personId) &&
+      @ signals (DeleteArticlePermissionDeniedException e) containsPerson(personId) &&
       @                                        containsAccount(accountId) &&
       @                                        accounts.get(accountId).containsArticle(articleId) &&
       @                                        accounts.get(accountId).ownerId != personId;

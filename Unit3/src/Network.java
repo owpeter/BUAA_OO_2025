@@ -279,6 +279,7 @@ public class Network implements NetworkInterface {
         }
         return person.getBestAcquaintanceId();
     }
+
     private boolean bfs(int startId, int targetId) {
         Queue<Integer> queue = new LinkedList<>();
         Set<Integer> visited = new HashSet<>();
@@ -334,9 +335,8 @@ public class Network implements NetworkInterface {
 
             if (bestId1 != -1 && containsPerson(bestId1)) {
                 Person person2 = getPerson(bestId1);
-                int id2 = person2.getId();
-                if (id1 < id2) {
-                    if (person2.getAcquaintanceSize() > 0 && person2.getBestAcquaintanceId() == id1) { // O(1)
+                if (id1 < bestId1) {
+                    if (person2.getAcquaintanceSize() > 0 && person2.getBestAcquaintanceId() == id1) {
                         count++;
                     }
                 }
@@ -416,12 +416,12 @@ public class Network implements NetworkInterface {
         if (account.getOwnerId() != personId) {
             throw new DeleteOfficialAccountPermissionDeniedException(personId, accountId);
         }
-        accounts.remove(accountId); // O(1) avg
+        accounts.remove(accountId);
     }
 
     @Override
     public boolean containsArticle(int id) {
-        return articlesMap.containsKey(id); // O(1) avg
+        return articlesMap.containsKey(id);
     }
 
     @Override
