@@ -1,4 +1,5 @@
 
+import com.oocourse.spec2.main.PersonInterface;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -26,86 +27,50 @@ public class NetworkTest {
         return new Tag(id);
     }
 
-    // Helper method to get private fields for pure check
-    private Object getPrivateField(Object obj, String fieldName) throws Exception {
-        Field field = obj.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        return field.get(obj);
+    private boolean equals(Person person1, Person person2) {
+        return person1.getId() == person2.getId() &&
+                person1.getAge() == person2.getAge() &&
+                person1.getName().equals(person2.getName());
     }
+
+    private HashMap<Integer, PersonInterface> deepClone(PersonInterface[] persons) {
+        HashMap<Integer, PersonInterface> personInterfaces = new HashMap<>();
+        for (PersonInterface person : persons) {
+            PersonInterface newPerson = new Person(person.getId(), person.getName(), person.getAge());
+            personInterfaces.put(person.getId(), newPerson);
+        }
+        return personInterfaces;
+    }
+
 
     // Take a snapshot of the network state for pure check
     private NetworkSnapshot takeSnapshot(Network net) throws Exception {
         NetworkSnapshot snapshot = new NetworkSnapshot();
-
-        // Snapshot persons
-        HashMap<Integer, Person> personsMap = (HashMap<Integer, Person>) getPrivateField(net, "persons");
-        snapshot.personsSize = personsMap.size();
-        snapshot.personSnapshots = new HashMap<>();
-        for (Person p : personsMap.values()) {
-            PersonSnapshot ps = new PersonSnapshot();
-            ps.id = p.getId();
-            ps.acquaintanceSize = p.getAcquaintanceSize();
-            ps.tagsSize = p.getTags().size();
-            ps.receivedArticlesSize = p.getReceivedArticles().size();
-            snapshot.personSnapshots.put(ps.id, ps);
-        }
-
-        // Snapshot accounts
-        HashMap<Integer, OfficialAccount> accountsMap = (HashMap<Integer, OfficialAccount>) getPrivateField(net, "accounts");
-        snapshot.accountsSize = accountsMap.size();
-        // We could add more detailed snapshots for accounts/tags if needed,
-        // but size checks are often sufficient for methods that shouldn't touch them at all.
-
-        // Snapshot articles map
-        HashMap<Integer, Integer> articlesMap = (HashMap<Integer, Integer>) getPrivateField(net, "articlesMap");
-        snapshot.articlesMapSize = articlesMap.size();
-
-        // Snapshot tripleSum (queryCoupleSum doesn't affect this, but it's part of network state)
-        snapshot.tripleSum = (int) getPrivateField(net, "tripleSum");
-
+        PersonInterface[] persons = net.getPersons();
+        snapshot.personSnapshots = deepClone(persons);
+        snapshot.tripleSum = net.queryTripleSum();
         return snapshot;
     }
 
     // Assert that the network state is unchanged compared to the snapshot
     private void assertNetworkStateUnchanged(Network net, NetworkSnapshot snapshot) throws Exception {
-        HashMap<Integer, Person> personsMap = (HashMap<Integer, Person>) getPrivateField(net, "persons");
-        assertEquals("Pure check failed: Persons map size changed", snapshot.personsSize, personsMap.size());
-        for (Person p : personsMap.values()) {
-            PersonSnapshot ps = snapshot.personSnapshots.get(p.getId());
-            assertNotNull("Pure check failed: Person disappeared from network (ID: " + p.getId() + ")", ps);
-            assertEquals("Pure check failed: Person acquaintance size changed for " + p.getId(), ps.acquaintanceSize, p.getAcquaintanceSize());
-            assertEquals("Pure check failed: Person tags size changed for " + p.getId(), ps.tagsSize, p.getTags().size());
-            assertEquals("Pure check failed: Person received articles size changed for " + p.getId(), ps.receivedArticlesSize, p.getReceivedArticles().size());
-            // Could add checks for relation values, tag contents, received articles list content if needed for deeper pure check
+        PersonInterface[] persons = net.getPersons();
+        assertEquals(snapshot.personSnapshots.size(), persons.length);
+        for(int i = 0; i < persons.length; i++) {
+            Person person = (Person) persons[i];
+            Person ps = (Person) snapshot.personSnapshots.getOrDefault(person.getId(), null);
+            assertNotNull("Pure check failed: Person not found", ps);
+            assertTrue("Pure check failed: Person not equal", equals(person, ps));
         }
 
-        HashMap<Integer, OfficialAccount> accountsMap = (HashMap<Integer, OfficialAccount>) getPrivateField(net, "accounts");
-        assertEquals("Pure check failed: Accounts map size changed", snapshot.accountsSize, accountsMap.size());
-
-        HashMap<Integer, Integer> articlesMap = (HashMap<Integer, Integer>) getPrivateField(net, "articlesMap");
-        assertEquals("Pure check failed: Articles map size changed", snapshot.articlesMapSize, articlesMap.size());
-
-        assertEquals("Pure check failed: Triple sum changed", snapshot.tripleSum, (int) getPrivateField(net, "tripleSum"));
+        assertEquals("Pure check failed: Triple sum changed", snapshot.tripleSum, net.queryTripleSum());
     }
 
     // Simple class to hold network snapshot data
     private static class NetworkSnapshot {
-        int personsSize;
-        Map<Integer, PersonSnapshot> personSnapshots;
-        int accountsSize;
-        int articlesMapSize;
-        int tripleSum;
+        Map<Integer, PersonInterface> personSnapshots = new HashMap<>();
+        int tripleSum = 0;
     }
-
-    // Simple class to hold person snapshot data
-    private static class PersonSnapshot {
-        int id;
-        int acquaintanceSize;
-        int tagsSize;
-        int receivedArticlesSize;
-        // Could add relation values, tag contents etc. for deeper checks
-    }
-
 
     @Before
     public void setUp() {

@@ -26,6 +26,8 @@ public class Person implements PersonInterface {
         bestAcquaintanceValue = Integer.MIN_VALUE;
     }
 
+    public boolean strictEquals(PersonInterface person) { return this.equals(person); }
+
     @Override
     public int getId() {
         return id;
@@ -101,12 +103,6 @@ public class Person implements PersonInterface {
         int limit = Math.min(receivedArticles.size(), 5);
         return receivedArticles.subList(0, limit);
     }
-
-//    public void receiveArticle(int articleId) {
-//        // Add the article ID to the end of the list.
-//        // ArrayList.add() is amortized O(1).
-//        receivedArticles.add(articleId);
-//    }
 
     public void addRelation(Person person, int value) {
         if (!acquaintance.containsKey(person.getId())) {

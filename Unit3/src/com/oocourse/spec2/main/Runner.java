@@ -143,6 +143,7 @@ public class Runner {
                 default:
                     throw new RuntimeException("No such command");
             }
+            // System.out.println("debug in runner: " + cmd + " " + this.network.queryTripleSum());
         }
 //        network.print();
         scanner.close();

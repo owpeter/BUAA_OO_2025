@@ -60,18 +60,6 @@ public class OfficialAccount implements OfficialAccountInterface {
     @Override
     public void addArticle(PersonInterface person, int id) {
         articles.add(id);
-        int personId = person.getId();
-
-        int oldContrib = followerContributions.getOrDefault(personId, 0);
-        int newContrib = oldContrib + 1;
-        followerContributions.put(personId, newContrib);
-
-        if (newContrib > maxContribution) {
-            maxContribution = newContrib;
-            bestContributorId = personId;
-        } else if (newContrib == maxContribution) {
-            bestContributorId = Math.min(bestContributorId, personId);
-        }
     }
 
     @Override
@@ -95,8 +83,12 @@ public class OfficialAccount implements OfficialAccountInterface {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         OfficialAccount that = (OfficialAccount) o;
         return id == that.id;
     }
@@ -148,22 +140,22 @@ public class OfficialAccount implements OfficialAccountInterface {
             maxContribution = -1;
             return;
         }
-        int currentBestId = Integer.MAX_VALUE;
+        int currentbestid = Integer.MAX_VALUE;
         int currentMaxValue = -1;
 
         for (Map.Entry<Integer, Integer> entry : followerContributions.entrySet()) {
-            int fId = entry.getKey();
-            int fContrib = entry.getValue();
+            int fid = entry.getKey();
+            int fcontrib = entry.getValue();
 
-            if (fContrib > currentMaxValue) {
-                currentMaxValue = fContrib;
-                currentBestId = fId;
-            } else if (fContrib == currentMaxValue) {
+            if (fcontrib > currentMaxValue) {
+                currentMaxValue = fcontrib;
+                currentbestid = fid;
+            } else if (fcontrib == currentMaxValue) {
 
-                currentBestId = Math.min(currentBestId, fId);
+                currentbestid = Math.min(currentbestid, fid);
             }
         }
-        this.bestContributorId = currentBestId;
+        this.bestContributorId = currentbestid;
         this.maxContribution = currentMaxValue;
     }
     // --- End helper methods ---

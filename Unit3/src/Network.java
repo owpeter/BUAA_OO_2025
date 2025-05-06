@@ -1,4 +1,3 @@
-
 import com.oocourse.spec2.main.NetworkInterface;
 import com.oocourse.spec2.main.PersonInterface;
 import com.oocourse.spec2.main.TagInterface;
@@ -18,7 +17,7 @@ import com.oocourse.spec2.exceptions.ArticleIdNotFoundException;
 import com.oocourse.spec2.exceptions.DeleteArticlePermissionDeniedException;
 import com.oocourse.spec2.exceptions.PathNotFoundException;
 
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Queue;
@@ -26,18 +25,20 @@ import java.util.Set;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 
 public class Network implements NetworkInterface {
     private final HashMap<Integer, Person> persons = new HashMap<>();
     private final HashMap<Integer, OfficialAccount> accounts = new HashMap<>();
-    private final HashMap<Integer, Integer> articlesMap = new HashMap<>(); // articleId -> contributorId
+    private final HashMap<Integer, Integer> articlesMap = new HashMap<>();
+    // articleId -> contributorId
     // private final DynamicUnionFind uf = new DynamicUnionFind();
     private int tripleSum;
 
     public Network() {
         tripleSum = 0;
     }
+
+    public PersonInterface[] getPersons() { return persons.values().toArray(new Person[0]); }
 
     @Override
     public boolean containsPerson(int id) {
@@ -60,7 +61,7 @@ public class Network implements NetworkInterface {
 
     @Override
     public void addRelation(int id1, int id2, int value)
-            throws PersonIdNotFoundException, EqualRelationException {
+        throws PersonIdNotFoundException, EqualRelationException {
         if (!containsPerson(id1)) {
             throw new PersonIdNotFoundException(id1);
         }
@@ -72,16 +73,15 @@ public class Network implements NetworkInterface {
         if (person1.isLinked(person2)) {
             throw new EqualRelationException(id1, id2);
         }
-        // 实现添加关系的逻辑
+
+        tripleSum += getCorrectSameAcquaintanceCount(person1, person2);
         person1.addRelation(person2, value);
         person2.addRelation(person1, value);
-        // uf.union(id1, id2);
-        tripleSum += getSameAcquaintance(id1, id2);
     }
 
     @Override
     public void modifyRelation(int id1, int id2, int value)
-            throws PersonIdNotFoundException, EqualPersonIdException, RelationNotFoundException {
+        throws PersonIdNotFoundException, EqualPersonIdException, RelationNotFoundException {
         if (!containsPerson(id1)) {
             throw new PersonIdNotFoundException(id1);
         }
@@ -101,7 +101,7 @@ public class Network implements NetworkInterface {
         int newValue = currentValue + value;
 
         if (newValue <= 0) {
-            tripleSum -= getSameAcquaintance(id1, id2);
+            tripleSum -= getCorrectSameAcquaintanceCount(person1, person2);
 
             person1.delRelation(person2);
             person2.delRelation(person1);
@@ -124,7 +124,7 @@ public class Network implements NetworkInterface {
 
     @Override
     public int queryValue(int id1, int id2)
-            throws PersonIdNotFoundException, RelationNotFoundException {
+        throws PersonIdNotFoundException, RelationNotFoundException {
         if (!containsPerson(id1)) {
             throw new PersonIdNotFoundException(id1);
         }
@@ -141,7 +141,7 @@ public class Network implements NetworkInterface {
 
     @Override
     public boolean isCircle(int id1, int id2)
-            throws PersonIdNotFoundException {
+        throws PersonIdNotFoundException {
         if (!containsPerson(id1)) {
             throw new PersonIdNotFoundException(id1);
         }
@@ -163,7 +163,7 @@ public class Network implements NetworkInterface {
 
     @Override
     public void addTag(int personId, TagInterface tag)
-            throws PersonIdNotFoundException, EqualTagIdException {
+        throws PersonIdNotFoundException, EqualTagIdException {
         if (!containsPerson(personId)) {
             throw new PersonIdNotFoundException(personId);
         }
@@ -176,8 +176,8 @@ public class Network implements NetworkInterface {
 
     @Override
     public void addPersonToTag(int personId1, int personId2, int tagId)
-            throws PersonIdNotFoundException, RelationNotFoundException,
-            TagIdNotFoundException, EqualPersonIdException {
+        throws PersonIdNotFoundException, RelationNotFoundException,
+        TagIdNotFoundException, EqualPersonIdException {
         if (!containsPerson(personId1)) {
             throw new PersonIdNotFoundException(personId1);
         }
@@ -208,7 +208,7 @@ public class Network implements NetworkInterface {
 
     @Override
     public int queryTagValueSum(int personId, int tagId)
-            throws PersonIdNotFoundException, TagIdNotFoundException {
+        throws PersonIdNotFoundException, TagIdNotFoundException {
         if (!containsPerson(personId)) {
             throw new PersonIdNotFoundException(personId);
         }
@@ -219,10 +219,9 @@ public class Network implements NetworkInterface {
         return person.getTag(tagId).getValueSum();
     }
 
-
     @Override
     public int queryTagAgeVar(int personId, int tagId)
-            throws PersonIdNotFoundException, TagIdNotFoundException {
+        throws PersonIdNotFoundException, TagIdNotFoundException {
         if (!containsPerson(personId)) {
             throw new PersonIdNotFoundException(personId);
         }
@@ -235,7 +234,7 @@ public class Network implements NetworkInterface {
 
     @Override
     public void delPersonFromTag(int personId1, int personId2, int tagId)
-            throws PersonIdNotFoundException, TagIdNotFoundException {
+        throws PersonIdNotFoundException, TagIdNotFoundException {
         if (!containsPerson(personId1)) {
             throw new PersonIdNotFoundException(personId1);
         }
@@ -256,7 +255,7 @@ public class Network implements NetworkInterface {
 
     @Override
     public void delTag(int personId, int tagId)
-            throws PersonIdNotFoundException, TagIdNotFoundException {
+        throws PersonIdNotFoundException, TagIdNotFoundException {
         if (!containsPerson(personId)) {
             throw new PersonIdNotFoundException(personId);
         }
@@ -269,7 +268,7 @@ public class Network implements NetworkInterface {
 
     @Override
     public int queryBestAcquaintance(int id)
-            throws PersonIdNotFoundException, AcquaintanceNotFoundException {
+        throws PersonIdNotFoundException, AcquaintanceNotFoundException {
         if (!containsPerson(id)) {
             throw new PersonIdNotFoundException(id);
         }
@@ -305,19 +304,11 @@ public class Network implements NetworkInterface {
         return false;
     }
     // --- End BFS Helper ---
-    private int getSameAcquaintance(int id1, int id2) {
+
+    private int getCorrectSameAcquaintanceCount(Person person1, Person person2) {
         int cnt = 0;
-        Person person1 = getPerson(id1);
-        Person person2 = getPerson(id2);
-
-        HashMap<Integer, Person> acq1 = person1.getAcquaintance();
-        HashMap<Integer, Person> acq2 = person2.getAcquaintance();
-
-        Collection<Person> smallerAcq = (acq1.size() < acq2.size()) ? acq1.values() : acq2.values();
-        Person largerAcqPerson = (acq1.size() < acq2.size()) ? person2 : person1;
-
-        for (Person personK : smallerAcq) {
-            if (largerAcqPerson.isLinked(personK)) {
+        for (Person neighborOf1 : person1.getAcquaintance().values()) {
+            if (neighborOf1.getId() != person2.getId() && person2.isLinked(neighborOf1)) {
                 cnt++;
             }
         }
@@ -336,7 +327,8 @@ public class Network implements NetworkInterface {
             if (bestId1 != -1 && containsPerson(bestId1)) {
                 Person person2 = getPerson(bestId1);
                 if (id1 < bestId1) {
-                    if (person2.getAcquaintanceSize() > 0 && person2.getBestAcquaintanceId() == id1) {
+                    if (person2.getAcquaintanceSize() > 0
+                        && person2.getBestAcquaintanceId() == id1) {
                         count++;
                     }
                 }
@@ -346,7 +338,8 @@ public class Network implements NetworkInterface {
     }
 
     @Override
-    public int queryShortestPath(int id1, int id2) throws PersonIdNotFoundException, PathNotFoundException {
+    public int queryShortestPath(int id1, int id2)
+        throws PersonIdNotFoundException, PathNotFoundException {
         if (!containsPerson(id1)) {
             throw new PersonIdNotFoundException(id1);
         }
@@ -390,7 +383,7 @@ public class Network implements NetworkInterface {
 
     @Override
     public void createOfficialAccount(int personId, int accountId, String name)
-            throws PersonIdNotFoundException, EqualOfficialAccountIdException {
+        throws PersonIdNotFoundException, EqualOfficialAccountIdException {
         if (!containsPerson(personId)) {
             throw new PersonIdNotFoundException(personId);
         }
@@ -405,7 +398,8 @@ public class Network implements NetworkInterface {
 
     @Override
     public void deleteOfficialAccount(int personId, int accountId)
-            throws PersonIdNotFoundException, OfficialAccountIdNotFoundException, DeleteOfficialAccountPermissionDeniedException {
+        throws PersonIdNotFoundException, OfficialAccountIdNotFoundException,
+        DeleteOfficialAccountPermissionDeniedException {
         if (!containsPerson(personId)) {
             throw new PersonIdNotFoundException(personId);
         }
@@ -426,7 +420,8 @@ public class Network implements NetworkInterface {
 
     @Override
     public void contributeArticle(int personId, int accountId, int articleId)
-            throws PersonIdNotFoundException, OfficialAccountIdNotFoundException, EqualArticleIdException, ContributePermissionDeniedException {
+        throws PersonIdNotFoundException, OfficialAccountIdNotFoundException,
+        EqualArticleIdException, ContributePermissionDeniedException {
         if (!containsPerson(personId)) {
             throw new PersonIdNotFoundException(personId);
         }
@@ -439,7 +434,7 @@ public class Network implements NetworkInterface {
             throw new EqualArticleIdException(articleId);
         }
         if (!account.containsFollower(contributor)) {
-            throw new ContributePermissionDeniedException(personId, accountId);
+            throw new ContributePermissionDeniedException(personId, articleId);
         }
 
         account.addArticle(contributor, articleId);
@@ -455,7 +450,8 @@ public class Network implements NetworkInterface {
 
     @Override
     public void deleteArticle(int personId, int accountId, int articleId)
-            throws PersonIdNotFoundException, OfficialAccountIdNotFoundException, ArticleIdNotFoundException, DeleteArticlePermissionDeniedException {
+        throws PersonIdNotFoundException, OfficialAccountIdNotFoundException,
+        ArticleIdNotFoundException, DeleteArticlePermissionDeniedException {
         if (!containsPerson(personId)) {
             throw new PersonIdNotFoundException(personId);
         }
@@ -467,7 +463,7 @@ public class Network implements NetworkInterface {
             throw new ArticleIdNotFoundException(articleId);
         }
         if (account.getOwnerId() != personId) {
-            throw new DeleteArticlePermissionDeniedException(personId, accountId);
+            throw new DeleteArticlePermissionDeniedException(personId, articleId);
         }
 
         int contributorId = articlesMap.get(articleId);
@@ -485,7 +481,8 @@ public class Network implements NetworkInterface {
 
     @Override
     public void followOfficialAccount(int personId, int accountId)
-            throws PersonIdNotFoundException, OfficialAccountIdNotFoundException, EqualPersonIdException {
+        throws PersonIdNotFoundException,
+        OfficialAccountIdNotFoundException, EqualPersonIdException {
         if (!containsPerson(personId)) {
             throw new PersonIdNotFoundException(personId);
         }
