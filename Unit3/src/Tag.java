@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import com.oocourse.spec2.main.PersonInterface;
 import com.oocourse.spec2.main.TagInterface;
@@ -7,17 +8,23 @@ import com.oocourse.spec2.main.TagInterface;
 public class Tag implements TagInterface {
 
     private final int id;
+    private final long time;
     private final Map<Integer, PersonInterface> persons;
     private int valueSum = 0;
 
     public Tag(int id) {
         this.id = id;
         this.persons = new HashMap<>();
+        this.time = System.currentTimeMillis();
     }
 
     @Override
     public int getId() {
         return this.id;
+    }
+
+    public Map<Integer, PersonInterface> getPersons() {
+        return persons;
     }
 
     @Override
@@ -28,20 +35,27 @@ public class Tag implements TagInterface {
         if (obj == null || !(obj instanceof TagInterface)) {
             return false;
         }
-        return ((TagInterface) obj).getId() == this.id;
+        Tag tag = (Tag) obj;
+        return id == tag.id &&
+                time == tag.time;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, time); // 确保包含所有参与equals的字段
     }
 
     public void addPerson(PersonInterface person) {
         if (person != null) {
-            int valueChange = 0;
-            for (PersonInterface personI : persons.values()) {
-                if (personI.isLinked(person)) {
-                    valueChange += 2 * personI.queryValue(person);
-                }
-            }
+            // int valueChange = 0;
+            // for (PersonInterface personI : persons.values()) {
+            //     if (personI.isLinked(person)) {
+            //         valueChange += 2 * personI.queryValue(person);
+            //     }
+            // }
             this.persons.put(person.getId(), person);
-            valueChange += person.queryValue(person);
-            this.valueSum += valueChange;
+            // valueChange += person.queryValue(person);
+            // this.valueSum += valueChange;
         }
     }
 
@@ -53,32 +67,32 @@ public class Tag implements TagInterface {
         return this.persons.containsKey(person.getId());
     }
 
-    // @Override
-    // public int getValueSum() {
-    //     // return this.valueSum;
-    //
-    // }
-    // Inside your Tag.java class (assuming 'persons' is a Map<Integer, PersonInterface>)
     @Override
     public int getValueSum() {
-        long sum = 0; // Use long to prevent overflow during calculation
-        PersonInterface[] personArray = persons.values().toArray(new PersonInterface[0]);
-        int n = personArray.length;
+        return this.valueSum;
 
-        for (int i = 0; i < n; i++) {
-            PersonInterface p1 = personArray[i];
-            for (int j = 0; j < n; j++) { // Iterate including i == j
-                PersonInterface p2 = personArray[j];
-                if (p1.isLinked(p2)) { // isLinked is true for p1 == p2
-                    sum += p1.queryValue(p2); // queryValue is 0 for p1 == p2
-                }
-            }
-        }
-        // The JML implies summing over all pairs (i, j) where they are linked.
-        // The loop structure naturally counts edge (p1, p2) and (p2, p1) if p1!=p2.
-        // And correctly handles (p1, p1) where value is 0.
-        return (int) sum;
     }
+    // Inside your Tag.java class (assuming 'persons' is a Map<Integer, PersonInterface>)
+    // @Override
+    // public int getValueSum() {
+    //     long sum = 0; // Use long to prevent overflow during calculation
+    //     PersonInterface[] personArray = persons.values().toArray(new PersonInterface[0]);
+    //     int n = personArray.length;
+    //
+    //     for (int i = 0; i < n; i++) {
+    //         PersonInterface p1 = personArray[i];
+    //         for (int j = 0; j < n; j++) { // Iterate including i == j
+    //             PersonInterface p2 = personArray[j];
+    //             if (p1.isLinked(p2)) { // isLinked is true for p1 == p2
+    //                 sum += p1.queryValue(p2); // queryValue is 0 for p1 == p2
+    //             }
+    //         }
+    //     }
+    //     // The JML implies summing over all pairs (i, j) where they are linked.
+    //     // The loop structure naturally counts edge (p1, p2) and (p2, p1) if p1!=p2.
+    //     // And correctly handles (p1, p1) where value is 0.
+    //     return (int) sum;
+    // }
 
     @Override
     public int getAgeMean() {
@@ -109,16 +123,7 @@ public class Tag implements TagInterface {
     @Override
     public void delPerson(PersonInterface person) {
         if (person != null && this.persons.containsKey(person.getId())) {
-            int valueChange = 0;
-            PersonInterface personToRemove = this.persons.get(person.getId());
-            for (PersonInterface personI : persons.values()) {
-                if (personI.isLinked(personToRemove)) {
-                    valueChange += 2 * personI.queryValue(personToRemove);
-                }
-            }
             this.persons.remove(person.getId());
-            valueChange += person.queryValue(person);
-            this.valueSum -= valueChange; // Update sum
         }
     }
 
@@ -127,8 +132,33 @@ public class Tag implements TagInterface {
         return this.persons.size();
     }
 
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(this.id);
+    public void updateValueSumForRelationValueChange(PersonInterface person1,
+        PersonInterface person2, int deltaValue) {
+        if (hasPerson(person1) && hasPerson(person2) && !person1.equals(person2)) {
+            this.valueSum += 2 * deltaValue;
+        }
+        if (hasPerson(person1) && person1.equals(person2)) {
+            this.valueSum += deltaValue;
+        }
+    }
+
+    public void updateValueSumForRelationAddition(PersonInterface person1,
+        PersonInterface person2, int relationValue) {
+        if (hasPerson(person1) && hasPerson(person2) && !person1.equals(person2)) {
+            this.valueSum += 2 * relationValue;
+        }
+        if (hasPerson(person1) && person1.equals(person2)) {
+            this.valueSum += relationValue;
+        }
+    }
+
+    public void updateValueSumForRelationRemoval(PersonInterface person1,
+        PersonInterface person2, int oldRelationValue) {
+        if (hasPerson(person1) && hasPerson(person2) && !person1.equals(person2)) {
+            this.valueSum -= 2 * oldRelationValue;
+        }
+        if (hasPerson(person1) && person1.equals(person2)) {
+            this.valueSum -= oldRelationValue;
+        }
     }
 }

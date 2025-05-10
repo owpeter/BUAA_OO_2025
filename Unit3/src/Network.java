@@ -32,6 +32,7 @@ public class Network implements NetworkInterface {
     // articleId -> contributorId
     // private final DynamicUnionFind uf = new DynamicUnionFind();
     private int tripleSum;
+    private TagMapManager globalTags = new TagMapManager();
 
     public Network() {
         tripleSum = 0;
@@ -76,6 +77,9 @@ public class Network implements NetworkInterface {
         tripleSum += getCorrectSameAcquaintanceCount(person1, person2);
         person1.addRelation(person2, value);
         person2.addRelation(person1, value);
+
+        globalTags.forEachTag(tag ->
+            tag.updateValueSumForRelationAddition(person1, person2, value));
     }
 
     @Override
@@ -102,6 +106,9 @@ public class Network implements NetworkInterface {
         if (newValue <= 0) {
             tripleSum -= getCorrectSameAcquaintanceCount(person1, person2);
 
+            globalTags.forEachTag(tag ->
+                tag.updateValueSumForRelationRemoval(person1, person2, currentValue));
+
             person1.delRelation(person2);
             person2.delRelation(person1);
             for (TagInterface tag : person1.getTags().values()) {
@@ -115,7 +122,9 @@ public class Network implements NetworkInterface {
                 }
             }
         } else {
-            // 更新关系值
+            globalTags.forEachTag(tag ->
+                tag.updateValueSumForRelationValueChange(person1, person2, value));
+
             person1.setValue(person2, newValue);
             person2.setValue(person1, newValue);
         }
@@ -170,6 +179,7 @@ public class Network implements NetworkInterface {
         if (person.containsTag(tag.getId())) {
             throw new EqualTagIdException(tag.getId());
         }
+        globalTags.addTag((Tag) tag);
         person.addTag(tag);
     }
 
@@ -194,7 +204,7 @@ public class Network implements NetworkInterface {
         if (!person2.containsTag(tagId)) {
             throw new TagIdNotFoundException(tagId);
         }
-        TagInterface tag = person2.getTag(tagId);
+        Tag tag = (Tag) person2.getTag(tagId);
         if (tag.hasPerson(person1)) {
             throw new EqualPersonIdException(personId1);
         }
@@ -202,7 +212,12 @@ public class Network implements NetworkInterface {
         if (tag.getSize() > 999) {
             return;
         }
+
         tag.addPerson(person1);
+        for (PersonInterface person : tag.getPersons().values()) {
+            tag.updateValueSumForRelationAddition(person1, person, person1.queryValue(person));
+        }
+
     }
 
     @Override
@@ -244,10 +259,13 @@ public class Network implements NetworkInterface {
         if (!person2.containsTag(tagId)) {
             throw new TagIdNotFoundException(tagId);
         }
-        TagInterface tag = person2.getTag(tagId);
+        Tag tag = (Tag) person2.getTag(tagId);
         Person person1 = getPerson(personId1);
         if (!tag.hasPerson(person1)) {
             throw new PersonIdNotFoundException(personId1);
+        }
+        for (PersonInterface person : tag.getPersons().values()) {
+            tag.updateValueSumForRelationRemoval(person1, person, person1.queryValue(person));
         }
         tag.delPerson(person1);
     }
@@ -262,6 +280,7 @@ public class Network implements NetworkInterface {
         if (!person.containsTag(tagId)) {
             throw new TagIdNotFoundException(tagId);
         }
+        globalTags.deleteTag((Tag) person.getTag(tagId));
         person.delTag(tagId);
     }
 
