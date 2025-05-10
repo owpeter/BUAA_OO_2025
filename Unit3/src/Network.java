@@ -17,7 +17,6 @@ import com.oocourse.spec2.exceptions.ArticleIdNotFoundException;
 import com.oocourse.spec2.exceptions.DeleteArticlePermissionDeniedException;
 import com.oocourse.spec2.exceptions.PathNotFoundException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Queue;
@@ -324,7 +323,7 @@ public class Network implements NetworkInterface {
             int id1 = person1.getId();
             int bestId1 = person1.getBestAcquaintanceId();
 
-            if (bestId1 != -1 && containsPerson(bestId1)) {
+            if (bestId1 != Integer.MIN_VALUE && containsPerson(bestId1)) {
                 Person person2 = getPerson(bestId1);
                 if (id1 < bestId1) {
                     if (person2.getAcquaintanceSize() > 0
@@ -470,7 +469,7 @@ public class Network implements NetworkInterface {
 
         account.removeArticle(articleId);
 
-        articlesMap.remove(articleId);
+        // articlesMap.remove(articleId);
 
         account.decrementContributor(contributorId);
 

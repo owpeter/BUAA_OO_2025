@@ -22,7 +22,7 @@ public class Person implements PersonInterface {
         this.id = id;
         this.name = name;
         this.age = age;
-        bestAcquaintanceId = -1;
+        bestAcquaintanceId = Integer.MIN_VALUE;
         bestAcquaintanceValue = Integer.MIN_VALUE;
     }
 
