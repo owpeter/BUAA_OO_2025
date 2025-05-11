@@ -122,6 +122,11 @@ public class Tag implements TagInterface {
 
     @Override
     public void delPerson(PersonInterface person) {
+        for (PersonInterface personI : persons.values()) {
+            if (personI.isLinked(person)) {
+                this.valueSum -= 2 * personI.queryValue(person);
+            }
+        }
         if (person != null && this.persons.containsKey(person.getId())) {
             this.persons.remove(person.getId());
         }
@@ -137,9 +142,6 @@ public class Tag implements TagInterface {
         if (hasPerson(person1) && hasPerson(person2) && !person1.equals(person2)) {
             this.valueSum += 2 * deltaValue;
         }
-        if (hasPerson(person1) && person1.equals(person2)) {
-            this.valueSum += deltaValue;
-        }
     }
 
     public void updateValueSumForRelationAddition(PersonInterface person1,
@@ -147,18 +149,12 @@ public class Tag implements TagInterface {
         if (hasPerson(person1) && hasPerson(person2) && !person1.equals(person2)) {
             this.valueSum += 2 * relationValue;
         }
-        if (hasPerson(person1) && person1.equals(person2)) {
-            this.valueSum += relationValue;
-        }
     }
 
     public void updateValueSumForRelationRemoval(PersonInterface person1,
         PersonInterface person2, int oldRelationValue) {
         if (hasPerson(person1) && hasPerson(person2) && !person1.equals(person2)) {
             this.valueSum -= 2 * oldRelationValue;
-        }
-        if (hasPerson(person1) && person1.equals(person2)) {
-            this.valueSum -= oldRelationValue;
         }
     }
 }

@@ -264,9 +264,9 @@ public class Network implements NetworkInterface {
         if (!tag.hasPerson(person1)) {
             throw new PersonIdNotFoundException(personId1);
         }
-        for (PersonInterface person : tag.getPersons().values()) {
-            tag.updateValueSumForRelationRemoval(person1, person, person1.queryValue(person));
-        }
+        // for (PersonInterface person : tag.getPersons().values()) {
+        //     tag.updateValueSumForRelationRemoval(person1, person, person1.queryValue(person));
+        // }
         tag.delPerson(person1);
     }
 
