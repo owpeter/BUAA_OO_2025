@@ -80,6 +80,10 @@ public class Person implements PersonInterface {
         }
     }
 
+    public boolean hasTag(int id) {
+        return containsTag(id);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof PersonInterface)) {

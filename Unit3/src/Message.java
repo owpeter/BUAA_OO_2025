@@ -11,7 +11,7 @@ public class Message implements MessageInterface {
     private final TagInterface tag;
 
     public Message(int messageId, int messageSocialValue, PersonInterface messagePerson1,
-                     PersonInterface messagePerson2) {
+        PersonInterface messagePerson2) {
         this.type = 0;
         this.tag = null;
         this.id = messageId;
@@ -20,7 +20,8 @@ public class Message implements MessageInterface {
         this.person2 = messagePerson2;
     }
 
-    public Message(int messageId, int messageSocialValue, PersonInterface messagePerson1, TagInterface messageTag) {
+    public Message(int messageId, int messageSocialValue,
+        PersonInterface messagePerson1, TagInterface messageTag) {
         this.type = 1;
         this.tag = messageTag;
         this.id = messageId;

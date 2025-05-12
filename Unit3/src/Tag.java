@@ -27,6 +27,10 @@ public class Tag implements TagInterface {
         return persons;
     }
 
+    public long getTime() {
+        return time;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

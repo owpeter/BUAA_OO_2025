@@ -35,16 +35,26 @@ public class Network implements NetworkInterface {
     private final HashMap<Integer, Person> persons = new HashMap<>();
     private final HashMap<Integer, OfficialAccount> accounts = new HashMap<>();
     private final HashMap<Integer, Integer> articlesMap = new HashMap<>();
-    // articleId -> contributorId
-    // private final DynamicUnionFind uf = new DynamicUnionFind();
     private int tripleSum;
-    private TagMapManager globalTags = new TagMapManager();
-
+    private TagMapManager globalTags = new TagMapManager(); // personId -> <tagTime -> Tag>
+    // 包含personId这个人的所有Tag
     private final HashMap<Integer, Message> messages = new HashMap<>();
     private final HashMap<Integer, Integer> emojis = new HashMap<>(); // emojiId -> heat
 
     public Network() {
         tripleSum = 0;
+    }
+
+    public MessageInterface[] getMessages() {
+        return messages.values().toArray(new Message[0]);
+    }
+
+    public int[] getEmojiIdList() {
+        return emojis.keySet().stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public int[] getEmojiHeatList() {
+        return emojis.values().stream().mapToInt(Integer::intValue).toArray();
     }
 
     public PersonInterface[] getPersons() { return persons.values().toArray(new Person[0]); }
@@ -65,6 +75,7 @@ public class Network implements NetworkInterface {
             throw new EqualPersonIdException(person.getId());
         }
         persons.put(person.getId(), (Person) person);
+        globalTags.addPerson(person.getId());
         // uf.add(person.getId());
     }
 
@@ -86,9 +97,7 @@ public class Network implements NetworkInterface {
         tripleSum += getCorrectSameAcquaintanceCount(person1, person2);
         person1.addRelation(person2, value);
         person2.addRelation(person1, value);
-
-        globalTags.forEachTag(tag ->
-            tag.updateValueSumForRelationAddition(person1, person2, value));
+        globalTags.addValue(person1, person2, value);
     }
 
     @Override
@@ -114,26 +123,23 @@ public class Network implements NetworkInterface {
 
         if (newValue <= 0) {
             tripleSum -= getCorrectSameAcquaintanceCount(person1, person2);
-
-            globalTags.forEachTag(tag ->
-                tag.updateValueSumForRelationRemoval(person1, person2, currentValue));
-
+            globalTags.addValue(person1, person2, -currentValue);
             person1.delRelation(person2);
             person2.delRelation(person1);
             for (TagInterface tag : person1.getTags().values()) {
                 if (tag.hasPerson(person2)) {
                     tag.delPerson(person2);
+                    globalTags.removePersonFromTag(id2, (Tag) tag);
                 }
             }
             for (TagInterface tag : person2.getTags().values()) {
                 if (tag.hasPerson(person1)) {
                     tag.delPerson(person1);
+                    globalTags.removePersonFromTag(id1, (Tag) tag);
                 }
             }
         } else {
-            globalTags.forEachTag(tag ->
-                tag.updateValueSumForRelationValueChange(person1, person2, value));
-
+            globalTags.addValue(person1, person2, value);
             person1.setValue(person2, newValue);
             person2.setValue(person1, newValue);
         }
@@ -188,7 +194,6 @@ public class Network implements NetworkInterface {
         if (person.containsTag(tag.getId())) {
             throw new EqualTagIdException(tag.getId());
         }
-        globalTags.addTag((Tag) tag);
         person.addTag(tag);
     }
 
@@ -223,10 +228,10 @@ public class Network implements NetworkInterface {
         }
 
         tag.addPerson(person1);
+        globalTags.addPersonToTag(personId1, tag);
         for (PersonInterface person : tag.getPersons().values()) {
             tag.updateValueSumForRelationAddition(person1, person, person1.queryValue(person));
         }
-
     }
 
     @Override
@@ -273,10 +278,8 @@ public class Network implements NetworkInterface {
         if (!tag.hasPerson(person1)) {
             throw new PersonIdNotFoundException(personId1);
         }
-        // for (PersonInterface person : tag.getPersons().values()) {
-        //     tag.updateValueSumForRelationRemoval(person1, person, person1.queryValue(person));
-        // }
         tag.delPerson(person1);
+        globalTags.removePersonFromTag(personId1, tag);
     }
 
     @Override
@@ -289,7 +292,8 @@ public class Network implements NetworkInterface {
         if (!person.containsTag(tagId)) {
             throw new TagIdNotFoundException(tagId);
         }
-        globalTags.deleteTag((Tag) person.getTag(tagId));
+        Tag tag = (Tag) person.getTag(tagId);
+        globalTags.removeTag(tag);
         person.delTag(tagId);
     }
 
@@ -534,12 +538,14 @@ public class Network implements NetworkInterface {
     }
 
     @Override
-    public void addMessage(MessageInterface message) throws EqualMessageIdException, EmojiIdNotFoundException, ArticleIdNotFoundException, EqualPersonIdException {
+    public void addMessage(MessageInterface message) throws EqualMessageIdException,
+        EmojiIdNotFoundException, ArticleIdNotFoundException, EqualPersonIdException {
         int messageId = message.getId();
         if (containsMessage(messageId)) {
             throw new EqualMessageIdException(messageId);
         }
-        if (message instanceof EmojiMessage && !containsEmojiId(((EmojiMessage) message).getEmojiId())) {
+        if (message instanceof EmojiMessage
+            && !containsEmojiId(((EmojiMessage) message).getEmojiId())) {
             throw new EmojiIdNotFoundException(((EmojiMessage) message).getEmojiId());
         }
         if (message instanceof ForwardMessage
@@ -548,7 +554,8 @@ public class Network implements NetworkInterface {
         }
         if (message instanceof ForwardMessage
             && containsArticle(((ForwardMessage) message).getArticleId())
-            && !(message).getPerson1().getReceivedArticles().contains(((ForwardMessage) message).getArticleId())) {
+            && !(message).getPerson1().getReceivedArticles()
+            .contains(((ForwardMessage) message).getArticleId())) {
             throw new ArticleIdNotFoundException(((ForwardMessage) message).getArticleId());
         }
         if (message.getType() == 0
@@ -568,14 +575,13 @@ public class Network implements NetworkInterface {
 
     @Override
     public void sendMessage(int id) throws RelationNotFoundException,
-            MessageIdNotFoundException, TagIdNotFoundException {
+        MessageIdNotFoundException, TagIdNotFoundException {
         if (!containsMessage(id)) {
             throw new MessageIdNotFoundException(id);
         }
         Message message = messages.get(id);
         Person sender = (Person) message.getPerson1();
         int type = message.getType();
-
         if (type == 0) { // 处理普通消息
             Person receiver = (Person) message.getPerson2();
             if (!sender.isLinked(receiver)) {
@@ -584,16 +590,16 @@ public class Network implements NetworkInterface {
             sender.addSocialValue(message.getSocialValue());
             receiver.addSocialValue(message.getSocialValue());
             if (message instanceof RedEnvelopeMessage) {
-                int money = ((RedEnvelopeMessage) message).getMoney();
-                sender.addMoney(-money);
-                receiver.addMoney(money);
+                sender.addMoney(-((RedEnvelopeMessage) message).getMoney());
+                receiver.addMoney(((RedEnvelopeMessage) message).getMoney());
             }
             if (message instanceof ForwardMessage) {
-                ((Person) message.getPerson2()).receiveArticle(((ForwardMessage) message).getArticleId());
+                ((Person) message.getPerson2())
+                .receiveArticle(((ForwardMessage) message).getArticleId());
             }
             if (message instanceof EmojiMessage) {
-                int emojiId = ((EmojiMessage) message).getEmojiId();
-                emojis.put(emojiId, emojis.getOrDefault(emojiId, 0) + 1);
+                emojis.put(((EmojiMessage) message).getEmojiId(),
+                    emojis.getOrDefault(((EmojiMessage) message).getEmojiId(), 0) + 1);
             }
             receiver.addMessage(message);
         } else if (type == 1) { // 处理群发消息
@@ -609,10 +615,9 @@ public class Network implements NetworkInterface {
             int tagSize = tag.getSize();
             if (message instanceof RedEnvelopeMessage && tagSize > 0) {
                 int money = ((RedEnvelopeMessage) message).getMoney();
-                int splitMoney = money / tagSize;
-                sender.addMoney(-(splitMoney * tagSize));
+                sender.addMoney(-((money / tagSize) * tagSize));
                 for (PersonInterface person : tag.getPersons().values()) {
-                    person.addMoney(splitMoney);
+                    person.addMoney(money / tagSize);
                 }
             }
             if (message instanceof ForwardMessage && tagSize > 0) {
