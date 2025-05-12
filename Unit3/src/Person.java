@@ -1,10 +1,12 @@
-import com.oocourse.spec2.main.PersonInterface;
-import com.oocourse.spec2.main.TagInterface;
+import com.oocourse.spec3.main.MessageInterface;
+import com.oocourse.spec3.main.PersonInterface;
+import com.oocourse.spec3.main.TagInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.LinkedList;
 
 public class Person implements PersonInterface {
     private int id;
@@ -13,10 +15,14 @@ public class Person implements PersonInterface {
     private final HashMap<Integer, Person> acquaintance = new HashMap<>();
     private final HashMap<Integer, Integer> value = new HashMap<>();
     private final HashMap<Integer, TagInterface> tags = new HashMap<>();
-    private final ArrayList<Integer> receivedArticles = new ArrayList<>();
+    private final List<Integer> receivedArticles = new LinkedList<>();
 
     private int bestAcquaintanceId;
     private int bestAcquaintanceValue; // Store the value too
+
+    private int money;
+    private int socialValue;
+    private final List<MessageInterface> messages;
 
     public Person(int id, String name, int age) {
         this.id = id;
@@ -24,6 +30,10 @@ public class Person implements PersonInterface {
         this.age = age;
         bestAcquaintanceId = Integer.MIN_VALUE;
         bestAcquaintanceValue = Integer.MIN_VALUE;
+
+        this.money = 0;
+        this.socialValue = 0;
+        this.messages = new LinkedList<>();
     }
 
     public boolean strictEquals(PersonInterface person) { return this.equals(person); }
@@ -99,9 +109,41 @@ public class Person implements PersonInterface {
         return receivedArticles;
     }
 
+    @Override
     public List<Integer> queryReceivedArticles() {
         int limit = Math.min(receivedArticles.size(), 5);
         return receivedArticles.subList(0, limit);
+    }
+
+    @Override
+    public void addSocialValue(int num) {
+        this.socialValue += num;
+    }
+
+    @Override
+    public int getSocialValue() {
+        return this.socialValue;
+    }
+
+    @Override
+    public List<MessageInterface> getMessages() {
+        return messages;
+    }
+
+    @Override
+    public List<MessageInterface> getReceivedMessages() {
+        int limit = Math.min(messages.size(), 5);
+        return messages.subList(0, limit);
+    }
+
+    @Override
+    public void addMoney(int num) {
+        this.money += num;
+    }
+
+    @Override
+    public int getMoney() {
+        return this.money;
     }
 
     public void addRelation(Person person, int value) {
@@ -199,5 +241,9 @@ public class Person implements PersonInterface {
 
     public void removeReceivedArticle(int articleId) {
         receivedArticles.remove(Integer.valueOf(articleId));
+    }
+
+    public void addMessage(MessageInterface message) {
+        messages.add(0, message);
     }
 }

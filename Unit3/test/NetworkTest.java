@@ -1,5 +1,5 @@
 
-import com.oocourse.spec2.main.PersonInterface;
+import com.oocourse.spec3.main.PersonInterface;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

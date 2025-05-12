@@ -1,5 +1,5 @@
-import com.oocourse.spec2.main.PersonInterface;
-import com.oocourse.spec2.main.OfficialAccountInterface;
+import com.oocourse.spec3.main.PersonInterface;
+import com.oocourse.spec3.main.OfficialAccountInterface;
 
 import java.util.HashMap;
 import java.util.HashSet;
