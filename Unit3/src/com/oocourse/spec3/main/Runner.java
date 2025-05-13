@@ -601,6 +601,10 @@ public class Runner {
 
     private void sendMessage() {
         int messageId = Integer.parseInt(commands[1]);
+        if (messageId == 763) {
+            int i = 1;
+            int a = 1;
+        }
         try {
             network.sendMessage(messageId);
         } catch (RelationNotFoundException e) {

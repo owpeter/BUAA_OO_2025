@@ -607,7 +607,7 @@ public class Network implements NetworkInterface {
             if (!sender.containsTag(tagId)) {
                 throw new TagIdNotFoundException(tagId);
             }
-            Tag tag = (Tag) sender.getTag(tagId);
+            Tag tag = (Tag) message.getTag();
             sender.addSocialValue(message.getSocialValue());
             for (PersonInterface person : tag.getPersons().values()) {
                 person.addSocialValue(message.getSocialValue());

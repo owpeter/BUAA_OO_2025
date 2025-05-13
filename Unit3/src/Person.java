@@ -244,7 +244,9 @@ public class Person implements PersonInterface {
     }
 
     public void removeReceivedArticle(int articleId) {
-        receivedArticles.remove(Integer.valueOf(articleId));
+        while (receivedArticles.remove(Integer.valueOf(articleId))) {
+
+        }
     }
 
     public void addMessage(MessageInterface message) {
