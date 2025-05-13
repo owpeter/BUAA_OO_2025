@@ -2,7 +2,6 @@ import com.oocourse.spec3.main.MessageInterface;
 import com.oocourse.spec3.main.PersonInterface;
 import com.oocourse.spec3.main.TagInterface;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

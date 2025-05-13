@@ -1,8 +1,5 @@
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Consumer;
 
 public class TagMapManager {
 
@@ -37,20 +34,17 @@ public class TagMapManager {
             entry.getValue().updateValueSumForRelationAddition(person1, person2, value);
         }
     }
-
-//    public void removePerson(Person person1, Person person2) {
-//        for (Map.Entry<Long, Tag> entry: this.tagsMapById.get(person1.getId()).entrySet()) {
-//            // 所有包含person1的tag，如果person2有这个tag，就要把person1从里面删掉
-//            if (person2.hasTag(entry.getValue().getId())) {
-//                entry.getValue().delPerson(person1);
-//            }
-//        }
-//        for (Map.Entry<Long, Tag> entry: this.tagsMapById.get(person2.getId()).entrySet()) {
-//            if (person1.hasTag(entry.getValue().getId())) {
-//                entry.getValue().delPerson(person2);
-//            }
-//        }
-//    }
-
-
+    //    public void removePerson(Person person1, Person person2) {
+    //        for (Map.Entry<Long, Tag> entry: this.tagsMapById.get(person1.getId()).entrySet()) {
+    //            // 所有包含person1的tag，如果person2有这个tag，就要把person1从里面删掉
+    //            if (person2.hasTag(entry.getValue().getId())) {
+    //                entry.getValue().delPerson(person1);
+    //            }
+    //        }
+    //        for (Map.Entry<Long, Tag> entry: this.tagsMapById.get(person2.getId()).entrySet()) {
+    //            if (person1.hasTag(entry.getValue().getId())) {
+    //                entry.getValue().delPerson(person2);
+    //            }
+    //        }
+    //    }
 }

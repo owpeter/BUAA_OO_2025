@@ -222,11 +222,28 @@ public class Runner {
                     default:
                         throw new RuntimeException("No such command");
                 }
+                // debug
+                // debug();
             }
             scanner.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void debug() {
+        System.out.print("[debug]: ");
+        int ret;
+        try {
+            ret = network.queryTagValueSum(25, 14);
+        } catch (TagIdNotFoundException e) {
+            e.print();
+            return;
+        } catch (PersonIdNotFoundException e) {
+            e.print();
+            return;
+        }
+        System.out.println(ret);
     }
 
     private void createOfficialAccount(){
