@@ -16,16 +16,16 @@ public class TagMapManager {
     }
 
     public void addPersonToTag(Integer personId, Tag tag) {
-        tagsMapById.get(personId).put(tag.getTime(), tag);
+        tagsMapById.get(personId).put(tag.getGlobalId(), tag);
     }
 
     public void removePersonFromTag(Integer personId, Tag tag) {
-        tagsMapById.get(personId).remove(tag.getTime());
+        tagsMapById.get(personId).remove(tag.getGlobalId());
     }
 
     public void removeTag(Tag tag) {
         for (Map.Entry<Integer, HashMap<Long, Tag>> entry : tagsMapById.entrySet()) {
-            entry.getValue().remove(tag.getTime());
+            entry.getValue().remove(tag.getGlobalId());
         }
     }
 

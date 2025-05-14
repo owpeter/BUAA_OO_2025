@@ -8,14 +8,15 @@ import com.oocourse.spec3.main.TagInterface;
 public class Tag implements TagInterface {
 
     private final int id;
-    private final long time;
+    private final int globalId;
     private final Map<Integer, PersonInterface> persons;
     private int valueSum = 0;
+    private static int globalCnt = 0;
 
     public Tag(int id) {
         this.id = id;
         this.persons = new HashMap<>();
-        this.time = System.currentTimeMillis();
+        this.globalId = globalCnt++;
     }
 
     @Override
@@ -27,8 +28,8 @@ public class Tag implements TagInterface {
         return persons;
     }
 
-    public long getTime() {
-        return time;
+    public long getGlobalId() {
+        return globalId;
     }
 
     @Override
@@ -41,12 +42,12 @@ public class Tag implements TagInterface {
         }
         Tag tag = (Tag) obj;
         return id == tag.id &&
-                time == tag.time;
+                globalId == tag.globalId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, time); // 确保包含所有参与equals的字段
+        return Objects.hash(id, globalId); // 确保包含所有参与equals的字段
     }
 
     public void addPerson(PersonInterface person) {
@@ -71,51 +72,51 @@ public class Tag implements TagInterface {
         return this.persons.containsKey(person.getId());
     }
 
-    // @Override
-    // public int getValueSum() {
-    //     return this.valueSum;
-    //
-    // }
+     @Override
+     public int getValueSum() {
+         return this.valueSum;
 
-    @Override
+     }
 
-    public int getValueSum() {
-
-        long sum = 0; // Use long to prevent overflow during calculation
-
-        PersonInterface[] personArray = persons.values().toArray(new PersonInterface[0]);
-
-        int n = personArray.length;
-
-
-
-        for (int i = 0; i < n; i++) {
-
-            PersonInterface p1 = personArray[i];
-
-            for (int j = 0; j < n; j++) { // Iterate including i == j
-
-                PersonInterface p2 = personArray[j];
-
-                if (p1.isLinked(p2)) { // isLinked is true for p1 == p2
-
-                    sum += p1.queryValue(p2); // queryValue is 0 for p1 == p2
-
-                }
-
-            }
-
-        }
-
-        // The JML implies summing over all pairs (i, j) where they are linked.
-
-        // The loop structure naturally counts edge (p1, p2) and (p2, p1) if p1!=p2.
-
-        // And correctly handles (p1, p1) where value is 0.
-
-        return (int) sum;
-
-    }
+//    @Override
+//
+//    public int getValueSum() {
+//
+//        long sum = 0; // Use long to prevent overflow during calculation
+//
+//        PersonInterface[] personArray = persons.values().toArray(new PersonInterface[0]);
+//
+//        int n = personArray.length;
+//
+//
+//
+//        for (int i = 0; i < n; i++) {
+//
+//            PersonInterface p1 = personArray[i];
+//
+//            for (int j = 0; j < n; j++) { // Iterate including i == j
+//
+//                PersonInterface p2 = personArray[j];
+//
+//                if (p1.isLinked(p2)) { // isLinked is true for p1 == p2
+//
+//                    sum += p1.queryValue(p2); // queryValue is 0 for p1 == p2
+//
+//                }
+//
+//            }
+//
+//        }
+//
+//        // The JML implies summing over all pairs (i, j) where they are linked.
+//
+//        // The loop structure naturally counts edge (p1, p2) and (p2, p1) if p1!=p2.
+//
+//        // And correctly handles (p1, p1) where value is 0.
+//
+//        return (int) sum;
+//
+//    }
 
     @Override
     public int getAgeMean() {
