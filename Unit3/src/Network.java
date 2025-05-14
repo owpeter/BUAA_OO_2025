@@ -24,10 +24,8 @@ import com.oocourse.spec3.exceptions.PathNotFoundException;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.ArrayDeque;
 import java.util.Iterator;
-import java.util.Queue;
-import java.util.Set;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -311,8 +309,8 @@ public class Network implements NetworkInterface {
     }
 
     private boolean bfs(int startId, int targetId) {
-        Queue<Integer> queue = new LinkedList<>();
-        Set<Integer> visited = new HashSet<>();
+        ArrayDeque<Integer> queue = new ArrayDeque<>();
+        HashSet<Integer> visited = new HashSet<>();
 
         queue.add(startId);
         visited.add(startId);
@@ -379,8 +377,8 @@ public class Network implements NetworkInterface {
             return 0;
         }
 
-        Queue<Integer> queue = new LinkedList<>();
-        Map<Integer, Integer> distance = new HashMap<>();
+        ArrayDeque<Integer> queue = new ArrayDeque<>();
+        HashMap<Integer, Integer> distance = new HashMap<>();
         queue.add(id1);
         distance.put(id1, 0);
         while (!queue.isEmpty()) {

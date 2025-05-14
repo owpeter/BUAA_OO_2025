@@ -2,10 +2,12 @@ import com.oocourse.spec3.main.MessageInterface;
 import com.oocourse.spec3.main.PersonInterface;
 import com.oocourse.spec3.main.TagInterface;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.LinkedList;
+
 
 public class Person implements PersonInterface {
     private int id;
@@ -14,7 +16,7 @@ public class Person implements PersonInterface {
     private final HashMap<Integer, Person> acquaintance = new HashMap<>();
     private final HashMap<Integer, Integer> value = new HashMap<>();
     private final HashMap<Integer, TagInterface> tags = new HashMap<>();
-    private final List<Integer> receivedArticles = new LinkedList<>();
+    private final List<Integer> receivedArticles = new ArrayList<>();
 
     private int bestAcquaintanceId;
     private int bestAcquaintanceValue; // Store the value too
