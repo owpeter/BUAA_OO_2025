@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class ApBook {
     private LocalDate startDate;
-    private LibraryBookId bookId;
+    private final LibraryBookId bookId;
     String personId;
 
     public ApBook(LocalDate startDate,LibraryBookId bookId, String personId) {

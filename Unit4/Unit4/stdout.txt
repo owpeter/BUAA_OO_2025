@@ -1,0 +1,15 @@
+0
+[2025-01-05] [accept] 23370001 ordered B-0000
+0
+1
+[2025-01-06] move B-0000-1 from bs to ao
+[2025-01-06] [accept] 23370001 picked B-0000-1
+[2025-01-06] [reject] 23370001 picked B-0000
+0
+0
+[2025-01-07] [accept] 23370001 returned B-0000-1
+[2025-01-07] B-0000-1 moving trace: 3
+1 [2025-01-06] from bs to ao
+2 [2025-01-06] from ao to user
+3 [2025-01-07] from user to bro
+0

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Bookshelf {
     private HashMap<LibraryBookIsbn, LinkedList<LibraryBookId>> books;
-    private ArrayList<ApBook> apList;
+    private final ArrayList<ApBook> apList;
 
     public Bookshelf() {
         books = new HashMap<>();

@@ -25,7 +25,7 @@ public class AppointmentOffice {
         for (int i = 0; i < apBooks.size(); ++i) {
             ApBook currentAppointment = apBooks.get(i);
             boolean userMatches = currentAppointment.getPersonId().equals(userId);
-            boolean bookMatches = ((LibraryBookIsbn) currentAppointment.getBookId()).equals(targetBookId);
+            boolean bookMatches = currentAppointment.getBookId().getBookIsbn().equals(targetBookId);
             if (!userMatches || !bookMatches) {
                 continue;
             }

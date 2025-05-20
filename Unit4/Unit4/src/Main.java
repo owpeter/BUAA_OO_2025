@@ -6,6 +6,7 @@ import com.oocourse.library1.LibraryOpenCmd;
 import com.oocourse.library1.LibraryReqCmd;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Map;
 
 import static com.oocourse.library1.LibraryIO.PRINTER;
@@ -25,6 +26,7 @@ public class Main {
                  PRINTER.move(today, library.arrangeBook(today));
             } else if (command instanceof LibraryCloseCmd) {
                 // 在闭馆时做点什么
+                PRINTER.move(today, new ArrayList<>());
             } else {
                 LibraryReqCmd req = (LibraryReqCmd) command;
                 LibraryReqCmd.Type type = req.getType(); // 指令对应的类型（查询/阅读/借阅/预约/还书/取书/归还）

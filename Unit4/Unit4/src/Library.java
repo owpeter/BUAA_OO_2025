@@ -59,7 +59,7 @@ public class Library {
     }
 
     public boolean orderBook(String personId, LibraryBookIsbn bookIsbn) {
-        if (personTable.canHaveBook(personId, bookIsbn)) {
+        if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId)) {
             LibraryBookId bookId = bookshelf.addApBook(personId, bookIsbn);
             personTable.addApBook(personId, bookId);
             return true;
@@ -68,7 +68,7 @@ public class Library {
     }
 
     public LibraryBookId getApBook(LocalDate today, String personId, LibraryBookIsbn bookIsbn) {
-        if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId)) {
+        if (personTable.canHaveBook(personId, bookIsbn)) {
             // appointment available
             LibraryBookId bookId = appointmentOffice.getApBook(today, personId, bookIsbn);
             personTable.addBook(personId, bookId);
