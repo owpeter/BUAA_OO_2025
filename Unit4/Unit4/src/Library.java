@@ -59,7 +59,7 @@ public class Library {
     }
 
     public boolean orderBook(String personId, LibraryBookIsbn bookIsbn) {
-        if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId)) {
+        if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId) && bookshelf.hasBook(bookIsbn)) {
             LibraryBookId bookId = bookshelf.addApBook(personId, bookIsbn);
             personTable.addApBook(personId, bookId);
             return true;
@@ -106,13 +106,14 @@ public class Library {
             appointmentOffice.addApBook(today, apBook);
         }
         // ao -> bs
-        List<LibraryBookId> apBooks2 = appointmentOffice.getOutDatedApBooks(today);
-        for (LibraryBookId bookId : apBooks2) {
-            ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(bookId, new ArrayList<>());
+        List<ApBook> apBooks2 = appointmentOffice.getOutDatedApBooks(today);
+        for (ApBook apBook : apBooks2) {
+            personTable.removeApBook(apBook.getPersonId());
+            ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(apBook.getBookId(), new ArrayList<>());
             trace.add(new LibraryTrace(today, LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.BOOKSHELF));
-            bookTrace.put(bookId, trace);
-            moveInfos.add(new LibraryMoveInfo(bookId, LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.BOOKSHELF));
-            bookshelf.addBook(bookId);
+            bookTrace.put(apBook.getBookId(), trace);
+            moveInfos.add(new LibraryMoveInfo(apBook.getBookId(), LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.BOOKSHELF));
+            bookshelf.addBook(apBook.getBookId());
         }
         return moveInfos;
     }

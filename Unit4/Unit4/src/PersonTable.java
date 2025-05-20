@@ -57,4 +57,8 @@ public class PersonTable {
         return apMap.containsKey(personId);
     }
 
+    public void removeApBook(String personId) {
+        apMap.remove(personId);
+    }
+
 }

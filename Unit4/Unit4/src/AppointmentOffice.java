@@ -44,12 +44,12 @@ public class AppointmentOffice {
         return null;
     }
 
-    public List<LibraryBookId> getOutDatedApBooks(LocalDate today) {
-        ArrayList<LibraryBookId> outDatedBooks = new ArrayList<>();
+    public List<ApBook> getOutDatedApBooks(LocalDate today) {
+        ArrayList<ApBook> outDatedBooks = new ArrayList<>();
         for (ApBook apBook : apBooks) {
             long daysDifference = ChronoUnit.DAYS.between(apBook.getStartDate(), today);
             if (daysDifference > 5) {
-                outDatedBooks.add(apBook.getBookId());
+                outDatedBooks.add(apBook);
             }
         }
         return outDatedBooks;
