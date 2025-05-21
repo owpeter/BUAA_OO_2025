@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Library {
-    Bookshelf bookshelf;
-    BorrowAndReturning borrowAndReturning;
-    AppointmentOffice appointmentOffice;
-    PersonTable personTable;
-    HashMap<LibraryBookId, ArrayList<LibraryTrace>> bookTrace;
+    private final Bookshelf bookshelf;
+    private final BorrowAndReturning borrowAndReturning;
+    private final AppointmentOffice appointmentOffice;
+    private final PersonTable personTable;
+    private final HashMap<LibraryBookId, ArrayList<LibraryTrace>> bookTrace;
 
     public Library() {
         bookshelf = new Bookshelf();
@@ -28,7 +28,8 @@ public class Library {
     public void initBook(Map<LibraryBookIsbn, Integer> bookList) {
         for (Map.Entry<LibraryBookIsbn, Integer> entry : bookList.entrySet()) {
             for (int i = 1; i <= entry.getValue(); i++) {
-                bookshelf.addBook(new LibraryBookId(entry.getKey().getType(), entry.getKey().getUid(), String.valueOf(i)));
+                String copyId = i < 10  ? "0" + i : String.valueOf(i);
+                bookshelf.addBook(new LibraryBookId(entry.getKey().getType(), entry.getKey().getUid(), copyId));
             }
         }
     }
@@ -59,8 +60,11 @@ public class Library {
     }
 
     public boolean orderBook(String personId, LibraryBookIsbn bookIsbn) {
-        if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId) && bookshelf.hasBook(bookIsbn)) {
+        if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId) /*&& bookshelf.hasBook(bookIsbn)*/) {
             LibraryBookId bookId = bookshelf.addApBook(personId, bookIsbn);
+            if (bookId == null) {
+                bookId = new LibraryBookId(bookIsbn.getType(), bookIsbn.getUid(), "01");
+            }
             personTable.addApBook(personId, bookId);
             return true;
         }
@@ -72,6 +76,7 @@ public class Library {
             // appointment available
             LibraryBookId bookId = appointmentOffice.getApBook(today, personId, bookIsbn);
             personTable.addBook(personId, bookId);
+            personTable.removeApBook(personId);
             // update trace
             ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(bookId, new ArrayList<>());
             trace.add(new LibraryTrace(today, LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.USER));
@@ -102,7 +107,7 @@ public class Library {
             ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(apBook.getBookId(), new ArrayList<>());
             trace.add(new LibraryTrace(today, LibraryBookState.BOOKSHELF, LibraryBookState.APPOINTMENT_OFFICE));
             bookTrace.put(apBook.getBookId(), trace);
-            moveInfos.add(new LibraryMoveInfo(apBook.getBookId(), LibraryBookState.BOOKSHELF, LibraryBookState.APPOINTMENT_OFFICE));
+            moveInfos.add(new LibraryMoveInfo(apBook.getBookId(), LibraryBookState.BOOKSHELF, LibraryBookState.APPOINTMENT_OFFICE, apBook.getPersonId()));
             appointmentOffice.addApBook(today, apBook);
         }
         // ao -> bs

@@ -4,13 +4,14 @@ import com.oocourse.library1.LibraryBookIsbn;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class AppointmentOffice {
     private final ArrayList<ApBook> apBooks;
 
     public AppointmentOffice() {
-        apBooks = new ArrayList<ApBook>();
+        apBooks = new ArrayList<>();
     }
 
     public void addApBook(LocalDate today, ApBook apBook) {
@@ -46,10 +47,13 @@ public class AppointmentOffice {
 
     public List<ApBook> getOutDatedApBooks(LocalDate today) {
         ArrayList<ApBook> outDatedBooks = new ArrayList<>();
-        for (ApBook apBook : apBooks) {
+        Iterator<ApBook> iterator = apBooks.iterator();
+        while (iterator.hasNext()) {
+            ApBook apBook = iterator.next();
             long daysDifference = ChronoUnit.DAYS.between(apBook.getStartDate(), today);
-            if (daysDifference > 5) {
+            if (daysDifference >= 5) {
                 outDatedBooks.add(apBook);
+                iterator.remove();
             }
         }
         return outDatedBooks;

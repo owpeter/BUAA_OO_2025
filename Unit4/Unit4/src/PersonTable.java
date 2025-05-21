@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 public class PersonTable {
     private final HashSet<String> hasBset;
-    private final HashMap<String, HashSet<LibraryBookId>> hasCMap; // 精确到副本
+    private final HashMap<String, HashSet<LibraryBookIsbn>> hasCMap; // 精确到副本
     private HashMap<String, LibraryBookId> apMap;
 
     public PersonTable() {
@@ -19,8 +19,8 @@ public class PersonTable {
         if (bookId.isTypeB()) {
             hasBset.add(personId);
         } else if (bookId.isTypeC()) {
-            HashSet<LibraryBookId> set = hasCMap.getOrDefault(personId, new HashSet<>());
-            set.add(bookId);
+            HashSet<LibraryBookIsbn> set = hasCMap.getOrDefault(personId, new HashSet<>());
+            set.add(bookId.getBookIsbn());
             hasCMap.put(personId, set);
         }
     }
@@ -29,7 +29,7 @@ public class PersonTable {
         if (bookId.isTypeB()) {
             hasBset.remove(personId);
         } else if (bookId.isTypeC()) {
-            hasCMap.get(personId).remove(bookId);
+            hasCMap.get(personId).remove(bookId.getBookIsbn());
             if (hasCMap.get(personId).isEmpty()) {
                 hasCMap.remove(personId);
             }

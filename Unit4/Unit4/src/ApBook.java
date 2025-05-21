@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class ApBook {
     private LocalDate startDate;
     private final LibraryBookId bookId;
-    String personId;
+    private final String personId;
 
     public ApBook(LocalDate startDate,LibraryBookId bookId, String personId) {
         this.bookId = bookId;
