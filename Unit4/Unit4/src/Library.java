@@ -29,7 +29,8 @@ public class Library {
         for (Map.Entry<LibraryBookIsbn, Integer> entry : bookList.entrySet()) {
             for (int i = 1; i <= entry.getValue(); i++) {
                 String copyId = i < 10  ? "0" + i : String.valueOf(i);
-                bookshelf.addBook(new LibraryBookId(entry.getKey().getType(), entry.getKey().getUid(), copyId));
+                bookshelf.addBook(new LibraryBookId(entry.getKey().getType(),
+                    entry.getKey().getUid(), copyId));
             }
         }
     }
@@ -55,12 +56,13 @@ public class Library {
         personTable.removeBook(personId, bookId);
         borrowAndReturning.addBook(bookId);
         ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(bookId, new ArrayList<>());
-        trace.add(new LibraryTrace(today, LibraryBookState.USER, LibraryBookState.BORROW_RETURN_OFFICE));
+        trace.add(new LibraryTrace(today, LibraryBookState.USER,
+            LibraryBookState.BORROW_RETURN_OFFICE));
         bookTrace.put(bookId, trace);
     }
 
     public boolean orderBook(String personId, LibraryBookIsbn bookIsbn) {
-        if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId) /*&& bookshelf.hasBook(bookIsbn)*/) {
+        if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId)) {
             LibraryBookId bookId = bookshelf.addApBook(personId, bookIsbn);
             if (bookId == null) {
                 bookId = new LibraryBookId(bookIsbn.getType(), bookIsbn.getUid(), "01");
@@ -79,7 +81,8 @@ public class Library {
             personTable.removeApBook(personId);
             // update trace
             ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(bookId, new ArrayList<>());
-            trace.add(new LibraryTrace(today, LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.USER));
+            trace.add(new LibraryTrace(today, LibraryBookState.APPOINTMENT_OFFICE,
+                LibraryBookState.USER));
             bookTrace.put(bookId, trace);
             return bookId;
         }
@@ -96,28 +99,36 @@ public class Library {
         List<LibraryBookId> books = borrowAndReturning.backToBookshelf();
         for (LibraryBookId bookId : books) {
             ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(bookId, new ArrayList<>());
-            trace.add(new LibraryTrace(today, LibraryBookState.BORROW_RETURN_OFFICE, LibraryBookState.BOOKSHELF));
+            trace.add(new LibraryTrace(today, LibraryBookState.BORROW_RETURN_OFFICE,
+                LibraryBookState.BOOKSHELF));
             bookTrace.put(bookId, trace);
-            moveInfos.add(new LibraryMoveInfo(bookId, LibraryBookState.BORROW_RETURN_OFFICE, LibraryBookState.BOOKSHELF));
+            moveInfos.add(new LibraryMoveInfo(bookId, LibraryBookState.BORROW_RETURN_OFFICE,
+                LibraryBookState.BOOKSHELF));
             bookshelf.addBook(bookId);
         }
         // bs -> ao
         List<ApBook> apBooks = bookshelf.removeApBook();
         for (ApBook apBook : apBooks) {
-            ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(apBook.getBookId(), new ArrayList<>());
-            trace.add(new LibraryTrace(today, LibraryBookState.BOOKSHELF, LibraryBookState.APPOINTMENT_OFFICE));
+            ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(apBook.getBookId(),
+                new ArrayList<>());
+            trace.add(new LibraryTrace(today, LibraryBookState.BOOKSHELF,
+                LibraryBookState.APPOINTMENT_OFFICE));
             bookTrace.put(apBook.getBookId(), trace);
-            moveInfos.add(new LibraryMoveInfo(apBook.getBookId(), LibraryBookState.BOOKSHELF, LibraryBookState.APPOINTMENT_OFFICE, apBook.getPersonId()));
+            moveInfos.add(new LibraryMoveInfo(apBook.getBookId(), LibraryBookState.BOOKSHELF,
+                LibraryBookState.APPOINTMENT_OFFICE, apBook.getPersonId()));
             appointmentOffice.addApBook(today, apBook);
         }
         // ao -> bs
         List<ApBook> apBooks2 = appointmentOffice.getOutDatedApBooks(today);
         for (ApBook apBook : apBooks2) {
             personTable.removeApBook(apBook.getPersonId());
-            ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(apBook.getBookId(), new ArrayList<>());
-            trace.add(new LibraryTrace(today, LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.BOOKSHELF));
+            ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(apBook.getBookId(),
+                new ArrayList<>());
+            trace.add(new LibraryTrace(today, LibraryBookState.APPOINTMENT_OFFICE,
+                LibraryBookState.BOOKSHELF));
             bookTrace.put(apBook.getBookId(), trace);
-            moveInfos.add(new LibraryMoveInfo(apBook.getBookId(), LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.BOOKSHELF));
+            moveInfos.add(new LibraryMoveInfo(apBook.getBookId(),
+                LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.BOOKSHELF));
             bookshelf.addBook(apBook.getBookId());
         }
         return moveInfos;

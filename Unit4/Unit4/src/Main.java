@@ -14,26 +14,22 @@ import static com.oocourse.library1.LibraryIO.SCANNER;
 
 public class Main {
     public static void main(String[] args) {
-        Map<LibraryBookIsbn, Integer> bookList = SCANNER.getInventory();	// 获取图书馆内所有书籍ISBN号及相应副本数
+        Map<LibraryBookIsbn, Integer> bookList = SCANNER.getInventory();
         Library library = new Library();
         library.initBook(bookList);
         while (true) {
             LibraryCommand command = SCANNER.nextCommand();
             if (command == null) { break; }
-            LocalDate today = command.getDate(); // 今天的日期
+            LocalDate today = command.getDate();
             if (command instanceof LibraryOpenCmd) {
-                // 在开馆时做点什么
-                 PRINTER.move(today, library.arrangeBook(today));
+                PRINTER.move(today, library.arrangeBook(today));
             } else if (command instanceof LibraryCloseCmd) {
-                // 在闭馆时做点什么
                 PRINTER.move(today, new ArrayList<>());
             } else {
                 LibraryReqCmd req = (LibraryReqCmd) command;
-                LibraryReqCmd.Type type = req.getType(); // 指令对应的类型（查询/阅读/借阅/预约/还书/取书/归还）
-                LibraryBookIsbn bookIsbn = req.getBookIsbn(); // 指令对应的书籍ISBN号（type-uid）
-//                LibraryBookId bookId = req.getBookId(); // 指令对应书籍编号（type-uid-copyId）
-                String studentId = req.getStudentId(); // 指令对应的用户Id
-                // 对指令进行处理
+                LibraryReqCmd.Type type = req.getType();
+                LibraryBookIsbn bookIsbn = req.getBookIsbn();
+                String studentId = req.getStudentId();
                 switch (type) {
                     case QUERIED:
                         LibraryBookId queryBookId = req.getBookId();
@@ -66,6 +62,7 @@ public class Main {
                         LibraryBookId  returnedBookId = req.getBookId();
                         library.returnBook(today, studentId, returnedBookId);
                         PRINTER.accept(req);
+                        break;
                     default:
                         break;
                 }

@@ -3,7 +3,6 @@ import com.oocourse.library1.LibraryBookIsbn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +20,8 @@ public class Bookshelf {
     }
 
     public void addBook(LibraryBookId bookId) {
-        LinkedList<LibraryBookId> set = books.getOrDefault(bookId.getBookIsbn(), new LinkedList<>());
+        LinkedList<LibraryBookId> set = books.getOrDefault(bookId.getBookIsbn(),
+            new LinkedList<>());
         set.add(bookId);
         books.put(bookId.getBookIsbn(), set);
     }
@@ -44,10 +44,6 @@ public class Bookshelf {
         }
     }
 
-//    public List<LibraryTrace> queryBook(LibraryBookId bookId) {
-//        return books.get(bookId);
-//    }
-
     public LibraryBookId addApBook(String personId,LibraryBookIsbn bookIsbn) {
         // LibraryBookId bookId = removeBook(bookIsbn);
         LibraryBookId bookId = getBook(bookIsbn);
@@ -68,6 +64,4 @@ public class Bookshelf {
         apMap.clear();
         return ret;
     }
-
-
 }

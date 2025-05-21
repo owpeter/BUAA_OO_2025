@@ -19,7 +19,8 @@ public class AppointmentOffice {
         apBooks.add(apBook);
     }
 
-    public LibraryBookId getApBook(LocalDate pickupAttemptDate, String userId, LibraryBookIsbn targetBookId) {
+    public LibraryBookId getApBook(LocalDate pickupAttemptDate, String userId,
+        LibraryBookIsbn targetBookId) {
         int bestMatchIndex = -1;
         long largestQualifyingDaysDiff = -1;
 
@@ -30,7 +31,8 @@ public class AppointmentOffice {
             if (!userMatches || !bookMatches) {
                 continue;
             }
-            long daysDifference = Math.abs(ChronoUnit.DAYS.between(pickupAttemptDate, currentAppointment.getStartDate()));
+            long daysDifference = Math.abs(ChronoUnit.DAYS.between(pickupAttemptDate,
+                currentAppointment.getStartDate()));
             if (daysDifference < 5) {
                 if (daysDifference > largestQualifyingDaysDiff) {
                     largestQualifyingDaysDiff = daysDifference;
