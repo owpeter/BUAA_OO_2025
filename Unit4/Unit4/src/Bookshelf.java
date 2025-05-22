@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Bookshelf {
-    private HashMap<LibraryBookIsbn, LinkedList<LibraryBookId>> books;
+    private final HashMap<LibraryBookIsbn, LinkedList<LibraryBookId>> books;
     private final HashMap<LibraryBookId, ApBook> apMap;
 
     public Bookshelf() {
@@ -20,10 +20,10 @@ public class Bookshelf {
     }
 
     public void addBook(LibraryBookId bookId) {
-        LinkedList<LibraryBookId> set = books.getOrDefault(bookId.getBookIsbn(),
+        LinkedList<LibraryBookId> list = books.getOrDefault(bookId.getBookIsbn(),
             new LinkedList<>());
-        set.add(bookId);
-        books.put(bookId.getBookIsbn(), set);
+        list.add(bookId);
+        books.put(bookId.getBookIsbn(), list);
     }
 
     public LibraryBookId removeBook(LibraryBookIsbn bookIsbn) {
@@ -36,20 +36,13 @@ public class Bookshelf {
         books.get(bookId.getBookIsbn()).remove(bookId);
     }
 
-    public LibraryBookId getBook(LibraryBookIsbn bookId) {
-        try {
-            return books.get(bookId).getFirst();
-        } catch (Exception e) {
-            return null;
-        }
+    public LibraryBookId orderBook(LibraryBookIsbn bookIsbn) {
+        // 不删除
+        return books.get(bookIsbn).getFirst();
     }
 
     public LibraryBookId addApBook(String personId,LibraryBookIsbn bookIsbn) {
-        // LibraryBookId bookId = removeBook(bookIsbn);
-        LibraryBookId bookId = getBook(bookIsbn);
-        if (bookId == null) {
-            return null;
-        }
+        LibraryBookId bookId = orderBook(bookIsbn);
         ApBook apBook = new ApBook(null, bookId, personId);
         apMap.put(bookId, apBook);
         return bookId;

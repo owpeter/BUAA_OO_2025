@@ -63,9 +63,10 @@ public class Library {
 
     public boolean orderBook(String personId, LibraryBookIsbn bookIsbn) {
         if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId)) {
-            LibraryBookId bookId = bookshelf.addApBook(personId, bookIsbn);
-            if (bookId == null) {
-                bookId = new LibraryBookId(bookIsbn.getType(), bookIsbn.getUid(), "01");
+            // 有副本才借，没副本假装借，使得预约成功但永远不转运，该用户也永远不能再借书
+            LibraryBookId bookId = null;
+            if (bookshelf.hasBook(bookIsbn)) {
+                bookId = bookshelf.addApBook(personId, bookIsbn);
             }
             personTable.addApBook(personId, bookId);
             return true;
@@ -77,6 +78,9 @@ public class Library {
         if (personTable.canHaveBook(personId, bookIsbn)) {
             // appointment available
             LibraryBookId bookId = appointmentOffice.getApBook(today, personId, bookIsbn);
+            if (bookId == null) {
+                return null;
+            }
             personTable.addBook(personId, bookId);
             personTable.removeApBook(personId);
             // update trace

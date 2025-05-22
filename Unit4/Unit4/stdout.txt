@@ -1,15 +1,7 @@
 0
-[2025-01-01] [accept] 23370059 ordered C-6932
-[2025-01-01] [accept] 23370056 ordered B-5594
+[2025-04-14] [accept] 38021746 ordered C-2253
+[2025-04-14] [accept] 56184959 borrowed C-2253-01
 0
-2
-[2025-01-06] move B-5594-01 from bs to ao for 23370056
-[2025-01-06] move C-6932-01 from bs to ao for 23370059
-[2025-01-06] [reject] 23370059 borrowed B-5594
-[2025-01-06] A-0724-02 moving trace: 0
 0
-2
-[2025-01-12] move B-5594-01 from ao to bs
-[2025-01-12] move C-6932-01 from ao to bs
-[2025-01-12] A-2523-01 moving trace: 0
+[2025-04-15] [reject] 38021746 picked C-2253
 0
