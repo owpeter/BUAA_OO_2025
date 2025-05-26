@@ -1,16 +1,16 @@
-import com.oocourse.library1.LibraryBookId;
-import com.oocourse.library1.LibraryBookIsbn;
-import com.oocourse.library1.LibraryCloseCmd;
-import com.oocourse.library1.LibraryCommand;
-import com.oocourse.library1.LibraryOpenCmd;
-import com.oocourse.library1.LibraryReqCmd;
+import com.oocourse.library2.LibraryBookId;
+import com.oocourse.library2.LibraryBookIsbn;
+import com.oocourse.library2.LibraryCloseCmd;
+import com.oocourse.library2.LibraryCommand;
+import com.oocourse.library2.LibraryOpenCmd;
+import com.oocourse.library2.LibraryReqCmd;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static com.oocourse.library1.LibraryIO.PRINTER;
-import static com.oocourse.library1.LibraryIO.SCANNER;
+import static com.oocourse.library2.LibraryIO.PRINTER;
+import static com.oocourse.library2.LibraryIO.SCANNER;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,6 +25,7 @@ public class Main {
                 PRINTER.move(today, library.arrangeBook(today));
             } else if (command instanceof LibraryCloseCmd) {
                 PRINTER.move(today, new ArrayList<>());
+                library.endOpenDayActions(today);
             } else {
                 LibraryReqCmd req = (LibraryReqCmd) command;
                 LibraryReqCmd.Type type = req.getType();
@@ -63,6 +64,17 @@ public class Main {
                         library.returnBook(today, studentId, returnedBookId);
                         PRINTER.accept(req);
                         break;
+                    case READ:
+                        LibraryBookId readBookId = library.readBook(today, studentId, bookIsbn);
+                        if (readBookId != null) {
+                            PRINTER.accept(req, readBookId);
+                        } else {
+                            PRINTER.reject(req);
+                        }
+                        break;
+                    case RESTORED:
+                        LibraryBookId bookId = req.getBookId();
+                        library.restoreBook(today, studentId, bookId);
                     default:
                         break;
                 }

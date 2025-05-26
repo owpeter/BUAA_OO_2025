@@ -1,4 +1,4 @@
-import com.oocourse.library1.LibraryBookId;
+import com.oocourse.library2.LibraryBookId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class BorrowAndReturning {
         books.add(bookId);
     }
 
-    public List<LibraryBookId> backToBookshelf() {
+    public List<LibraryBookId> clearAndGetBooks() {
         List<LibraryBookId> result = new ArrayList<>(books);
         books.clear();
         return result;

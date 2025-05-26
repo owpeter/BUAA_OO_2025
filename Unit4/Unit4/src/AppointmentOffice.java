@@ -1,5 +1,5 @@
-import com.oocourse.library1.LibraryBookId;
-import com.oocourse.library1.LibraryBookIsbn;
+import com.oocourse.library2.LibraryBookId;
+import com.oocourse.library2.LibraryBookIsbn;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
