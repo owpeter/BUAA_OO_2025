@@ -1,6 +1,7 @@
 import com.oocourse.library2.LibraryBookId;
 import com.oocourse.library2.LibraryBookIsbn;
 import com.oocourse.library2.LibraryBookState;
+import com.oocourse.library2.annotation.Trigger;
 
 import java.util.ArrayList;
 import java.util.Deque;
@@ -32,6 +33,7 @@ public class Bookshelf {
                 (ordinaryBooks.containsKey(isbn) && !ordinaryBooks.get(isbn).isEmpty());
     }
 
+    @Trigger(from = "nUser", to = "User")
     public void addBook(LibraryBookId bookId, LibraryBookState shelfType) {
         HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> targetShelfMap =
                 shelfType == LibraryBookState.HOT_BOOKSHELF ? hotBooks : ordinaryBooks;
