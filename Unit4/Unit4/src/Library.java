@@ -64,11 +64,13 @@ public class Library {
     public boolean orderBook(String personId, LibraryBookIsbn bookIsbn) {
         if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId)) {
             // 有副本才借，没副本假装借，使得预约成功但永远不转运，该用户也永远不能再借书
-            LibraryBookId bookId = null;
             if (bookshelf.hasBook(bookIsbn)) {
-                bookId = bookshelf.addApBook(personId, bookIsbn);
+                bookshelf.addApBook(personId, bookIsbn);
+                personTable.getApBook(personId);
+            } else {
+                personTable.getApBook(personId);
+                bookshelf.goWaiting(personId, bookIsbn);
             }
-            personTable.addApBook(personId, bookId);
             return true;
         }
         return false;
@@ -135,6 +137,9 @@ public class Library {
                 LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.BOOKSHELF));
             bookshelf.addBook(apBook.getBookId());
         }
+
+        // 检查新回到bs的书是否能够满足waitingMap的需求
+        bookshelf.checkWaitingList();
         return moveInfos;
     }
 

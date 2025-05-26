@@ -7,12 +7,12 @@ import java.util.HashSet;
 public class PersonTable {
     private final HashSet<String> hasBset;
     private final HashMap<String, HashSet<LibraryBookIsbn>> hasCMap; // 精确到副本
-    private HashMap<String, LibraryBookId> apMap;
+    private final HashSet<String> apSet;
 
     public PersonTable() {
         hasBset = new HashSet<>();
         hasCMap = new HashMap<>();
-        apMap = new HashMap<>();
+        apSet = new HashSet<>();
     }
 
     public void addBook(String personId, LibraryBookId bookId) {
@@ -49,16 +49,16 @@ public class PersonTable {
         return false;
     }
 
-    public void addApBook(String personId, LibraryBookId bookId) {
-        apMap.put(personId, bookId);
+    public void getApBook(String personId) {
+        apSet.add(personId);
     }
 
     public boolean hasApBook(String personId) {
-        return apMap.containsKey(personId);
+        return apSet.contains(personId);
     }
 
     public void removeApBook(String personId) {
-        apMap.remove(personId);
+        apSet.remove(personId);
     }
 
 }
