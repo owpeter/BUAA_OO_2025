@@ -220,6 +220,7 @@ public class Library {
 
     // Called at the END of a CLOSE command, after processing requests for the day
     public void endOpenDayActions(LocalDate today) {
+        // 替用户把书放到借还处
         HashMap<LibraryBookId, String> booksInRoom = readingRoom.getBooksInRoom();
         for (Map.Entry<LibraryBookId, String> entry : booksInRoom.entrySet()) {
             LibraryBookId bookId = entry.getKey();
