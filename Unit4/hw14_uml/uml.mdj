@@ -1199,7 +1199,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGXDWioUC+Ruyo="
 							},
-							"name": "BorrowedOrReadBooks",
+							"name": "borrowedOrReadBooks",
 							"visibility": "private",
 							"isLeaf": true,
 							"type": "HashSet<LibraryBookIsbn>",
@@ -1893,15 +1893,6 @@
 							"parameters": [
 								{
 									"_type": "UMLParameter",
-									"_id": "AAAAAAGXDWioUS/U9H0=",
-									"_parent": {
-										"$ref": "AAAAAAGXDWioUS/T8SU="
-									},
-									"name": "today",
-									"type": "LocalDate"
-								},
-								{
-									"_type": "UMLParameter",
 									"_id": "AAAAAAGXDWioUS/Vdco=",
 									"_parent": {
 										"$ref": "AAAAAAGXDWioUS/T8SU="
@@ -1944,6 +1935,56 @@
 									"_id": "AAAAAAGXDWioVi/ZI+w=",
 									"_parent": {
 										"$ref": "AAAAAAGXDWioVi/XQH4="
+									},
+									"type": "void",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAGXFq+0uOZ7szA=",
+							"_parent": {
+								"$ref": "AAAAAAGXDWioVi/W+LE="
+							},
+							"name": "handleReq",
+							"visibility": "private",
+							"isStatic": true,
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGXFrA2TekvUfk=",
+									"_parent": {
+										"$ref": "AAAAAAGXFq+0uOZ7szA="
+									},
+									"name": "library",
+									"type": {
+										"$ref": "AAAAAAGXDWioUC+Ruyo="
+									}
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGXFrB/e+nooYc=",
+									"_parent": {
+										"$ref": "AAAAAAGXFq+0uOZ7szA="
+									},
+									"name": "today",
+									"type": "LocalDate"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGXFrDUxu1xdy0=",
+									"_parent": {
+										"$ref": "AAAAAAGXFq+0uOZ7szA="
+									},
+									"name": "command",
+									"type": "LibraryCommand"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAGXFrE3hfE3xwg=",
+									"_parent": {
+										"$ref": "AAAAAAGXFq+0uOZ7szA="
 									},
 									"type": "void",
 									"direction": "return"
@@ -3899,7 +3940,7 @@
 											"top": 174,
 											"width": 477.861328125,
 											"height": 13,
-											"text": "-ordinaryBooks: HashMap {readOnly}",
+											"text": "-ordinaryBooks: HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3917,7 +3958,7 @@
 											"top": 189,
 											"width": 477.861328125,
 											"height": 13,
-											"text": "-hotBooks: HashMap {readOnly}",
+											"text": "-hotBooks: HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3935,7 +3976,7 @@
 											"top": 204,
 											"width": 477.861328125,
 											"height": 13,
-											"text": "-bookLocationCache: HashMap {readOnly}",
+											"text": "-bookLocationCache: HashMap<LibraryBookId, LibraryBookState> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3953,7 +3994,7 @@
 											"top": 219,
 											"width": 477.861328125,
 											"height": 13,
-											"text": "-apMap: HashMap {readOnly}",
+											"text": "-apMap: HashMap<LibraryBookId, ApBook> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3971,7 +4012,7 @@
 											"top": 234,
 											"width": 477.861328125,
 											"height": 13,
-											"text": "-waitingMap: HashMap {readOnly}",
+											"text": "-waitingMap: HashMap<LibraryBookIsbn, Deque<String>> {readOnly}",
 											"horizontalAlignment": 0
 										}
 									],
@@ -3979,7 +4020,7 @@
 									"parentStyle": true,
 									"left": 2072,
 									"top": 169,
-									"width": 487.861328125,
+									"width": 509.2515869140625,
 									"height": 83
 								},
 								{
@@ -7280,7 +7321,7 @@
 											"top": 1261,
 											"width": 364.0986328125,
 											"height": 13,
-											"text": "+getBooksInRoom(): HashMap",
+											"text": "+getBooksInRoom(): HashMap<LibraryBookId, String>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8632,9 +8673,9 @@
 											"parentStyle": true,
 											"left": 5,
 											"top": 5,
-											"width": 264.09423828125,
+											"width": 499.2515869140625,
 											"height": 13,
-											"text": "-ordinaryBooks: HashMap {readOnly}",
+											"text": "-ordinaryBooks: HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8650,9 +8691,9 @@
 											"parentStyle": true,
 											"left": 5,
 											"top": 20,
-											"width": 264.09423828125,
+											"width": 499.2515869140625,
 											"height": 13,
-											"text": "-hotBooks: HashMap {readOnly}",
+											"text": "-hotBooks: HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8668,9 +8709,9 @@
 											"parentStyle": true,
 											"left": 5,
 											"top": 35,
-											"width": 264.09423828125,
+											"width": 499.2515869140625,
 											"height": 13,
-											"text": "-bookLocationCache: HashMap {readOnly}",
+											"text": "-bookLocationCache: HashMap<LibraryBookId, LibraryBookState> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8686,9 +8727,9 @@
 											"parentStyle": true,
 											"left": 5,
 											"top": 50,
-											"width": 264.09423828125,
+											"width": 499.2515869140625,
 											"height": 13,
-											"text": "-apMap: HashMap {readOnly}",
+											"text": "-apMap: HashMap<LibraryBookId, ApBook> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8704,16 +8745,16 @@
 											"parentStyle": true,
 											"left": 5,
 											"top": 65,
-											"width": 264.09423828125,
+											"width": 499.2515869140625,
 											"height": 13,
-											"text": "-waitingMap: HashMap {readOnly}",
+											"text": "-waitingMap: HashMap<LibraryBookIsbn, Deque<String>> {readOnly}",
 											"horizontalAlignment": 0
 										}
 									],
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": true,
-									"width": 274.09423828125,
+									"width": 509.2515869140625,
 									"height": 83
 								},
 								{
@@ -10882,7 +10923,7 @@
 											"top": 110,
 											"width": 377.90960693359375,
 											"height": 13,
-											"text": "+getBooksInRoom(): HashMap",
+											"text": "+getBooksInRoom(): HashMap<LibraryBookId, String>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -11953,9 +11994,9 @@
 											"parentStyle": true,
 											"left": 5,
 											"top": 5,
-											"width": 264.09423828125,
+											"width": 499.2515869140625,
 											"height": 13,
-											"text": "-ordinaryBooks: HashMap {readOnly}",
+											"text": "-ordinaryBooks: HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -11971,9 +12012,9 @@
 											"parentStyle": true,
 											"left": 5,
 											"top": 20,
-											"width": 264.09423828125,
+											"width": 499.2515869140625,
 											"height": 13,
-											"text": "-hotBooks: HashMap {readOnly}",
+											"text": "-hotBooks: HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -11989,9 +12030,9 @@
 											"parentStyle": true,
 											"left": 5,
 											"top": 35,
-											"width": 264.09423828125,
+											"width": 499.2515869140625,
 											"height": 13,
-											"text": "-bookLocationCache: HashMap {readOnly}",
+											"text": "-bookLocationCache: HashMap<LibraryBookId, LibraryBookState> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -12007,9 +12048,9 @@
 											"parentStyle": true,
 											"left": 5,
 											"top": 50,
-											"width": 264.09423828125,
+											"width": 499.2515869140625,
 											"height": 13,
-											"text": "-apMap: HashMap {readOnly}",
+											"text": "-apMap: HashMap<LibraryBookId, ApBook> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -12025,16 +12066,16 @@
 											"parentStyle": true,
 											"left": 5,
 											"top": 65,
-											"width": 264.09423828125,
+											"width": 499.2515869140625,
 											"height": 13,
-											"text": "-waitingMap: HashMap {readOnly}",
+											"text": "-waitingMap: HashMap<LibraryBookIsbn, Deque<String>> {readOnly}",
 											"horizontalAlignment": 0
 										}
 									],
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": true,
-									"width": 274.09423828125,
+									"width": 509.2515869140625,
 									"height": 83
 								},
 								{
@@ -14203,7 +14244,7 @@
 											"top": 110,
 											"width": 377.90960693359375,
 											"height": 13,
-											"text": "+getBooksInRoom(): HashMap",
+											"text": "+getBooksInRoom(): HashMap<LibraryBookId, String>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -14285,164 +14326,6 @@
 							},
 							"templateParameterCompartment": {
 								"$ref": "AAAAAAGXDWioqTWeI4o="
-							}
-						},
-						{
-							"_type": "UMLClassView",
-							"_id": "AAAAAAGXDWioqTXl/3A=",
-							"_parent": {
-								"$ref": "AAAAAAGXDWioqDVE45E="
-							},
-							"subViews": [
-								{
-									"_type": "UMLNameCompartmentView",
-									"_id": "AAAAAAGXDWioqTXmw8Y=",
-									"_parent": {
-										"$ref": "AAAAAAGXDWioqTXl/3A="
-									},
-									"subViews": [
-										{
-											"_type": "LabelView",
-											"_id": "AAAAAAGXDWioqTXnfxM=",
-											"_parent": {
-												"$ref": "AAAAAAGXDWioqTXmw8Y="
-											},
-											"visible": false,
-											"font": "Arial;13;0",
-											"parentStyle": true,
-											"height": 13
-										},
-										{
-											"_type": "LabelView",
-											"_id": "AAAAAAGXDWioqTXowSY=",
-											"_parent": {
-												"$ref": "AAAAAAGXDWioqTXmw8Y="
-											},
-											"font": "Arial;13;0",
-											"parentStyle": true,
-											"left": 1203.45751953125,
-											"top": 27,
-											"width": 110.60498046875,
-											"height": 13,
-											"text": "LibraryMoveInfo"
-										},
-										{
-											"_type": "LabelView",
-											"_id": "AAAAAAGXDWioqTXpH74=",
-											"_parent": {
-												"$ref": "AAAAAAGXDWioqTXmw8Y="
-											},
-											"visible": false,
-											"font": "Arial;11.700000000000001;0",
-											"parentStyle": true,
-											"width": 116.20654296875,
-											"height": 13,
-											"text": "(from JavaReverse)"
-										},
-										{
-											"_type": "LabelView",
-											"_id": "AAAAAAGXDWioqTXq4BU=",
-											"_parent": {
-												"$ref": "AAAAAAGXDWioqTXmw8Y="
-											},
-											"visible": false,
-											"font": "Arial;13;0",
-											"parentStyle": true,
-											"height": 13,
-											"horizontalAlignment": 1
-										}
-									],
-									"font": "Arial;13;0",
-									"parentStyle": true,
-									"left": 1198.45751953125,
-									"top": 20,
-									"width": 120.60498046875,
-									"height": 25,
-									"stereotypeLabel": {
-										"$ref": "AAAAAAGXDWioqTXnfxM="
-									},
-									"nameLabel": {
-										"$ref": "AAAAAAGXDWioqTXowSY="
-									},
-									"namespaceLabel": {
-										"$ref": "AAAAAAGXDWioqTXpH74="
-									},
-									"propertyLabel": {
-										"$ref": "AAAAAAGXDWioqTXq4BU="
-									}
-								},
-								{
-									"_type": "UMLAttributeCompartmentView",
-									"_id": "AAAAAAGXDWioqTXrf0M=",
-									"_parent": {
-										"$ref": "AAAAAAGXDWioqTXl/3A="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"parentStyle": true,
-									"width": 10,
-									"height": 10
-								},
-								{
-									"_type": "UMLOperationCompartmentView",
-									"_id": "AAAAAAGXDWioqTXsGrc=",
-									"_parent": {
-										"$ref": "AAAAAAGXDWioqTXl/3A="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"parentStyle": true,
-									"width": 10,
-									"height": 10
-								},
-								{
-									"_type": "UMLReceptionCompartmentView",
-									"_id": "AAAAAAGXDWioqTXtpPE=",
-									"_parent": {
-										"$ref": "AAAAAAGXDWioqTXl/3A="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"parentStyle": true,
-									"width": 10,
-									"height": 10
-								},
-								{
-									"_type": "UMLTemplateParameterCompartmentView",
-									"_id": "AAAAAAGXDWioqTXuK4o=",
-									"_parent": {
-										"$ref": "AAAAAAGXDWioqTXl/3A="
-									},
-									"visible": false,
-									"font": "Arial;13;0",
-									"parentStyle": true,
-									"width": 10,
-									"height": 10
-								}
-							],
-							"font": "Arial;13;0",
-							"parentStyle": false,
-							"containerChangeable": true,
-							"left": 1198.45751953125,
-							"top": 20,
-							"width": 119.60498046875,
-							"height": 25,
-							"nameCompartment": {
-								"$ref": "AAAAAAGXDWioqTXmw8Y="
-							},
-							"suppressAttributes": true,
-							"suppressOperations": true,
-							"attributeCompartment": {
-								"$ref": "AAAAAAGXDWioqTXrf0M="
-							},
-							"operationCompartment": {
-								"$ref": "AAAAAAGXDWioqTXsGrc="
-							},
-							"receptionCompartment": {
-								"$ref": "AAAAAAGXDWioqTXtpPE="
-							},
-							"templateParameterCompartment": {
-								"$ref": "AAAAAAGXDWioqTXuK4o="
 							}
 						},
 						{
@@ -16209,7 +16092,7 @@
 											"parentStyle": true,
 											"left": 1027,
 											"top": 1338,
-											"width": 492.73388671875,
+											"width": 515.8515625,
 											"height": 13,
 											"text": "ApBook"
 										},
@@ -16222,7 +16105,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": true,
-											"width": 73.67724609375,
+											"width": 78.28593444824219,
 											"height": 13,
 											"text": "(from Model)"
 										},
@@ -16243,7 +16126,7 @@
 									"parentStyle": true,
 									"left": 1022,
 									"top": 1331,
-									"width": 502.73388671875,
+									"width": 525.8515625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGXFG2HoEIl+4w="
@@ -16281,7 +16164,7 @@
 											"parentStyle": true,
 											"left": 1027,
 											"top": 1361,
-											"width": 492.73388671875,
+											"width": 515.8515625,
 											"height": 13,
 											"text": "-startDate: LocalDate",
 											"horizontalAlignment": 0
@@ -16299,7 +16182,7 @@
 											"parentStyle": true,
 											"left": 1027,
 											"top": 1376,
-											"width": 492.73388671875,
+											"width": 515.8515625,
 											"height": 13,
 											"text": "-bookId: LibraryBookId {readOnly}",
 											"horizontalAlignment": 0
@@ -16317,7 +16200,7 @@
 											"parentStyle": true,
 											"left": 1027,
 											"top": 1391,
-											"width": 492.73388671875,
+											"width": 515.8515625,
 											"height": 13,
 											"text": "-personId: String {readOnly}",
 											"horizontalAlignment": 0
@@ -16327,7 +16210,7 @@
 									"parentStyle": true,
 									"left": 1022,
 									"top": 1356,
-									"width": 502.73388671875,
+									"width": 525.8515625,
 									"height": 53
 								},
 								{
@@ -16353,7 +16236,7 @@
 											"parentStyle": true,
 											"left": 1027,
 											"top": 1414,
-											"width": 492.73388671875,
+											"width": 515.8515625,
 											"height": 13,
 											"text": "«constructor»+ApBook(startDate: LocalDate, bookId: LibraryBookId, personId: String)",
 											"horizontalAlignment": 0
@@ -16371,7 +16254,7 @@
 											"parentStyle": true,
 											"left": 1027,
 											"top": 1429,
-											"width": 492.73388671875,
+											"width": 515.8515625,
 											"height": 13,
 											"text": "+getPersonId(): String",
 											"horizontalAlignment": 0
@@ -16389,7 +16272,7 @@
 											"parentStyle": true,
 											"left": 1027,
 											"top": 1444,
-											"width": 492.73388671875,
+											"width": 515.8515625,
 											"height": 13,
 											"text": "+getBookId(): LibraryBookId",
 											"horizontalAlignment": 0
@@ -16407,7 +16290,7 @@
 											"parentStyle": true,
 											"left": 1027,
 											"top": 1459,
-											"width": 492.73388671875,
+											"width": 515.8515625,
 											"height": 13,
 											"text": "+getStartDate(): LocalDate",
 											"horizontalAlignment": 0
@@ -16425,7 +16308,7 @@
 											"parentStyle": true,
 											"left": 1027,
 											"top": 1474,
-											"width": 492.73388671875,
+											"width": 515.8515625,
 											"height": 13,
 											"text": "+setApDate(startDate: LocalDate): void",
 											"horizontalAlignment": 0
@@ -16435,7 +16318,7 @@
 									"parentStyle": true,
 									"left": 1022,
 									"top": 1409,
-									"width": 502.73388671875,
+									"width": 525.8515625,
 									"height": 83
 								},
 								{
@@ -16474,7 +16357,7 @@
 							"containerChangeable": true,
 							"left": 1022,
 							"top": 1331,
-							"width": 501.73388671875,
+							"width": 524.8515625,
 							"height": 161,
 							"nameCompartment": {
 								"$ref": "AAAAAAGXFG2HoEIkOBI="
@@ -16535,7 +16418,7 @@
 											"parentStyle": true,
 											"left": 1005,
 											"top": 1599,
-											"width": 610.52099609375,
+											"width": 638.8444213867188,
 											"height": 13,
 											"text": "AppointmentOffice"
 										},
@@ -16550,7 +16433,7 @@
 											"parentStyle": true,
 											"left": -422,
 											"top": -404,
-											"width": 73.67724609375,
+											"width": 78.28593444824219,
 											"height": 13,
 											"text": "(from Model)"
 										},
@@ -16573,7 +16456,7 @@
 									"parentStyle": true,
 									"left": 1000,
 									"top": 1592,
-									"width": 620.52099609375,
+									"width": 648.8444213867188,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGXFG2s/UJkQRA="
@@ -16611,7 +16494,7 @@
 											"parentStyle": true,
 											"left": 1005,
 											"top": 1622,
-											"width": 610.52099609375,
+											"width": 638.8444213867188,
 											"height": 13,
 											"text": "-apBooks: ArrayList<ApBook> {readOnly}",
 											"horizontalAlignment": 0
@@ -16621,7 +16504,7 @@
 									"parentStyle": true,
 									"left": 1000,
 									"top": 1617,
-									"width": 620.52099609375,
+									"width": 648.8444213867188,
 									"height": 23
 								},
 								{
@@ -16647,7 +16530,7 @@
 											"parentStyle": true,
 											"left": 1005,
 											"top": 1645,
-											"width": 610.52099609375,
+											"width": 638.8444213867188,
 											"height": 13,
 											"text": "«constructor»+AppointmentOffice()",
 											"horizontalAlignment": 0
@@ -16665,7 +16548,7 @@
 											"parentStyle": true,
 											"left": 1005,
 											"top": 1660,
-											"width": 610.52099609375,
+											"width": 638.8444213867188,
 											"height": 13,
 											"text": "+addApBook(today: LocalDate, apBook: ApBook): void",
 											"horizontalAlignment": 0
@@ -16683,7 +16566,7 @@
 											"parentStyle": true,
 											"left": 1005,
 											"top": 1675,
-											"width": 610.52099609375,
+											"width": 638.8444213867188,
 											"height": 13,
 											"text": "+getApBook(pickupAttemptDate: LocalDate, userId: String, targetBookId: LibraryBookIsbn): LibraryBookId",
 											"horizontalAlignment": 0
@@ -16701,7 +16584,7 @@
 											"parentStyle": true,
 											"left": 1005,
 											"top": 1690,
-											"width": 610.52099609375,
+											"width": 638.8444213867188,
 											"height": 13,
 											"text": "+getOutDatedApBooks(today: LocalDate): List<ApBook>",
 											"horizontalAlignment": 0
@@ -16711,7 +16594,7 @@
 									"parentStyle": true,
 									"left": 1000,
 									"top": 1640,
-									"width": 620.52099609375,
+									"width": 648.8444213867188,
 									"height": 68
 								},
 								{
@@ -16754,7 +16637,7 @@
 							"containerChangeable": true,
 							"left": 1000,
 							"top": 1592,
-							"width": 619.52099609375,
+							"width": 647.8444213867188,
 							"height": 116,
 							"nameCompartment": {
 								"$ref": "AAAAAAGXFG2s/UJjihI="
@@ -16794,7 +16677,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1277,
+									"left": 1290,
 									"top": 1538,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -16816,7 +16699,7 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1262,
+									"left": 1275,
 									"top": 1540,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -16838,7 +16721,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1306,
+									"left": 1319,
 									"top": 1533,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -16860,7 +16743,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1281,
+									"left": 1294,
 									"top": 1561,
 									"height": 13,
 									"alpha": 0.5235987755982988,
@@ -16882,7 +16765,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1267,
+									"left": 1280,
 									"top": 1561,
 									"height": 13,
 									"alpha": 0.7853981633974483,
@@ -16904,7 +16787,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1309,
+									"left": 1321,
 									"top": 1561,
 									"height": 13,
 									"alpha": -0.5235987755982988,
@@ -16926,8 +16809,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1274,
-									"top": 1514,
+									"left": 1286,
+									"top": 1515,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -16947,7 +16830,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1261,
+									"left": 1273,
 									"top": 1519,
 									"height": 13,
 									"alpha": -0.7853981633974483,
@@ -16968,7 +16851,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1300,
+									"left": 1312,
 									"top": 1506,
 									"height": 13,
 									"alpha": 0.5235987755982988,
@@ -17017,7 +16900,7 @@
 								"$ref": "AAAAAAGXFG2s/UJi8HE="
 							},
 							"lineStyle": 1,
-							"points": "1300:1591;1285:1493",
+							"points": "1313:1591;1297:1493",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGXFG2s/kJt0F0="
@@ -17097,7 +16980,7 @@
 											"parentStyle": true,
 											"left": 1421,
 											"top": 1135,
-											"width": 499.24658203125,
+											"width": 520.882568359375,
 											"height": 13,
 											"text": "BookAndSource"
 										},
@@ -17112,7 +16995,7 @@
 											"parentStyle": true,
 											"left": -802,
 											"top": -50,
-											"width": 73.67724609375,
+											"width": 78.28593444824219,
 											"height": 13,
 											"text": "(from Model)"
 										},
@@ -17135,7 +17018,7 @@
 									"parentStyle": true,
 									"left": 1416,
 									"top": 1128,
-									"width": 509.24658203125,
+									"width": 530.882568359375,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGXFG3BgERnE+w="
@@ -17173,7 +17056,7 @@
 											"parentStyle": true,
 											"left": 1421,
 											"top": 1158,
-											"width": 499.24658203125,
+											"width": 520.882568359375,
 											"height": 13,
 											"text": "-bookId: LibraryBookId {readOnly}",
 											"horizontalAlignment": 0
@@ -17191,7 +17074,7 @@
 											"parentStyle": true,
 											"left": 1421,
 											"top": 1173,
-											"width": 499.24658203125,
+											"width": 520.882568359375,
 											"height": 13,
 											"text": "-sourceShelf: LibraryBookState {readOnly}",
 											"horizontalAlignment": 0
@@ -17201,7 +17084,7 @@
 									"parentStyle": true,
 									"left": 1416,
 									"top": 1153,
-									"width": 509.24658203125,
+									"width": 530.882568359375,
 									"height": 38
 								},
 								{
@@ -17227,7 +17110,7 @@
 											"parentStyle": true,
 											"left": 1421,
 											"top": 1196,
-											"width": 499.24658203125,
+											"width": 520.882568359375,
 											"height": 13,
 											"text": "«constructor»+BookAndSource(bookId: LibraryBookId, sourceShelf: LibraryBookState)",
 											"horizontalAlignment": 0
@@ -17245,7 +17128,7 @@
 											"parentStyle": true,
 											"left": 1421,
 											"top": 1211,
-											"width": 499.24658203125,
+											"width": 520.882568359375,
 											"height": 13,
 											"text": "+getBookId(): LibraryBookId",
 											"horizontalAlignment": 0
@@ -17263,7 +17146,7 @@
 											"parentStyle": true,
 											"left": 1421,
 											"top": 1226,
-											"width": 499.24658203125,
+											"width": 520.882568359375,
 											"height": 13,
 											"text": "+getSourceShelf(): LibraryBookState",
 											"horizontalAlignment": 0
@@ -17273,7 +17156,7 @@
 									"parentStyle": true,
 									"left": 1416,
 									"top": 1191,
-									"width": 509.24658203125,
+									"width": 530.882568359375,
 									"height": 53
 								},
 								{
@@ -17316,7 +17199,7 @@
 							"containerChangeable": true,
 							"left": 1416,
 							"top": 1128,
-							"width": 508.24658203125,
+							"width": 529.882568359375,
 							"height": 116,
 							"nameCompartment": {
 								"$ref": "AAAAAAGXFG3BgERm5SU="
@@ -17377,7 +17260,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1831,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "Bookshelf"
 										},
@@ -17392,7 +17275,7 @@
 											"parentStyle": true,
 											"left": -1162,
 											"top": 502,
-											"width": 73.67724609375,
+											"width": 78.28593444824219,
 											"height": 13,
 											"text": "(from Model)"
 										},
@@ -17415,7 +17298,7 @@
 									"parentStyle": true,
 									"left": 1480,
 									"top": 1824,
-									"width": 489.359375,
+									"width": 510.2515869140625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGXFG3KbESvvCY="
@@ -17453,7 +17336,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1854,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "-ordinaryBooks: HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> {readOnly}",
 											"horizontalAlignment": 0
@@ -17471,7 +17354,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1869,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "-hotBooks: HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> {readOnly}",
 											"horizontalAlignment": 0
@@ -17489,7 +17372,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1884,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "-bookLocationCache: HashMap<LibraryBookId, LibraryBookState> {readOnly}",
 											"horizontalAlignment": 0
@@ -17507,7 +17390,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1899,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "-apMap: HashMap<LibraryBookId, ApBook> {readOnly}",
 											"horizontalAlignment": 0
@@ -17525,7 +17408,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1914,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "-waitingMap: HashMap<LibraryBookIsbn, Deque<String>> {readOnly}",
 											"horizontalAlignment": 0
@@ -17535,7 +17418,7 @@
 									"parentStyle": true,
 									"left": 1480,
 									"top": 1849,
-									"width": 489.359375,
+									"width": 510.2515869140625,
 									"height": 83
 								},
 								{
@@ -17561,7 +17444,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1937,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "«constructor»+Bookshelf()",
 											"horizontalAlignment": 0
@@ -17579,7 +17462,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1952,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+hasBook(isbn: LibraryBookIsbn): boolean",
 											"horizontalAlignment": 0
@@ -17597,7 +17480,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1967,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+addBook(bookId: LibraryBookId, shelfType: LibraryBookState): void",
 											"horizontalAlignment": 0
@@ -17615,7 +17498,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1982,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+checkWaitingList(): void",
 											"horizontalAlignment": 0
@@ -17633,7 +17516,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 1997,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+removeBookForBorrowOrRead(isbn: LibraryBookIsbn): BookAndSource",
 											"horizontalAlignment": 0
@@ -17651,7 +17534,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 2012,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "-removeFromShelfMap(isbn: LibraryBookIsbn, shelfMap: HashMap): LibraryBookId",
 											"horizontalAlignment": 0
@@ -17669,7 +17552,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 2027,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+removeSpecificBookCopy(bookId: LibraryBookId): LibraryBookState",
 											"horizontalAlignment": 0
@@ -17687,7 +17570,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 2042,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "-findBookForAppointment(bookIsbn: LibraryBookIsbn): LibraryBookId",
 											"horizontalAlignment": 0
@@ -17705,7 +17588,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 2057,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+addApBook(personId: String, bookIsbn: LibraryBookIsbn): void",
 											"horizontalAlignment": 0
@@ -17723,7 +17606,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 2072,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+goWaiting(personId: String, bookId: LibraryBookIsbn): void",
 											"horizontalAlignment": 0
@@ -17741,7 +17624,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 2087,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+removeApBook(): List<ApBook>",
 											"horizontalAlignment": 0
@@ -17759,7 +17642,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 2102,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+getBookLocation(bookId: LibraryBookId): LibraryBookState",
 											"horizontalAlignment": 0
@@ -17777,7 +17660,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 2117,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+getAllBooksOnShelves(): List<LibraryBookId>",
 											"horizontalAlignment": 0
@@ -17795,7 +17678,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 2132,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+moveToHot(bookId: LibraryBookId): void",
 											"horizontalAlignment": 0
@@ -17813,7 +17696,7 @@
 											"parentStyle": true,
 											"left": 1485,
 											"top": 2147,
-											"width": 479.359375,
+											"width": 500.2515869140625,
 											"height": 13,
 											"text": "+moveToOrdinary(bookId: LibraryBookId): void",
 											"horizontalAlignment": 0
@@ -17823,7 +17706,7 @@
 									"parentStyle": true,
 									"left": 1480,
 									"top": 1932,
-									"width": 489.359375,
+									"width": 510.2515869140625,
 									"height": 233
 								},
 								{
@@ -17866,7 +17749,7 @@
 							"containerChangeable": true,
 							"left": 1480,
 							"top": 1824,
-							"width": 488.359375,
+							"width": 509.2515869140625,
 							"height": 341,
 							"nameCompartment": {
 								"$ref": "AAAAAAGXFG3KbESu2G8="
@@ -17927,7 +17810,7 @@
 											"parentStyle": true,
 											"left": 2045,
 											"top": 1151,
-											"width": 258.96875,
+											"width": 272.53076171875,
 											"height": 13,
 											"text": "BorrowAndReturning"
 										},
@@ -17942,7 +17825,7 @@
 											"parentStyle": true,
 											"left": -22,
 											"top": -416,
-											"width": 73.67724609375,
+											"width": 78.28593444824219,
 											"height": 13,
 											"text": "(from Model)"
 										},
@@ -17965,7 +17848,7 @@
 									"parentStyle": true,
 									"left": 2040,
 									"top": 1144,
-									"width": 268.96875,
+									"width": 282.53076171875,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGXFG3lgkXjk2Q="
@@ -18003,7 +17886,7 @@
 											"parentStyle": true,
 											"left": 2045,
 											"top": 1174,
-											"width": 258.96875,
+											"width": 272.53076171875,
 											"height": 13,
 											"text": "-books: ArrayList<LibraryBookId> {readOnly}",
 											"horizontalAlignment": 0
@@ -18013,7 +17896,7 @@
 									"parentStyle": true,
 									"left": 2040,
 									"top": 1169,
-									"width": 268.96875,
+									"width": 282.53076171875,
 									"height": 23
 								},
 								{
@@ -18039,7 +17922,7 @@
 											"parentStyle": true,
 											"left": 2045,
 											"top": 1197,
-											"width": 258.96875,
+											"width": 272.53076171875,
 											"height": 13,
 											"text": "«constructor»+BorrowAndReturning()",
 											"horizontalAlignment": 0
@@ -18057,7 +17940,7 @@
 											"parentStyle": true,
 											"left": 2045,
 											"top": 1212,
-											"width": 258.96875,
+											"width": 272.53076171875,
 											"height": 13,
 											"text": "+addBook(bookId: LibraryBookId): void",
 											"horizontalAlignment": 0
@@ -18075,7 +17958,7 @@
 											"parentStyle": true,
 											"left": 2045,
 											"top": 1227,
-											"width": 258.96875,
+											"width": 272.53076171875,
 											"height": 13,
 											"text": "+clearAndGetBooks(): List<LibraryBookId>",
 											"horizontalAlignment": 0
@@ -18085,7 +17968,7 @@
 									"parentStyle": true,
 									"left": 2040,
 									"top": 1192,
-									"width": 268.96875,
+									"width": 282.53076171875,
 									"height": 53
 								},
 								{
@@ -18128,7 +18011,7 @@
 							"containerChangeable": true,
 							"left": 2040,
 							"top": 1144,
-							"width": 267.96875,
+							"width": 281.53076171875,
 							"height": 101,
 							"nameCompartment": {
 								"$ref": "AAAAAAGXFG3lgkXiAvs="
@@ -18189,7 +18072,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1375,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "Library"
 										},
@@ -18204,7 +18087,7 @@
 											"parentStyle": true,
 											"left": -678,
 											"top": -20,
-											"width": 73.67724609375,
+											"width": 78.28593444824219,
 											"height": 13,
 											"text": "(from Model)"
 										},
@@ -18227,7 +18110,7 @@
 									"parentStyle": true,
 									"left": 2032,
 									"top": 1368,
-									"width": 599.427734375,
+									"width": 632.6853637695312,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGXFG30BkaeYaM="
@@ -18265,7 +18148,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1398,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-bookTrace: HashMap<LibraryBookId, ArrayList<LibraryTrace>> {readOnly}",
 											"horizontalAlignment": 0
@@ -18283,7 +18166,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1413,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-hotIsbn: HashSet<LibraryBookIsbn> {readOnly}",
 											"horizontalAlignment": 0
@@ -18301,9 +18184,9 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1428,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
-											"text": "-BorrowedOrReadBooks: HashSet<LibraryBookIsbn> {readOnly}",
+											"text": "-borrowedOrReadBooks: HashSet<LibraryBookIsbn> {readOnly}",
 											"horizontalAlignment": 0
 										},
 										{
@@ -18319,7 +18202,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1443,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-bookshelf: Bookshelf {readOnly}",
 											"horizontalAlignment": 0
@@ -18337,7 +18220,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1458,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-borrowAndReturning: BorrowAndReturning {readOnly}",
 											"horizontalAlignment": 0
@@ -18355,7 +18238,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1473,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-appointmentOffice: AppointmentOffice {readOnly}",
 											"horizontalAlignment": 0
@@ -18373,7 +18256,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1488,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-personTable: PersonTable {readOnly}",
 											"horizontalAlignment": 0
@@ -18391,7 +18274,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1503,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-readingRoom: ReadingRoom {readOnly}",
 											"horizontalAlignment": 0
@@ -18401,7 +18284,7 @@
 									"parentStyle": true,
 									"left": 2032,
 									"top": 1393,
-									"width": 599.427734375,
+									"width": 632.6853637695312,
 									"height": 128
 								},
 								{
@@ -18427,7 +18310,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1526,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "«constructor»+Library()",
 											"horizontalAlignment": 0
@@ -18445,7 +18328,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1541,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "+initBook(bookList: Map): void",
 											"horizontalAlignment": 0
@@ -18463,7 +18346,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1556,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-addTrace(bookId: LibraryBookId, date: LocalDate, from: LibraryBookState, to: LibraryBookState): void",
 											"horizontalAlignment": 0
@@ -18481,7 +18364,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1571,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "+borrowBook(today: LocalDate, personId: String, isbn: LibraryBookIsbn): LibraryBookId",
 											"horizontalAlignment": 0
@@ -18499,7 +18382,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1586,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "+returnBook(today: LocalDate, personId: String, bookId: LibraryBookId): void",
 											"horizontalAlignment": 0
@@ -18517,7 +18400,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1601,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "+orderBook(personId: String, bookIsbn: LibraryBookIsbn): boolean",
 											"horizontalAlignment": 0
@@ -18535,7 +18418,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1616,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "+getApBook(today: LocalDate, personId: String, bookIsbn: LibraryBookIsbn): LibraryBookId",
 											"horizontalAlignment": 0
@@ -18553,7 +18436,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1631,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "+queryBook(bookId: LibraryBookId): List<LibraryTrace>",
 											"horizontalAlignment": 0
@@ -18571,7 +18454,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1646,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "+arrangeBook(today: LocalDate): List<LibraryMoveInfo>",
 											"horizontalAlignment": 0
@@ -18589,7 +18472,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1661,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-bo2bs(today: LocalDate, moveInfos: ArrayList<LibraryMoveInfo>): void",
 											"horizontalAlignment": 0
@@ -18607,7 +18490,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1676,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-bs2ao(today: LocalDate, moveInfos: ArrayList<LibraryMoveInfo>): void",
 											"horizontalAlignment": 0
@@ -18625,7 +18508,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1691,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-ao2bs(today: LocalDate, moveInfos: ArrayList<LibraryMoveInfo>): void",
 											"horizontalAlignment": 0
@@ -18643,7 +18526,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1706,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-rr2bs(today: LocalDate, moveInfos: ArrayList<LibraryMoveInfo>): void",
 											"horizontalAlignment": 0
@@ -18661,7 +18544,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1721,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "-bsReorganization(today: LocalDate, moveInfos: ArrayList<LibraryMoveInfo>): void",
 											"horizontalAlignment": 0
@@ -18679,7 +18562,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1736,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "+readBook(today: LocalDate, personId: String, isbn: LibraryBookIsbn): LibraryBookId",
 											"horizontalAlignment": 0
@@ -18697,7 +18580,7 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1751,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
 											"text": "+restoreBook(today: LocalDate, personId: String, bookId: LibraryBookId): void",
 											"horizontalAlignment": 0
@@ -18715,9 +18598,9 @@
 											"parentStyle": true,
 											"left": 2037,
 											"top": 1766,
-											"width": 589.427734375,
+											"width": 622.6853637695312,
 											"height": 13,
-											"text": "+endOpenDayActions(today: LocalDate): void",
+											"text": "+endOpenDayActions(): void",
 											"horizontalAlignment": 0
 										}
 									],
@@ -18725,7 +18608,7 @@
 									"parentStyle": true,
 									"left": 2032,
 									"top": 1521,
-									"width": 599.427734375,
+									"width": 632.6853637695312,
 									"height": 263
 								},
 								{
@@ -18768,7 +18651,7 @@
 							"containerChangeable": true,
 							"left": 2032,
 							"top": 1368,
-							"width": 598.427734375,
+							"width": 631.6853637695312,
 							"height": 416,
 							"nameCompartment": {
 								"$ref": "AAAAAAGXFG30Bkadfok="
@@ -18808,7 +18691,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2008,
+									"left": 2021,
 									"top": 1810,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -18830,7 +18713,7 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2016,
+									"left": 2029,
 									"top": 1822,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -18852,7 +18735,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1991,
+									"left": 2004,
 									"top": 1785,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -18874,8 +18757,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2017,
-									"top": 1803,
+									"left": 2027,
+									"top": 1806,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -18896,8 +18779,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2023,
-									"top": 1816,
+									"left": 2033,
+									"top": 1818,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -18918,8 +18801,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2006,
-									"top": 1778,
+									"left": 2016,
+									"top": 1780,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -18940,8 +18823,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1998,
-									"top": 1816,
+									"left": 2014,
+									"top": 1814,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -18961,8 +18844,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2008,
-									"top": 1826,
+									"left": 2024,
+									"top": 1824,
 									"height": 13,
 									"alpha": -0.7853981633974483,
 									"distance": 40,
@@ -18982,8 +18865,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1979,
-									"top": 1796,
+									"left": 1995,
+									"top": 1794,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -19031,7 +18914,7 @@
 								"$ref": "AAAAAAGXFG30Bkackcw="
 							},
 							"lineStyle": 1,
-							"points": "2031:1783;1969:1825",
+							"points": "2041:1785;1985:1823",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGXFG30B0anM5s="
@@ -19090,7 +18973,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2206,
+									"left": 2215,
 									"top": 1305,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -19112,7 +18995,7 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2192,
+									"left": 2201,
 									"top": 1311,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -19134,7 +19017,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2233,
+									"left": 2242,
 									"top": 1294,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -19156,8 +19039,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2221,
-									"top": 1342,
+									"left": 2231,
+									"top": 1343,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -19178,8 +19061,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2208,
-									"top": 1345,
+									"left": 2218,
+									"top": 1346,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -19200,7 +19083,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2248,
+									"left": 2258,
 									"top": 1336,
 									"height": 13,
 									"alpha": -0.5235987755982988,
@@ -19222,7 +19105,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2191,
+									"left": 2199,
 									"top": 1269,
 									"height": 13,
 									"alpha": -0.5235987755982988,
@@ -19243,8 +19126,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2179,
-									"top": 1276,
+									"left": 2188,
+									"top": 1277,
 									"height": 13,
 									"alpha": -0.7853981633974483,
 									"distance": 40,
@@ -19264,8 +19147,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2214,
-									"top": 1255,
+									"left": 2223,
+									"top": 1254,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -19313,7 +19196,7 @@
 								"$ref": "AAAAAAGXFG30Bkackcw="
 							},
 							"lineStyle": 1,
-							"points": "2245:1367;2195:1246",
+							"points": "2256:1367;2203:1246",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGXFG30CEazD+o="
@@ -19372,7 +19255,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1827,
+									"left": 1841,
 									"top": 1620,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -19394,7 +19277,7 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1828,
+									"left": 1842,
 									"top": 1635,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -19416,7 +19299,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1824,
+									"left": 1838,
 									"top": 1591,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -19439,7 +19322,7 @@
 									"font": "Arial;13;0",
 									"parentStyle": false,
 									"left": 2006,
-									"top": 1608,
+									"top": 1609,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -19461,7 +19344,7 @@
 									"font": "Arial;13;0",
 									"parentStyle": false,
 									"left": 2004,
-									"top": 1622,
+									"top": 1623,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -19483,7 +19366,7 @@
 									"font": "Arial;13;0",
 									"parentStyle": false,
 									"left": 2008,
-									"top": 1581,
+									"top": 1582,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -19504,8 +19387,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1647,
-									"top": 1634,
+									"left": 1675,
+									"top": 1633,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -19525,8 +19408,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1651,
-									"top": 1647,
+									"left": 1679,
+									"top": 1646,
 									"height": 13,
 									"alpha": -0.7853981633974483,
 									"distance": 40,
@@ -19546,8 +19429,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 1641,
-									"top": 1607,
+									"left": 1669,
+									"top": 1606,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -19595,7 +19478,7 @@
 								"$ref": "AAAAAAGXFG30Bkackcw="
 							},
 							"lineStyle": 1,
-							"points": "2031:1598;1621:1627",
+							"points": "2031:1599;1649:1626",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGXFG30CEa/TPk="
@@ -19661,6 +19544,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"left": -60,
 											"height": 13
 										},
 										{
@@ -19671,9 +19555,9 @@
 											},
 											"font": "Arial;13;1",
 											"parentStyle": true,
-											"left": 2579,
+											"left": 2549,
 											"top": 1082,
-											"width": 150.1953125,
+											"width": 512.6845703125,
 											"height": 13,
 											"text": "Main"
 										},
@@ -19686,7 +19570,8 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": true,
-											"width": 73.67724609375,
+											"left": -60,
+											"width": 78.28593444824219,
 											"height": 13,
 											"text": "(from Model)"
 										},
@@ -19699,15 +19584,16 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": true,
+											"left": -60,
 											"height": 13,
 											"horizontalAlignment": 1
 										}
 									],
 									"font": "Arial;13;0",
 									"parentStyle": true,
-									"left": 2574,
+									"left": 2544,
 									"top": 1075,
-									"width": 160.1953125,
+									"width": 522.6845703125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGXFG4Kr046I/E="
@@ -19733,9 +19619,9 @@
 									},
 									"font": "Arial;13;0",
 									"parentStyle": true,
-									"left": 2574,
+									"left": 2544,
 									"top": 1100,
-									"width": 160.1953125,
+									"width": 522.6845703125,
 									"height": 10
 								},
 								{
@@ -19759,21 +19645,40 @@
 											},
 											"font": "Arial;13;0",
 											"parentStyle": true,
-											"left": 2579,
+											"left": 2549,
 											"top": 1115,
-											"width": 150.1953125,
+											"width": 512.6845703125,
 											"height": 13,
 											"underline": true,
 											"text": "+main(args: String[]): void",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAGXFq+0w+aKpHE=",
+											"_parent": {
+												"$ref": "AAAAAAGXFG4Kr04/lFQ="
+											},
+											"model": {
+												"$ref": "AAAAAAGXFq+0uOZ7szA="
+											},
+											"font": "Arial;13;0",
+											"parentStyle": true,
+											"left": 2549,
+											"top": 1130,
+											"width": 512.6845703125,
+											"height": 13,
+											"underline": true,
+											"text": "-handleReq(library: Library, today: LocalDate, command: LibraryCommand): void",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"parentStyle": true,
-									"left": 2574,
+									"left": 2544,
 									"top": 1110,
-									"width": 160.1953125,
-									"height": 23
+									"width": 522.6845703125,
+									"height": 38
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -19787,6 +19692,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"left": -30,
 									"width": 10,
 									"height": 10
 								},
@@ -19802,6 +19708,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": true,
+									"left": -30,
 									"width": 10,
 									"height": 10
 								}
@@ -19809,10 +19716,10 @@
 							"font": "Arial;13;0",
 							"parentStyle": false,
 							"containerChangeable": true,
-							"left": 2574,
+							"left": 2544,
 							"top": 1075,
-							"width": 159.1953125,
-							"height": 58,
+							"width": 521.6845703125,
+							"height": 73,
 							"nameCompartment": {
 								"$ref": "AAAAAAGXFG4Kr045vBY="
 							},
@@ -19870,7 +19777,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 1979,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "PersonTable"
 										},
@@ -19883,7 +19790,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": true,
-											"width": 73.67724609375,
+											"width": 78.28593444824219,
 											"height": 13,
 											"text": "(from Model)"
 										},
@@ -19904,7 +19811,7 @@
 									"parentStyle": true,
 									"left": 2662,
 									"top": 1972,
-									"width": 414.22216796875,
+									"width": 429.6256103515625,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGXFG4VGU6s8is="
@@ -19942,7 +19849,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2002,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "-hasBset: HashSet<String> {readOnly}",
 											"horizontalAlignment": 0
@@ -19960,7 +19867,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2017,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "-hasCMap: HashMap<String, HashSet<LibraryBookIsbn>> {readOnly}",
 											"horizontalAlignment": 0
@@ -19978,7 +19885,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2032,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "-apSet: HashSet<String> {readOnly}",
 											"horizontalAlignment": 0
@@ -19996,7 +19903,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2047,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "-curReadMap: HashMap<String, LibraryBookId> {readOnly}",
 											"horizontalAlignment": 0
@@ -20006,7 +19913,7 @@
 									"parentStyle": true,
 									"left": 2662,
 									"top": 1997,
-									"width": 414.22216796875,
+									"width": 429.6256103515625,
 									"height": 68
 								},
 								{
@@ -20032,7 +19939,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2070,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "«constructor»+PersonTable()",
 											"horizontalAlignment": 0
@@ -20050,7 +19957,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2085,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+addBook(personId: String, bookId: LibraryBookId): void",
 											"horizontalAlignment": 0
@@ -20068,7 +19975,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2100,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+removeBook(personId: String, bookId: LibraryBookId): void",
 											"horizontalAlignment": 0
@@ -20086,7 +19993,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2115,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+canHaveBook(personId: String, bookId: LibraryBookIsbn): boolean",
 											"horizontalAlignment": 0
@@ -20104,7 +20011,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2130,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+makesAppointment(personId: String): void",
 											"horizontalAlignment": 0
@@ -20122,7 +20029,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2145,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+hasApBook(personId: String): boolean",
 											"horizontalAlignment": 0
@@ -20140,7 +20047,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2160,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+appointmentCancel(personId: String): void",
 											"horizontalAlignment": 0
@@ -20158,7 +20065,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2175,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+canReadBook(personId: String): boolean",
 											"horizontalAlignment": 0
@@ -20176,7 +20083,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2190,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+userStartsReading(personId: String, bookId: LibraryBookId): void",
 											"horizontalAlignment": 0
@@ -20194,7 +20101,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2205,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+userStopsReading(personId: String, bookId: LibraryBookId): void",
 											"horizontalAlignment": 0
@@ -20212,7 +20119,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2220,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+getReadingBook(personId: String): LibraryBookId",
 											"horizontalAlignment": 0
@@ -20230,7 +20137,7 @@
 											"parentStyle": true,
 											"left": 2667,
 											"top": 2235,
-											"width": 404.22216796875,
+											"width": 419.6256103515625,
 											"height": 13,
 											"text": "+clearReadingSessionForBook(bookId: LibraryBookId): void",
 											"horizontalAlignment": 0
@@ -20240,7 +20147,7 @@
 									"parentStyle": true,
 									"left": 2662,
 									"top": 2065,
-									"width": 414.22216796875,
+									"width": 429.6256103515625,
 									"height": 188
 								},
 								{
@@ -20279,7 +20186,7 @@
 							"containerChangeable": true,
 							"left": 2662,
 							"top": 1972,
-							"width": 413.22216796875,
+							"width": 428.6256103515625,
 							"height": 281,
 							"nameCompartment": {
 								"$ref": "AAAAAAGXFG4VGU6rKE8="
@@ -20319,7 +20226,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2643,
+									"left": 2655,
 									"top": 1861,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -20341,7 +20248,7 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2654,
+									"left": 2666,
 									"top": 1850,
 									"height": 13,
 									"alpha": 1.5707963267948966,
@@ -20363,7 +20270,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2622,
+									"left": 2634,
 									"top": 1882,
 									"height": 13,
 									"alpha": -1.5707963267948966,
@@ -20385,7 +20292,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2568,
+									"left": 2581,
 									"top": 1786,
 									"height": 13,
 									"alpha": 0.5235987755982988,
@@ -20407,8 +20314,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2579,
-									"top": 1778,
+									"left": 2592,
+									"top": 1779,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -20429,7 +20336,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2546,
+									"left": 2559,
 									"top": 1803,
 									"height": 13,
 									"alpha": -0.5235987755982988,
@@ -20451,8 +20358,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2719,
-									"top": 1936,
+									"left": 2729,
+									"top": 1935,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -20472,7 +20379,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2726,
+									"left": 2737,
 									"top": 1925,
 									"height": 13,
 									"alpha": -0.7853981633974483,
@@ -20493,7 +20400,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2702,
+									"left": 2712,
 									"top": 1958,
 									"height": 13,
 									"alpha": 0.5235987755982988,
@@ -20542,7 +20449,7 @@
 								"$ref": "AAAAAAGXFG30Bkackcw="
 							},
 							"lineStyle": 1,
-							"points": "2540:1785;2727:1971",
+							"points": "2553:1785;2737:1971",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGXFG4VGU610QE="
@@ -20620,7 +20527,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1439,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "ReadingRoom"
 										},
@@ -20633,7 +20540,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": true,
-											"width": 73.67724609375,
+											"width": 78.28593444824219,
 											"height": 13,
 											"text": "(from Model)"
 										},
@@ -20654,7 +20561,7 @@
 									"parentStyle": true,
 									"left": 2867,
 									"top": 1432,
-									"width": 374.0986328125,
+									"width": 388.90960693359375,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGXFG4hd1H+IvA="
@@ -20692,7 +20599,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1462,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "-booksInRoom: HashMap<LibraryBookId, String> {readOnly}",
 											"horizontalAlignment": 0
@@ -20702,7 +20609,7 @@
 									"parentStyle": true,
 									"left": 2867,
 									"top": 1457,
-									"width": 374.0986328125,
+									"width": 388.90960693359375,
 									"height": 23
 								},
 								{
@@ -20728,7 +20635,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1485,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "«constructor»+ReadingRoom()",
 											"horizontalAlignment": 0
@@ -20746,7 +20653,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1500,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "+addBook(bookId: LibraryBookId, personId: String): void",
 											"horizontalAlignment": 0
@@ -20764,7 +20671,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1515,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "+removeBook(bookId: LibraryBookId): String",
 											"horizontalAlignment": 0
@@ -20782,7 +20689,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1530,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "+clearAllBooks(): void",
 											"horizontalAlignment": 0
@@ -20800,7 +20707,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1545,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "+isBookInRoom(bookId: LibraryBookId): boolean",
 											"horizontalAlignment": 0
@@ -20818,7 +20725,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1560,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "+getReader(bookId: LibraryBookId): String",
 											"horizontalAlignment": 0
@@ -20836,7 +20743,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1575,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "+clearAndGetBooks(): List<Map.Entry<LibraryBookId, String>>",
 											"horizontalAlignment": 0
@@ -20854,7 +20761,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1590,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "+getBooksInRoom(): HashMap<LibraryBookId, String>",
 											"horizontalAlignment": 0
@@ -20872,7 +20779,7 @@
 											"parentStyle": true,
 											"left": 2872,
 											"top": 1605,
-											"width": 364.0986328125,
+											"width": 378.90960693359375,
 											"height": 13,
 											"text": "+isEmpty(): boolean",
 											"horizontalAlignment": 0
@@ -20882,7 +20789,7 @@
 									"parentStyle": true,
 									"left": 2867,
 									"top": 1480,
-									"width": 374.0986328125,
+									"width": 388.90960693359375,
 									"height": 143
 								},
 								{
@@ -20921,7 +20828,7 @@
 							"containerChangeable": true,
 							"left": 2867,
 							"top": 1432,
-							"width": 373.0986328125,
+							"width": 387.90960693359375,
 							"height": 191,
 							"nameCompartment": {
 								"$ref": "AAAAAAGXFG4hdlH9plo="
@@ -20961,8 +20868,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2746,
-									"top": 1527,
+									"left": 2763,
+									"top": 1526,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -20983,8 +20890,8 @@
 									"visible": null,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2745,
-									"top": 1512,
+									"left": 2762,
+									"top": 1511,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -21005,8 +20912,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2749,
-									"top": 1556,
+									"left": 2766,
+									"top": 1555,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -21027,8 +20934,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2655,
-									"top": 1533,
+									"left": 2689,
+									"top": 1531,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -21049,8 +20956,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2657,
-									"top": 1519,
+									"left": 2691,
+									"top": 1517,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -21071,8 +20978,8 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"parentStyle": false,
-									"left": 2653,
-									"top": 1561,
+									"left": 2687,
+									"top": 1558,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -21184,7 +21091,7 @@
 								"$ref": "AAAAAAGXFG30Bkackcw="
 							},
 							"lineStyle": 1,
-							"points": "2631:1556;2866:1540",
+							"points": "2665:1554;2866:1540",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGXFG4hd1IHAsY="
