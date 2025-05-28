@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class PersonTable {
     private final HashSet<String> hasBset;
-    private final HashMap<String, HashSet<LibraryBookIsbn>> hasCMap; // 精确到副本
+    private final HashMap<String, HashSet<LibraryBookIsbn>> hasCMap;
     private final HashSet<String> apSet;
     // Tracks personId -> bookId for books currently being read by the person
     private final HashMap<String, LibraryBookId> curReadMap;
@@ -23,9 +23,9 @@ public class PersonTable {
         if (bookId.isTypeB()) {
             hasBset.add(personId);
         } else if (bookId.isTypeC()) {
-            HashSet<LibraryBookIsbn> cBooks = hasCMap.getOrDefault(personId, new HashSet<>());
-            cBooks.add(bookId.getBookIsbn());
-            hasCMap.put(personId, cBooks);
+            HashSet<LibraryBookIsbn> cbooks = hasCMap.getOrDefault(personId, new HashSet<>());
+            cbooks.add(bookId.getBookIsbn());
+            hasCMap.put(personId, cbooks);
         }
     }
 

@@ -37,7 +37,8 @@ public class ReadingRoom {
 
     // Used during arrange process to empty the reading room
     public List<Map.Entry<LibraryBookId, String>> clearAndGetBooks() {
-        List<Map.Entry<LibraryBookId, String>> currentBooks = new ArrayList<>(booksInRoom.entrySet());
+        List<Map.Entry<LibraryBookId, String>> currentBooks =
+            new ArrayList<>(booksInRoom.entrySet());
         booksInRoom.clear();
         return currentBooks;
     }

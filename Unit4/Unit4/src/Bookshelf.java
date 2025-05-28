@@ -36,8 +36,9 @@ public class Bookshelf {
     @Trigger(from = "nUser", to = "User")
     public void addBook(LibraryBookId bookId, LibraryBookState shelfType) {
         HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> targetShelfMap =
-                shelfType == LibraryBookState.HOT_BOOKSHELF ? hotBooks : ordinaryBooks;
-        ArrayList<LibraryBookId> list = targetShelfMap.getOrDefault(bookId.getBookIsbn(), new ArrayList<>());
+            shelfType == LibraryBookState.HOT_BOOKSHELF ? hotBooks : ordinaryBooks;
+        ArrayList<LibraryBookId> list = targetShelfMap.getOrDefault(bookId.getBookIsbn(),
+            new ArrayList<>());
         if (!list.contains(bookId)) { // Avoid duplicates if logic error elsewhere
             list.add(bookId);
             targetShelfMap.put(bookId.getBookIsbn(), list);
@@ -48,7 +49,7 @@ public class Bookshelf {
     public void checkWaitingList() {
         Iterator<LibraryBookIsbn> iterator = waitingMap.keySet().iterator();
         while (iterator.hasNext()) {
-            LibraryBookIsbn bookIsbn = iterator.next(); // 首先获取元素
+            LibraryBookIsbn bookIsbn = iterator.next();
             if (hasBook(bookIsbn)) {
                 LibraryBookId bookId = findBookForAppointment(bookIsbn);
                 String personId = waitingMap.get(bookIsbn).remove(); // 从等待队列中移除一个人
@@ -83,47 +84,36 @@ public class Bookshelf {
         return null; // No book available
     }
 
-    private LibraryBookId removeFromShelfMap(LibraryBookIsbn isbn, HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> shelfMap) {
+    private LibraryBookId removeFromShelfMap(LibraryBookIsbn isbn, HashMap<LibraryBookIsbn,
+        ArrayList<LibraryBookId>> shelfMap) {
         if (shelfMap.containsKey(isbn) && !shelfMap.get(isbn).isEmpty()) {
-            return shelfMap.get(isbn).remove(0); // Remove the first available copy
+            LibraryBookId bookId = shelfMap.get(isbn).remove(0);
+            if (shelfMap.get(isbn).isEmpty()) {
+                shelfMap.remove(isbn);
+            }
+            return  bookId;
         }
         return null;
     }
 
-    // public void removeBook(LibraryBookId bookId) {
-    //     books.get(bookId.getBookIsbn()).remove(bookId);
-    // }
-
-
-    // Removes a specific book copy from whichever shelf it is on.
-    // Used when a book is moved from a shelf (e.g., to AO).
     public LibraryBookState removeSpecificBookCopy(LibraryBookId bookId) {
         LibraryBookState sourceState = bookLocationCache.remove(bookId);
-        if (sourceState == null) return null; // Book not found on shelves
+        if (sourceState == null) {
+            return null; // Book not found on shelves
+        }
 
         HashMap<LibraryBookIsbn, ArrayList<LibraryBookId>> sourceMap =
-                (sourceState == LibraryBookState.HOT_BOOKSHELF) ? hotBooks : ordinaryBooks;
+            (sourceState == LibraryBookState.HOT_BOOKSHELF) ? hotBooks : ordinaryBooks;
 
         if (sourceMap.containsKey(bookId.getBookIsbn())) {
             sourceMap.get(bookId.getBookIsbn()).remove(bookId);
             if (sourceMap.get(bookId.getBookIsbn()).isEmpty()) {
                 sourceMap.remove(bookId.getBookIsbn());
             }
+            return sourceState;
         }
-        return sourceState;
+        throw new RuntimeException("Book not found on sourceMap");
     }
-
-
-    // public LibraryBookId orderBook(LibraryBookIsbn bookIsbn) {
-    //     // 尽量给不在apMap中的副本
-    //     for (int i = 0; i < books.get(bookIsbn).size(); i++) {
-    //         if (!apMap.containsKey(books.get(bookIsbn).get(i))) {
-    //             return books.get(bookIsbn).get(i);
-    //         }
-    //     }
-    //     // 全在apMap中，则给第一个副本
-    //     return books.get(bookIsbn).get(0);
-    // }
 
     private LibraryBookId findBookForAppointment(LibraryBookIsbn bookIsbn) {
         // Try to give a copy not already in apMap from hot books
@@ -201,6 +191,7 @@ public class Bookshelf {
                 ordinaryBooks.remove(bookId.getBookIsbn());
             }
             addBook(bookId, LibraryBookState.HOT_BOOKSHELF);
+            bookLocationCache.put(bookId, LibraryBookState.HOT_BOOKSHELF);
         }
     }
 
@@ -211,6 +202,7 @@ public class Bookshelf {
                 hotBooks.remove(bookId.getBookIsbn());
             }
             addBook(bookId, LibraryBookState.BOOKSHELF);
+            bookLocationCache.put(bookId, LibraryBookState.BOOKSHELF);
         }
     }
 }

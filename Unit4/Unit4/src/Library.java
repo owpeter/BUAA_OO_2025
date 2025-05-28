@@ -21,7 +21,7 @@ public class Library {
 
     // For hot book management
     private final HashSet<LibraryBookIsbn> hotIsbn;
-    private final HashSet<LibraryBookIsbn> BorrowedOrReadBooks;
+    private final HashSet<LibraryBookIsbn> borrowedOrReadBooks;
 
     public Library() {
         bookshelf = new Bookshelf();
@@ -32,7 +32,7 @@ public class Library {
         readingRoom = new ReadingRoom();
 
         hotIsbn = new HashSet<>();
-        BorrowedOrReadBooks = new HashSet<>();
+        borrowedOrReadBooks = new HashSet<>();
     }
 
     public void initBook(Map<LibraryBookIsbn, Integer> bookList) {
@@ -45,7 +45,8 @@ public class Library {
         }
     }
 
-    private void addTrace(LibraryBookId bookId, LocalDate date, LibraryBookState from, LibraryBookState to) {
+    private void addTrace(LibraryBookId bookId, LocalDate date,
+        LibraryBookState from, LibraryBookState to) {
         ArrayList<LibraryTrace> traces = bookTrace.getOrDefault(bookId, new ArrayList<>());
         traces.add(new LibraryTrace(date, from, to));
         bookTrace.put(bookId, traces);
@@ -60,7 +61,7 @@ public class Library {
             LibraryBookId bookId = borrowed.getBookId();
             personTable.addBook(personId, bookId);
             addTrace(bookId, today, borrowed.getSourceShelf(), LibraryBookState.USER);
-            BorrowedOrReadBooks.add(bookId.getBookIsbn());
+            borrowedOrReadBooks.add(bookId.getBookIsbn());
             return bookId;
         } else {
             return null;
@@ -98,10 +99,7 @@ public class Library {
             personTable.addBook(personId, bookId);
             personTable.appointmentCancel(personId);
             // update trace
-            ArrayList<LibraryTrace> trace = bookTrace.getOrDefault(bookId, new ArrayList<>());
-            trace.add(new LibraryTrace(today, LibraryBookState.APPOINTMENT_OFFICE,
-                LibraryBookState.USER));
-            bookTrace.put(bookId, trace);
+            addTrace(bookId, today, LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.USER);
             return bookId;
         }
         return null;
@@ -127,10 +125,10 @@ public class Library {
         List<LibraryBookId> books = borrowAndReturning.clearAndGetBooks();
         for (LibraryBookId bookId : books) {
             LibraryBookState targetShelf = hotIsbn.contains(bookId.getBookIsbn()) ?
-                    LibraryBookState.HOT_BOOKSHELF : LibraryBookState.BOOKSHELF;
+                LibraryBookState.HOT_BOOKSHELF : LibraryBookState.BOOKSHELF;
             addTrace(bookId, today, LibraryBookState.BORROW_RETURN_OFFICE, targetShelf);
             moveInfos.add(new LibraryMoveInfo(bookId, LibraryBookState.BORROW_RETURN_OFFICE,
-                    targetShelf));
+                targetShelf));
             bookshelf.addBook(bookId, targetShelf);
         }
     }
@@ -143,20 +141,20 @@ public class Library {
             LibraryBookState sourceShelf = bookshelf.removeSpecificBookCopy(bookId);
             addTrace(bookId, today, sourceShelf, LibraryBookState.APPOINTMENT_OFFICE);
             moveInfos.add(new LibraryMoveInfo(apBook.getBookId(), sourceShelf,
-                    LibraryBookState.APPOINTMENT_OFFICE, apBook.getPersonId()));
+                LibraryBookState.APPOINTMENT_OFFICE, apBook.getPersonId()));
             appointmentOffice.addApBook(today, apBook);
         }
     }
 
     private void ao2bs(LocalDate today, ArrayList<LibraryMoveInfo> moveInfos) {
-        List<ApBook> apBooks2 = appointmentOffice.getOutDatedApBooks(today);
-        for (ApBook apBook : apBooks2) {
+        List<ApBook> apBooks = appointmentOffice.getOutDatedApBooks(today);
+        for (ApBook apBook : apBooks) {
             personTable.appointmentCancel(apBook.getPersonId());
             LibraryBookState targetShelf = hotIsbn.contains(apBook.getBookId().getBookIsbn()) ?
-                    LibraryBookState.HOT_BOOKSHELF : LibraryBookState.BOOKSHELF;
+                LibraryBookState.HOT_BOOKSHELF : LibraryBookState.BOOKSHELF;
             addTrace(apBook.getBookId(), today, LibraryBookState.APPOINTMENT_OFFICE, targetShelf);
             moveInfos.add(new LibraryMoveInfo(apBook.getBookId(),
-                    LibraryBookState.APPOINTMENT_OFFICE, targetShelf));
+                LibraryBookState.APPOINTMENT_OFFICE, targetShelf));
             bookshelf.addBook(apBook.getBookId(), targetShelf);
         }
     }
@@ -169,7 +167,7 @@ public class Library {
             personTable.userStopsReading(personId, bookId); // Update person state
 
             LibraryBookState targetShelf = hotIsbn.contains(bookId.getBookIsbn()) ?
-                    LibraryBookState.HOT_BOOKSHELF : LibraryBookState.BOOKSHELF;
+                LibraryBookState.HOT_BOOKSHELF : LibraryBookState.BOOKSHELF;
             bookshelf.addBook(bookId, targetShelf);
             addTrace(bookId, today, LibraryBookState.READING_ROOM, targetShelf);
             moveInfos.add(new LibraryMoveInfo(bookId, LibraryBookState.READING_ROOM, targetShelf));
@@ -185,29 +183,37 @@ public class Library {
             if (shouldBeHot && currentShelf == LibraryBookState.BOOKSHELF) {
                 bookshelf.moveToHot(bookId);
                 addTrace(bookId, today, LibraryBookState.BOOKSHELF, LibraryBookState.HOT_BOOKSHELF);
-                moveInfos.add(new LibraryMoveInfo(bookId, LibraryBookState.BOOKSHELF, LibraryBookState.HOT_BOOKSHELF));
-            }else if (!shouldBeHot && currentShelf == LibraryBookState.HOT_BOOKSHELF) {
+                moveInfos.add(new LibraryMoveInfo(bookId, LibraryBookState.BOOKSHELF,
+                    LibraryBookState.HOT_BOOKSHELF));
+            } else if (!shouldBeHot && currentShelf == LibraryBookState.HOT_BOOKSHELF) {
                 bookshelf.moveToOrdinary(bookId);
                 addTrace(bookId, today, LibraryBookState.HOT_BOOKSHELF, LibraryBookState.BOOKSHELF);
-                moveInfos.add(new LibraryMoveInfo(bookId, LibraryBookState.HOT_BOOKSHELF, LibraryBookState.BOOKSHELF));
+                moveInfos.add(new LibraryMoveInfo(bookId, LibraryBookState.HOT_BOOKSHELF,
+                    LibraryBookState.BOOKSHELF));
             }
         }
     }
 
     // for hw14
     public LibraryBookId readBook(LocalDate today, String personId, LibraryBookIsbn isbn) {
-        // A-type books can be read. No type restriction for reading, only availability and user state.
-        if (!personTable.canReadBook(personId)) return null;
-        if (!bookshelf.hasBook(isbn)) return null;
+        if (!personTable.canReadBook(personId)) {
+            return null;
+        }
+        if (!bookshelf.hasBook(isbn)) {
+            return null;
+        }
 
         BookAndSource readFrom = bookshelf.removeBookForBorrowOrRead(isbn);
-        if (readFrom == null) return null;
+        if (readFrom == null) {
+            return null;
+        }
 
         readingRoom.addBook(readFrom.getBookId(), personId);
         personTable.userStartsReading(personId, readFrom.getBookId());
-        addTrace(readFrom.getBookId(), today, readFrom.getSourceShelf(), LibraryBookState.READING_ROOM);
+        addTrace(readFrom.getBookId(), today, readFrom.getSourceShelf(),
+            LibraryBookState.READING_ROOM);
 
-        BorrowedOrReadBooks.add(readFrom.getBookId().getBookIsbn());
+        borrowedOrReadBooks.add(readFrom.getBookId().getBookIsbn());
         return readFrom.getBookId();
     }
 
@@ -215,22 +221,16 @@ public class Library {
         readingRoom.removeBook(bookId); // Remove from RR's direct tracking
         personTable.userStopsReading(personId, bookId); // Update person's state
         borrowAndReturning.addBook(bookId); // Goes to BRO
-        addTrace(bookId, today, LibraryBookState.READING_ROOM, LibraryBookState.BORROW_RETURN_OFFICE);
+        addTrace(bookId, today, LibraryBookState.READING_ROOM,
+            LibraryBookState.BORROW_RETURN_OFFICE);
     }
 
     // Called at the END of a CLOSE command, after processing requests for the day
-    public void endOpenDayActions(LocalDate today) {
-        // 替用户把书放到借还处
-        HashMap<LibraryBookId, String> booksInRoom = readingRoom.getBooksInRoom();
-        for (Map.Entry<LibraryBookId, String> entry : booksInRoom.entrySet()) {
-            LibraryBookId bookId = entry.getKey();
-            String personId = entry.getValue();
-            restoreBook(today, personId, bookId);
-        }
-        readingRoom.clearAllBooks();
+    public void endOpenDayActions() {
+        // 更新hot book
         hotIsbn.clear();
-        hotIsbn.addAll(BorrowedOrReadBooks);
-        BorrowedOrReadBooks.clear();
+        hotIsbn.addAll(borrowedOrReadBooks);
+        borrowedOrReadBooks.clear();
     }
 
 }

@@ -25,60 +25,66 @@ public class Main {
                 PRINTER.move(today, library.arrangeBook(today));
             } else if (command instanceof LibraryCloseCmd) {
                 PRINTER.move(today, new ArrayList<>());
-                library.endOpenDayActions(today);
+                library.endOpenDayActions();
             } else {
-                LibraryReqCmd req = (LibraryReqCmd) command;
-                LibraryReqCmd.Type type = req.getType();
-                LibraryBookIsbn bookIsbn = req.getBookIsbn();
-                String studentId = req.getStudentId();
-                switch (type) {
-                    case QUERIED:
-                        LibraryBookId queryBookId = req.getBookId();
-                        PRINTER.info(today, queryBookId, library.queryBook(queryBookId));
-                        break;
-                    case BORROWED:
-                        LibraryBookId borrowId = library.borrowBook(today, studentId, bookIsbn);
-                        if (borrowId != null) {
-                            PRINTER.accept(req, borrowId);
-                        } else {
-                            PRINTER.reject(req);
-                        }
-                        break;
-                    case ORDERED:
-                        if (library.orderBook(studentId, bookIsbn)) {
-                            PRINTER.accept(req);
-                        } else {
-                            PRINTER.reject(req);
-                        }
-                        break;
-                    case PICKED:
-                        LibraryBookId apBookId = library.getApBook(today, studentId, bookIsbn);
-                        if (apBookId != null) {
-                            PRINTER.accept(req, apBookId);
-                        } else {
-                            PRINTER.reject(req);
-                        }
-                        break;
-                    case RETURNED:
-                        LibraryBookId  returnedBookId = req.getBookId();
-                        library.returnBook(today, studentId, returnedBookId);
-                        PRINTER.accept(req);
-                        break;
-                    case READ:
-                        LibraryBookId readBookId = library.readBook(today, studentId, bookIsbn);
-                        if (readBookId != null) {
-                            PRINTER.accept(req, readBookId);
-                        } else {
-                            PRINTER.reject(req);
-                        }
-                        break;
-                    case RESTORED:
-                        LibraryBookId bookId = req.getBookId();
-                        library.restoreBook(today, studentId, bookId);
-                    default:
-                        break;
-                }
+                handleReq(library, today, command);
             }
+        }
+    }
+
+    private static void handleReq(Library library, LocalDate today, LibraryCommand command) {
+        LibraryReqCmd req = (LibraryReqCmd) command;
+        LibraryReqCmd.Type type = req.getType();
+        LibraryBookIsbn bookIsbn = req.getBookIsbn();
+        String studentId = req.getStudentId();
+        switch (type) {
+            case QUERIED:
+                LibraryBookId queryBookId = req.getBookId();
+                PRINTER.info(today, queryBookId, library.queryBook(queryBookId));
+                break;
+            case BORROWED:
+                LibraryBookId borrowId = library.borrowBook(today, studentId, bookIsbn);
+                if (borrowId != null) {
+                    PRINTER.accept(req, borrowId);
+                } else {
+                    PRINTER.reject(req);
+                }
+                break;
+            case ORDERED:
+                if (library.orderBook(studentId, bookIsbn)) {
+                    PRINTER.accept(req);
+                } else {
+                    PRINTER.reject(req);
+                }
+                break;
+            case PICKED:
+                LibraryBookId apBookId = library.getApBook(today, studentId, bookIsbn);
+                if (apBookId != null) {
+                    PRINTER.accept(req, apBookId);
+                } else {
+                    PRINTER.reject(req);
+                }
+                break;
+            case RETURNED:
+                LibraryBookId  returnedBookId = req.getBookId();
+                library.returnBook(today, studentId, returnedBookId);
+                PRINTER.accept(req);
+                break;
+            case READ:
+                LibraryBookId readBookId = library.readBook(today, studentId, bookIsbn);
+                if (readBookId != null) {
+                    PRINTER.accept(req, readBookId);
+                } else {
+                    PRINTER.reject(req);
+                }
+                break;
+            case RESTORED:
+                LibraryBookId bookId = req.getBookId();
+                library.restoreBook(today, studentId, bookId);
+                PRINTER.accept(req);
+                break;
+            default:
+                break;
         }
     }
 
