@@ -1,7 +1,17 @@
 0
-[2025-04-14] [accept] 38021746 ordered C-2253
-[2025-04-14] [accept] 56184959 borrowed C-2253-01
+[2025-01-01] [accept] 23370001 read A-0000-01
+[2025-01-01] [accept] 23370001 restored A-0000-01
+[2025-01-01] 23370001 110
+[2025-01-01] [accept] 23370001 borrowed B-0000-01
+[2025-01-01] [accept] 23370001 borrowed C-0000-01
 0
+1
+[2025-01-31] move A-0000-01 from bro to hbs
+[2025-01-31] [accept] 23370001 returned B-0000-01 not overdue
+[2025-01-31] 23370001 120
 0
-[2025-04-15] [reject] 38021746 picked C-2253
+2
+[2025-03-03] move B-0000-01 from bro to bs
+[2025-03-03] move A-0000-01 from hbs to bs
+[2025-03-03] 23370001 115
 0

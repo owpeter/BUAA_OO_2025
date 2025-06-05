@@ -1,8 +1,8 @@
-import com.oocourse.library2.LibraryBookId;
-import com.oocourse.library2.LibraryBookIsbn;
-import com.oocourse.library2.LibraryBookState;
-import com.oocourse.library2.LibraryMoveInfo;
-import com.oocourse.library2.LibraryTrace;
+import com.oocourse.library3.LibraryBookId;
+import com.oocourse.library3.LibraryBookIsbn;
+import com.oocourse.library3.LibraryBookState;
+import com.oocourse.library3.LibraryMoveInfo;
+import com.oocourse.library3.LibraryTrace;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,10 +56,13 @@ public class Library {
         if (!bookshelf.hasBook(isbn)) {
             return null;
         }
+        if (!personTable.canCreditBorrow(personId)) {
+            return null;
+        }
         if (personTable.canHaveBook(personId, isbn)) {
             BookAndSource borrowed = bookshelf.removeBookForBorrowOrRead(isbn);
             LibraryBookId bookId = borrowed.getBookId();
-            personTable.addBook(personId, bookId);
+            personTable.addBook(personId, bookId, today);
             addTrace(bookId, today, borrowed.getSourceShelf(), LibraryBookState.USER);
             borrowedOrReadBooks.add(bookId.getBookIsbn());
             return bookId;
@@ -68,13 +71,17 @@ public class Library {
         }
     }
 
-    public void returnBook(LocalDate today, String personId, LibraryBookId bookId) {
-        personTable.removeBook(personId, bookId);
+    public boolean returnBook(LocalDate today, String personId, LibraryBookId bookId) {
+        boolean flag = personTable.removeBook(personId, bookId, today);
         borrowAndReturning.addBook(bookId);
         addTrace(bookId, today, LibraryBookState.USER, LibraryBookState.BORROW_RETURN_OFFICE);
+        return flag;
     }
 
     public boolean orderBook(String personId, LibraryBookIsbn bookIsbn) {
+        if (!personTable.canCreditAppointment(personId)) {
+            return false;
+        }
         if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId)) {
             // 有副本才借，没副本假装借，使得预约成功但永远不转运，该用户也永远不能再借书
             if (bookshelf.hasBook(bookIsbn)) {
@@ -96,7 +103,7 @@ public class Library {
             if (bookId == null) {
                 return null;
             }
-            personTable.addBook(personId, bookId);
+            personTable.addBook(personId, bookId, today);
             personTable.appointmentCancel(personId);
             // update trace
             addTrace(bookId, today, LibraryBookState.APPOINTMENT_OFFICE, LibraryBookState.USER);
@@ -150,6 +157,7 @@ public class Library {
         List<ApBook> apBooks = appointmentOffice.getOutDatedApBooks(today);
         for (ApBook apBook : apBooks) {
             personTable.appointmentCancel(apBook.getPersonId());
+            personTable.notPickBook(apBook.getPersonId());
             LibraryBookState targetShelf = hotIsbn.contains(apBook.getBookId().getBookIsbn()) ?
                 LibraryBookState.HOT_BOOKSHELF : LibraryBookState.BOOKSHELF;
             addTrace(apBook.getBookId(), today, LibraryBookState.APPOINTMENT_OFFICE, targetShelf);
@@ -164,7 +172,7 @@ public class Library {
         for (Map.Entry<LibraryBookId, String> entry : fromRr) {
             LibraryBookId bookId = entry.getKey();
             String personId = entry.getValue(); // Person who was reading
-            personTable.userStopsReading(personId, bookId); // Update person state
+            personTable.passiveReturn(personId, bookId); // Update person state
 
             LibraryBookState targetShelf = hotIsbn.contains(bookId.getBookIsbn()) ?
                 LibraryBookState.HOT_BOOKSHELF : LibraryBookState.BOOKSHELF;
@@ -196,7 +204,7 @@ public class Library {
 
     // for hw14
     public LibraryBookId readBook(LocalDate today, String personId, LibraryBookIsbn isbn) {
-        if (!personTable.canReadBook(personId)) {
+        if (!personTable.canReadBook(personId, isbn)) {
             return null;
         }
         if (!bookshelf.hasBook(isbn)) {
@@ -219,7 +227,7 @@ public class Library {
 
     public void restoreBook(LocalDate today, String personId, LibraryBookId bookId) {
         readingRoom.removeBook(bookId); // Remove from RR's direct tracking
-        personTable.userStopsReading(personId, bookId); // Update person's state
+        personTable.proactiveReturn(personId, bookId); // Update person's state
         borrowAndReturning.addBook(bookId); // Goes to BRO
         addTrace(bookId, today, LibraryBookState.READING_ROOM,
             LibraryBookState.BORROW_RETURN_OFFICE);
@@ -231,6 +239,11 @@ public class Library {
         hotIsbn.clear();
         hotIsbn.addAll(borrowedOrReadBooks);
         borrowedOrReadBooks.clear();
+    }
+
+    // for hw15
+    public int queryCreditScore(String personId, LocalDate today) {
+        return personTable.calculateCreditScore(personId, today);
     }
 
 }

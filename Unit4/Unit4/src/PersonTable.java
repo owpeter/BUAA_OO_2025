@@ -1,42 +1,91 @@
-import com.oocourse.library2.LibraryBookId;
-import com.oocourse.library2.LibraryBookIsbn;
+import com.oocourse.library3.LibraryBookId;
+import com.oocourse.library3.LibraryBookIsbn;
 
+import java.awt.print.Book;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
 public class PersonTable {
-    private final HashSet<String> hasBset;
-    private final HashMap<String, HashSet<LibraryBookIsbn>> hasCMap;
+    private final HashMap<String, LocalDate> hasBset;
+    private final HashMap<String, HashMap<LibraryBookIsbn, LocalDate>> hasCMap;
     private final HashSet<String> apSet;
     // Tracks personId -> bookId for books currently being read by the person
     private final HashMap<String, LibraryBookId> curReadMap;
+    private final HashMap<String, Integer> creditMap;
 
     public PersonTable() {
-        hasBset = new HashSet<>();
+        hasBset = new HashMap<>();
         hasCMap = new HashMap<>();
         apSet = new HashSet<>();
         curReadMap = new HashMap<>();
+        creditMap = new HashMap<>();
     }
 
-    public void addBook(String personId, LibraryBookId bookId) {
+
+    public boolean isOverDue(LocalDate startDate, LocalDate endDate, LibraryBookId bookId) {
+        LocalDate dueDate = startDate.plusDays(bookId.isTypeB() ? 30 : 60);
+        return endDate.isAfter(dueDate);
+    }
+
+    public boolean isOverDue(LocalDate startDate, LocalDate endDate, String type) {
+        LocalDate dueDate = startDate.plusDays(type.equals("B") ? 30 : 60);
+        return endDate.isAfter(dueDate);
+    }
+
+    public Integer calOverDueDays(LocalDate startDate, LocalDate endDate, LibraryBookId bookId) {
+        LocalDate dueDate = startDate.plusDays(bookId.isTypeB() ? 30 : 60);
+        return endDate.isAfter(dueDate) ? endDate.until(dueDate).getDays() : 0;
+    }
+
+    public Integer calOverDueDays(LocalDate startDate, LocalDate endDate, String type) {
+        LocalDate dueDate = startDate.plusDays(type.equals("B") ? 30 : 60);
+        return endDate.isAfter(dueDate) ? endDate.until(dueDate).getDays() : 0;
+    }
+
+    public void setCredit(String personId, int delta) {
+        int credit = creditMap.getOrDefault(personId, 100);
+        if (delta >= 0) {
+            credit = Math.min(credit + delta, 180);
+            creditMap.put(personId, credit);
+        } else {
+            credit = Math.max(credit + delta, 0);
+            creditMap.put(personId, credit);
+        }
+    }
+
+    public void addBook(String personId, LibraryBookId bookId, LocalDate startDate) {
         if (bookId.isTypeB()) {
-            hasBset.add(personId);
+            hasBset.put(personId, startDate);
         } else if (bookId.isTypeC()) {
-            HashSet<LibraryBookIsbn> cbooks = hasCMap.getOrDefault(personId, new HashSet<>());
-            cbooks.add(bookId.getBookIsbn());
+            HashMap<LibraryBookIsbn,  LocalDate> cbooks = hasCMap.getOrDefault(personId, new HashMap<>());
+            cbooks.put(bookId.getBookIsbn(), startDate);
             hasCMap.put(personId, cbooks);
         }
     }
 
-    public void removeBook(String personId, LibraryBookId bookId) {
+    public boolean removeBook(String personId, LibraryBookId bookId, LocalDate endDate) {
+        // 还书
+        LocalDate startDate;
         if (bookId.isTypeB()) {
+            startDate = hasBset.get(personId);
             hasBset.remove(personId);
-        } else if (bookId.isTypeC()) {
+        } else {
+            startDate = hasCMap.get(personId).get(bookId.getBookIsbn());
             hasCMap.get(personId).remove(bookId.getBookIsbn());
             if (hasCMap.get(personId).isEmpty()) {
                 hasCMap.remove(personId);
             }
+        }
+
+        if (!isOverDue(startDate, endDate, bookId)) {
+            setCredit(personId, 10);
+            return true;
+        } else {
+            int delta = calOverDueDays(startDate, endDate, bookId);
+            setCredit(personId, delta * 5);
+            return false;
         }
     }
 
@@ -45,10 +94,10 @@ public class PersonTable {
             return false;
         }
         if (bookId.isTypeB()) {
-            return !hasBset.contains(personId);
+            return !hasBset.containsKey(personId);
         }
         if (bookId.isTypeC()) {
-            return !(hasCMap.containsKey(personId) && hasCMap.get(personId).contains(bookId));
+            return !(hasCMap.containsKey(personId) && hasCMap.get(personId).containsKey(bookId));
         }
         return false;
     }
@@ -66,8 +115,17 @@ public class PersonTable {
     }
 
     // Reading related methods
-    public boolean canReadBook(String personId) {
-        // "若该用户存在当日未阅读后归还的书籍，阅读失败"
+    public boolean canReadBook(String personId, LibraryBookIsbn isbn) {
+        int credit = creditMap.getOrDefault(personId, 100);
+        if (isbn.isTypeA()) {
+            if (credit < 40) {
+                return false;
+            }
+        } else {
+            if (credit <= 0) {
+                return false;
+            }
+        }
         return !curReadMap.containsKey(personId);
     }
 
@@ -75,12 +133,19 @@ public class PersonTable {
         curReadMap.put(personId, bookId);
     }
 
-    // Called when user restores book, or system moves book from RR
-    public void userStopsReading(String personId, LibraryBookId bookId) {
-        // Only remove if they were reading this specific book
+    public void proactiveReturn(String personId, LibraryBookId bookId) {
         if (curReadMap.containsKey(personId)
             && curReadMap.get(personId).equals(bookId)) {
             curReadMap.remove(personId);
+            setCredit(personId, 10);
+        }
+    }
+
+    public void passiveReturn(String personId, LibraryBookId bookId) {
+        if (curReadMap.containsKey(personId)
+            && curReadMap.get(personId).equals(bookId)) {
+            curReadMap.remove(personId);
+            setCredit(personId, -10);
         }
     }
 
@@ -100,6 +165,36 @@ public class PersonTable {
         if (personToRemove != null) {
             curReadMap.remove(personToRemove);
         }
+    }
+
+    // hw15
+    public Integer calculateCreditScore(String personId, LocalDate today) {
+        int credit = creditMap.getOrDefault(personId, 100);
+        if (hasBset.containsKey(personId)) {
+            if (isOverDue(hasBset.get(personId), today, "B")) {
+                int delta = -calOverDueDays(hasBset.get(personId), today, "B");
+                credit = Math.max(credit - delta * 5, 0);
+            }
+        }
+        for (Map.Entry<LibraryBookIsbn, LocalDate> entry : hasCMap.getOrDefault(personId, new HashMap<>()).entrySet()) {
+            if (isOverDue(entry.getValue(), today, "C")) {
+                int delta = -calOverDueDays(entry.getValue(), today, "C");
+                credit = Math.max(credit - delta * 5, 0);
+            }
+        }
+        return credit;
+    }
+
+    public void notPickBook(String personId) {
+        setCredit(personId, -15);
+    }
+
+    public boolean canCreditBorrow(String personId) {
+        return creditMap.getOrDefault(personId, 100) >= 60;
+    }
+
+    public boolean canCreditAppointment(String personId) {
+        return creditMap.getOrDefault(personId, 100) >= 100;
     }
 
 }

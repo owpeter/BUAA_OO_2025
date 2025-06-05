@@ -1,5 +1,5 @@
-import com.oocourse.library2.LibraryBookId;
-import com.oocourse.library2.LibraryBookState;
+import com.oocourse.library3.LibraryBookId;
+import com.oocourse.library3.LibraryBookState;
 
 public class BookAndSource {
     private final LibraryBookId bookId;

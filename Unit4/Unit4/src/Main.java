@@ -1,16 +1,19 @@
-import com.oocourse.library2.LibraryBookId;
-import com.oocourse.library2.LibraryBookIsbn;
-import com.oocourse.library2.LibraryCloseCmd;
-import com.oocourse.library2.LibraryCommand;
-import com.oocourse.library2.LibraryOpenCmd;
-import com.oocourse.library2.LibraryReqCmd;
+import com.oocourse.library3.LibraryBookId;
+import com.oocourse.library3.LibraryBookIsbn;
+import com.oocourse.library3.LibraryCloseCmd;
+import com.oocourse.library3.LibraryCommand;
+import com.oocourse.library3.LibraryOpenCmd;
+import com.oocourse.library3.LibraryQcsCmd;
+import com.oocourse.library3.LibraryReqCmd;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
-import static com.oocourse.library2.LibraryIO.PRINTER;
-import static com.oocourse.library2.LibraryIO.SCANNER;
+import static com.oocourse.library3.LibraryIO.PRINTER;
+import static com.oocourse.library3.LibraryIO.SCANNER;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,6 +36,11 @@ public class Main {
     }
 
     private static void handleReq(Library library, LocalDate today, LibraryCommand command) {
+        if (command instanceof LibraryQcsCmd) {
+            PRINTER.info(command,
+                library.queryCreditScore(((LibraryQcsCmd) command).getStudentId(), today));
+            return;
+        }
         LibraryReqCmd req = (LibraryReqCmd) command;
         LibraryReqCmd.Type type = req.getType();
         LibraryBookIsbn bookIsbn = req.getBookIsbn();
@@ -66,9 +74,7 @@ public class Main {
                 }
                 break;
             case RETURNED:
-                LibraryBookId  returnedBookId = req.getBookId();
-                library.returnBook(today, studentId, returnedBookId);
-                PRINTER.accept(req);
+                handleReturn(library, today, req);
                 break;
             case READ:
                 LibraryBookId readBookId = library.readBook(today, studentId, bookIsbn);
@@ -85,6 +91,16 @@ public class Main {
                 break;
             default:
                 break;
+        }
+    }
+
+    private static void handleReturn(Library library, LocalDate today, LibraryReqCmd req) {
+        LibraryBookId  returnedBookId = req.getBookId();
+        boolean flag = library.returnBook(today, req.getStudentId(), returnedBookId);
+        if (flag) {
+            PRINTER.accept(req, "not overdue");
+        } else {
+            PRINTER.accept(req, "overdue");
         }
     }
 
