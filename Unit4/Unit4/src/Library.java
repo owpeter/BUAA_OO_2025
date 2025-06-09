@@ -3,6 +3,7 @@ import com.oocourse.library3.LibraryBookIsbn;
 import com.oocourse.library3.LibraryBookState;
 import com.oocourse.library3.LibraryMoveInfo;
 import com.oocourse.library3.LibraryTrace;
+import com.oocourse.library3.annotation.SendMessage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class Library {
         if (!bookshelf.hasBook(isbn)) {
             return null;
         }
-        if (!personTable.canCreditBorrow(personId)) {
+        if (!personTable.canCreditBorrow(personId, today)) {
             return null;
         }
         if (personTable.canHaveBook(personId, isbn)) {
@@ -78,8 +79,8 @@ public class Library {
         return flag;
     }
 
-    public boolean orderBook(String personId, LibraryBookIsbn bookIsbn) {
-        if (!personTable.canCreditAppointment(personId)) {
+    public boolean orderBook(String personId, LibraryBookIsbn bookIsbn, LocalDate today) {
+        if (!personTable.canCreditAppointment(personId, today)) {
             return false;
         }
         if (personTable.canHaveBook(personId, bookIsbn) && !personTable.hasApBook(personId)) {
@@ -117,6 +118,7 @@ public class Library {
     }
 
     public List<LibraryMoveInfo> arrangeBook(LocalDate today) {
+        // personTable.calAllCreditScore(today);
         ArrayList<LibraryMoveInfo> moveInfos = new ArrayList<>();
         bo2bs(today, moveInfos);
         bs2ao(today, moveInfos);
@@ -204,7 +206,7 @@ public class Library {
 
     // for hw14
     public LibraryBookId readBook(LocalDate today, String personId, LibraryBookIsbn isbn) {
-        if (!personTable.canReadBook(personId, isbn)) {
+        if (!personTable.canReadBook(personId, isbn, today)) {
             return null;
         }
         if (!bookshelf.hasBook(isbn)) {
@@ -244,6 +246,19 @@ public class Library {
     // for hw15
     public int queryCreditScore(String personId, LocalDate today) {
         return personTable.calculateCreditScore(personId, today);
+        // return personTable.getCredit(personId);
+    }
+
+    @SendMessage(from = ":Library", to = "appointmentOffice:" +
+        "AppointmentOffice")
+    public void orderNewBook() {
+        // do nothing
+    }
+
+    @SendMessage(from = ":Library", to = "appointmentOffice:" +
+        "AppointmentOffice")
+    public void test() {
+        // do nothing
     }
 
 }

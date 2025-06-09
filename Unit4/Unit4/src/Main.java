@@ -8,9 +8,7 @@ import com.oocourse.library3.LibraryReqCmd;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import static com.oocourse.library3.LibraryIO.PRINTER;
 import static com.oocourse.library3.LibraryIO.SCANNER;
@@ -20,6 +18,7 @@ public class Main {
         Map<LibraryBookIsbn, Integer> bookList = SCANNER.getInventory();
         Library library = new Library();
         library.initBook(bookList);
+        LocalDate lastOpenDay = null;
         while (true) {
             LibraryCommand command = SCANNER.nextCommand();
             if (command == null) { break; }
@@ -29,9 +28,11 @@ public class Main {
             } else if (command instanceof LibraryCloseCmd) {
                 PRINTER.move(today, new ArrayList<>());
                 library.endOpenDayActions();
+                System.out.println("[debug]" + library.queryCreditScore("23370041", today));
             } else {
                 handleReq(library, today, command);
             }
+
         }
     }
 
@@ -59,7 +60,7 @@ public class Main {
                 }
                 break;
             case ORDERED:
-                if (library.orderBook(studentId, bookIsbn)) {
+                if (library.orderBook(studentId, bookIsbn, today)) {
                     PRINTER.accept(req);
                 } else {
                     PRINTER.reject(req);

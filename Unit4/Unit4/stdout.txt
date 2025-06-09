@@ -1,17 +1,1981 @@
 0
-[2025-01-01] [accept] 23370001 read A-0000-01
-[2025-01-01] [accept] 23370001 restored A-0000-01
-[2025-01-01] 23370001 110
-[2025-01-01] [accept] 23370001 borrowed B-0000-01
-[2025-01-01] [accept] 23370001 borrowed C-0000-01
+[2025-01-01] [accept] 23370023 read B-5988-01
+[2025-01-01] 23370023 100
+[2025-01-01] [accept] 23370023 ordered B-6048
+[2025-01-01] [reject] 23370023 ordered C-4759
+[2025-01-01] [accept] 23370023 borrowed B-8679-01
+[2025-01-01] [reject] 23370023 ordered B-8679
+[2025-01-01] [reject] 23370023 ordered B-3007
+[2025-01-01] [accept] 23370023 returned B-8679-01 not overdue
+[2025-01-01] [accept] 23370023 borrowed C-4759-01
+[2025-01-01] [accept] 23370045 read B-8679-02
+[2025-01-01] [accept] 23370023 borrowed C-4793-01
+[2025-01-01] [accept] 23370031 read B-3007-01
+[2025-01-01] [accept] 23370031 borrowed C-1530-01
+[2025-01-01] [accept] 23370031 borrowed B-6048-01
+[2025-01-01] [accept] 23370023 borrowed B-5988-02
+[2025-01-01] [reject] 23370031 ordered B-6048
+[2025-01-01] [reject] 23370031 ordered B-5988
+[2025-01-01] C-4759-01 moving trace: 1
+1 [2025-01-01] from bs to user
 0
-1
-[2025-01-31] move A-0000-01 from bro to hbs
-[2025-01-31] [accept] 23370001 returned B-0000-01 not overdue
-[2025-01-31] 23370001 120
+[debug]100
+29
+[2025-01-03] move B-8679-01 from bro to hbs
+[2025-01-03] move B-8679-02 from rr to hbs
+[2025-01-03] move B-5988-01 from rr to hbs
+[2025-01-03] move B-3007-01 from rr to hbs
+[2025-01-03] move B-5988-03 from bs to hbs
+[2025-01-03] move B-5988-04 from bs to hbs
+[2025-01-03] move B-5988-05 from bs to hbs
+[2025-01-03] move B-5988-06 from bs to hbs
+[2025-01-03] move C-1530-02 from bs to hbs
+[2025-01-03] move C-1530-03 from bs to hbs
+[2025-01-03] move B-3007-02 from bs to hbs
+[2025-01-03] move B-3007-03 from bs to hbs
+[2025-01-03] move B-3007-04 from bs to hbs
+[2025-01-03] move B-3007-05 from bs to hbs
+[2025-01-03] move C-4793-02 from bs to hbs
+[2025-01-03] move C-4793-03 from bs to hbs
+[2025-01-03] move C-4793-04 from bs to hbs
+[2025-01-03] move C-4793-05 from bs to hbs
+[2025-01-03] move B-8679-03 from bs to hbs
+[2025-01-03] move B-8679-04 from bs to hbs
+[2025-01-03] move B-8679-05 from bs to hbs
+[2025-01-03] move B-6048-02 from bs to hbs
+[2025-01-03] move B-6048-03 from bs to hbs
+[2025-01-03] move B-6048-04 from bs to hbs
+[2025-01-03] move B-6048-05 from bs to hbs
+[2025-01-03] move B-6048-06 from bs to hbs
+[2025-01-03] move C-4759-02 from bs to hbs
+[2025-01-03] move C-4759-03 from bs to hbs
+[2025-01-03] move C-4759-04 from bs to hbs
+[2025-01-03] [reject] 23370031 ordered C-4793
+[2025-01-03] B-6048-02 moving trace: 1
+1 [2025-01-03] from bs to hbs
+[2025-01-03] B-6048-01 moving trace: 1
+1 [2025-01-01] from bs to user
+[2025-01-03] [accept] 23370023 returned B-5988-02 not overdue
+[2025-01-03] 23370031 90
+[2025-01-03] B-8679-04 moving trace: 1
+1 [2025-01-03] from bs to hbs
 0
+[debug]100
+30
+[2025-01-06] move B-5988-02 from bro to bs
+[2025-01-06] move B-5988-01 from hbs to bs
+[2025-01-06] move B-5988-03 from hbs to bs
+[2025-01-06] move B-5988-04 from hbs to bs
+[2025-01-06] move B-5988-05 from hbs to bs
+[2025-01-06] move B-5988-06 from hbs to bs
+[2025-01-06] move B-3007-01 from hbs to bs
+[2025-01-06] move B-3007-02 from hbs to bs
+[2025-01-06] move B-3007-03 from hbs to bs
+[2025-01-06] move B-3007-04 from hbs to bs
+[2025-01-06] move B-3007-05 from hbs to bs
+[2025-01-06] move C-1530-02 from hbs to bs
+[2025-01-06] move C-1530-03 from hbs to bs
+[2025-01-06] move C-4793-02 from hbs to bs
+[2025-01-06] move C-4793-03 from hbs to bs
+[2025-01-06] move C-4793-04 from hbs to bs
+[2025-01-06] move C-4793-05 from hbs to bs
+[2025-01-06] move B-8679-01 from hbs to bs
+[2025-01-06] move B-8679-02 from hbs to bs
+[2025-01-06] move B-8679-03 from hbs to bs
+[2025-01-06] move B-8679-04 from hbs to bs
+[2025-01-06] move B-8679-05 from hbs to bs
+[2025-01-06] move B-6048-02 from hbs to bs
+[2025-01-06] move B-6048-03 from hbs to bs
+[2025-01-06] move B-6048-04 from hbs to bs
+[2025-01-06] move B-6048-05 from hbs to bs
+[2025-01-06] move B-6048-06 from hbs to bs
+[2025-01-06] move C-4759-02 from hbs to bs
+[2025-01-06] move C-4759-03 from hbs to bs
+[2025-01-06] move C-4759-04 from hbs to bs
+[2025-01-06] [accept] 23370031 read B-8679-01
+[2025-01-06] C-4793-02 moving trace: 2
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+[2025-01-06] B-8679-03 moving trace: 2
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+[2025-01-06] B-3007-02 moving trace: 2
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+[2025-01-06] [accept] 23370023 returned C-4759-01 not overdue
+[2025-01-06] 23370045 90
+[2025-01-06] [accept] 23370045 borrowed B-6048-02
+0
+[debug]100
+10
+[2025-01-08] move C-4759-01 from bro to bs
+[2025-01-08] move B-8679-01 from rr to hbs
+[2025-01-08] move B-8679-02 from bs to hbs
+[2025-01-08] move B-8679-03 from bs to hbs
+[2025-01-08] move B-8679-04 from bs to hbs
+[2025-01-08] move B-8679-05 from bs to hbs
+[2025-01-08] move B-6048-03 from bs to hbs
+[2025-01-08] move B-6048-04 from bs to hbs
+[2025-01-08] move B-6048-05 from bs to hbs
+[2025-01-08] move B-6048-06 from bs to hbs
+[2025-01-08] [accept] 23370031 returned C-1530-01 not overdue
+[2025-01-08] B-8679-02 moving trace: 4
+1 [2025-01-01] from bs to rr
+2 [2025-01-03] from rr to hbs
+3 [2025-01-06] from hbs to bs
+4 [2025-01-08] from bs to hbs
+[2025-01-08] [accept] 23370003 read A-4127-01
+[2025-01-08] [accept] 23370031 read B-6048-03
+[2025-01-08] [accept] 23370031 borrowed C-3427-01
+[2025-01-08] [reject] 23370031 read B-8679
+[2025-01-08] B-5988-06 moving trace: 2
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+[2025-01-08] [reject] 23370023 ordered C-3427
+[2025-01-08] [accept] 23370003 borrowed B-3007-01
+[2025-01-08] [accept] 23370073 read B-3007-02
+[2025-01-08] [accept] 23370045 borrowed C-4759-02
+[2025-01-08] 23370023 120
+[2025-01-08] [accept] 23370031 borrowed C-4759-03
+[2025-01-08] [accept] 23370023 borrowed C-4759-04
+0
+[debug]100
+20
+[2025-01-10] move C-1530-01 from bro to bs
+[2025-01-10] move B-3007-02 from rr to hbs
+[2025-01-10] move A-4127-01 from rr to hbs
+[2025-01-10] move B-6048-03 from rr to hbs
+[2025-01-10] move B-8679-01 from hbs to bs
+[2025-01-10] move B-8679-02 from hbs to bs
+[2025-01-10] move B-8679-03 from hbs to bs
+[2025-01-10] move B-8679-04 from hbs to bs
+[2025-01-10] move B-8679-05 from hbs to bs
+[2025-01-10] move B-3007-03 from bs to hbs
+[2025-01-10] move B-3007-04 from bs to hbs
+[2025-01-10] move B-3007-05 from bs to hbs
+[2025-01-10] move A-4127-02 from bs to hbs
+[2025-01-10] move A-4127-03 from bs to hbs
+[2025-01-10] move A-4127-04 from bs to hbs
+[2025-01-10] move C-4759-01 from bs to hbs
+[2025-01-10] move C-3427-02 from bs to hbs
+[2025-01-10] move C-3427-03 from bs to hbs
+[2025-01-10] move C-3427-04 from bs to hbs
+[2025-01-10] move C-3427-05 from bs to hbs
+[2025-01-10] [accept] 23370003 returned B-3007-01 not overdue
+[2025-01-10] 23370031 80
+[2025-01-10] C-1530-01 moving trace: 3
+1 [2025-01-01] from bs to user
+2 [2025-01-08] from user to bro
+3 [2025-01-10] from bro to bs
+[2025-01-10] [accept] 23370023 borrowed B-5988-02
+[2025-01-10] [accept] 23370009 read C-1530-02
+[2025-01-10] [accept] 23370052 read B-3007-02
+[2025-01-10] 23370052 100
+[2025-01-10] [accept] 23370073 read A-9255-01
+[2025-01-10] [accept] 23370031 returned B-6048-01 not overdue
+0
+[debug]100
+28
+[2025-01-12] move B-3007-01 from bro to hbs
+[2025-01-12] move B-6048-01 from bro to bs
+[2025-01-12] move C-1530-02 from rr to hbs
+[2025-01-12] move A-9255-01 from rr to hbs
+[2025-01-12] move B-3007-02 from rr to hbs
+[2025-01-12] move A-4127-01 from hbs to bs
+[2025-01-12] move A-4127-02 from hbs to bs
+[2025-01-12] move A-4127-03 from hbs to bs
+[2025-01-12] move A-4127-04 from hbs to bs
+[2025-01-12] move B-6048-04 from hbs to bs
+[2025-01-12] move B-6048-05 from hbs to bs
+[2025-01-12] move B-6048-06 from hbs to bs
+[2025-01-12] move B-6048-03 from hbs to bs
+[2025-01-12] move C-4759-01 from hbs to bs
+[2025-01-12] move C-3427-02 from hbs to bs
+[2025-01-12] move C-3427-03 from hbs to bs
+[2025-01-12] move C-3427-04 from hbs to bs
+[2025-01-12] move C-3427-05 from hbs to bs
+[2025-01-12] move B-5988-01 from bs to hbs
+[2025-01-12] move B-5988-03 from bs to hbs
+[2025-01-12] move B-5988-04 from bs to hbs
+[2025-01-12] move B-5988-05 from bs to hbs
+[2025-01-12] move B-5988-06 from bs to hbs
+[2025-01-12] move C-1530-03 from bs to hbs
+[2025-01-12] move C-1530-01 from bs to hbs
+[2025-01-12] move A-9255-02 from bs to hbs
+[2025-01-12] move A-9255-03 from bs to hbs
+[2025-01-12] move A-9255-04 from bs to hbs
+[2025-01-12] A-9255-01 moving trace: 2
+1 [2025-01-10] from bs to rr
+2 [2025-01-12] from rr to hbs
+[2025-01-12] B-5988-03 moving trace: 3
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-12] from bs to hbs
+[2025-01-12] 23370052 90
+[2025-01-12] 23370003 100
+[2025-01-12] B-3007-01 moving trace: 6
+1 [2025-01-01] from bs to rr
+2 [2025-01-03] from rr to hbs
+3 [2025-01-06] from hbs to bs
+4 [2025-01-08] from bs to user
+5 [2025-01-10] from user to bro
+6 [2025-01-12] from bro to hbs
+[2025-01-12] [accept] 23370073 borrowed C-4759-01
+0
+[debug]100
+17
+[2025-01-15] move B-5988-01 from hbs to bs
+[2025-01-15] move B-5988-03 from hbs to bs
+[2025-01-15] move B-5988-04 from hbs to bs
+[2025-01-15] move B-5988-05 from hbs to bs
+[2025-01-15] move B-5988-06 from hbs to bs
+[2025-01-15] move B-3007-03 from hbs to bs
+[2025-01-15] move B-3007-04 from hbs to bs
+[2025-01-15] move B-3007-05 from hbs to bs
+[2025-01-15] move B-3007-01 from hbs to bs
+[2025-01-15] move B-3007-02 from hbs to bs
+[2025-01-15] move C-1530-02 from hbs to bs
+[2025-01-15] move C-1530-03 from hbs to bs
+[2025-01-15] move C-1530-01 from hbs to bs
+[2025-01-15] move A-9255-01 from hbs to bs
+[2025-01-15] move A-9255-02 from hbs to bs
+[2025-01-15] move A-9255-03 from hbs to bs
+[2025-01-15] move A-9255-04 from hbs to bs
+[2025-01-15] C-4793-01 moving trace: 1
+1 [2025-01-01] from bs to user
+[2025-01-15] [accept] 23370031 borrowed C-1530-02
+[2025-01-15] B-6048-01 moving trace: 3
+1 [2025-01-01] from bs to user
+2 [2025-01-10] from user to bro
+3 [2025-01-12] from bro to bs
+[2025-01-15] [accept] 23370045 borrowed C-1530-03
+[2025-01-15] [accept] 23370009 read B-6048-01
+[2025-01-15] [accept] 23370003 ordered C-4759
+[2025-01-15] 23370009 90
+[2025-01-15] C-4793-01 moving trace: 1
+1 [2025-01-01] from bs to user
+[2025-01-15] [accept] 23370052 borrowed C-3427-02
+[2025-01-15] 23370023 120
+[2025-01-15] [accept] 23370045 borrowed C-4793-02
+[2025-01-15] [accept] 23370003 read B-3007-03
+[2025-01-15] [accept] 23370023 returned B-5988-02 not overdue
+0
+[debug]100
+18
+[2025-01-17] move B-5988-02 from bro to bs
+[2025-01-17] move B-6048-01 from rr to hbs
+[2025-01-17] move B-3007-03 from rr to hbs
+[2025-01-17] move B-3007-04 from bs to hbs
+[2025-01-17] move B-3007-05 from bs to hbs
+[2025-01-17] move B-3007-01 from bs to hbs
+[2025-01-17] move B-3007-02 from bs to hbs
+[2025-01-17] move C-1530-01 from bs to hbs
+[2025-01-17] move C-4793-03 from bs to hbs
+[2025-01-17] move C-4793-04 from bs to hbs
+[2025-01-17] move C-4793-05 from bs to hbs
+[2025-01-17] move B-6048-04 from bs to hbs
+[2025-01-17] move B-6048-05 from bs to hbs
+[2025-01-17] move B-6048-06 from bs to hbs
+[2025-01-17] move B-6048-03 from bs to hbs
+[2025-01-17] move C-3427-03 from bs to hbs
+[2025-01-17] move C-3427-04 from bs to hbs
+[2025-01-17] move C-3427-05 from bs to hbs
+[2025-01-17] [accept] 23370023 returned C-4793-01 not overdue
+[2025-01-17] [accept] 23370023 read B-5988-01
+[2025-01-17] [accept] 23370041 read C-1530-01
+[2025-01-17] 23370003 90
+[2025-01-17] [accept] 23370045 borrowed C-3427-03
+[2025-01-17] [accept] 23370041 borrowed B-8679-01
+[2025-01-17] [accept] 23370045 returned B-6048-02 not overdue
+[2025-01-17] [accept] 23370023 borrowed C-4793-03
+[2025-01-17] B-3007-05 moving trace: 5
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-10] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-17] from bs to hbs
+[2025-01-17] [accept] 23370009 read B-8679-02
+[2025-01-17] [accept] 23370009 borrowed B-5988-03
+[2025-01-17] [accept] 23370052 returned C-3427-02 not overdue
+[2025-01-17] [accept] 23370045 ordered B-6048
+[2025-01-17] [accept] 23370041 restored C-1530-01
+[2025-01-17] [accept] 23370031 returned C-3427-01 not overdue
+[2025-01-17] [accept] 23370052 borrowed C-3427-04
+[2025-01-17] [accept] 23370052 borrowed C-4793-04
+[2025-01-17] [reject] 23370031 ordered C-1530
+[2025-01-17] 23370003 90
+[2025-01-17] [reject] 23370073 ordered C-4759
+0
+[debug]110
+24
+[2025-01-18] move C-4793-01 from bro to hbs
+[2025-01-18] move B-6048-02 from bro to bs
+[2025-01-18] move C-3427-02 from bro to hbs
+[2025-01-18] move C-1530-01 from bro to hbs
+[2025-01-18] move C-3427-01 from bro to hbs
+[2025-01-18] move B-6048-01 from hbs to ao for 23370045
+[2025-01-18] move B-8679-02 from rr to hbs
+[2025-01-18] move B-5988-01 from rr to hbs
+[2025-01-18] move B-3007-03 from hbs to bs
+[2025-01-18] move B-3007-04 from hbs to bs
+[2025-01-18] move B-3007-05 from hbs to bs
+[2025-01-18] move B-3007-01 from hbs to bs
+[2025-01-18] move B-3007-02 from hbs to bs
+[2025-01-18] move B-6048-04 from hbs to bs
+[2025-01-18] move B-6048-05 from hbs to bs
+[2025-01-18] move B-6048-06 from hbs to bs
+[2025-01-18] move B-6048-03 from hbs to bs
+[2025-01-18] move B-5988-04 from bs to hbs
+[2025-01-18] move B-5988-05 from bs to hbs
+[2025-01-18] move B-5988-06 from bs to hbs
+[2025-01-18] move B-5988-02 from bs to hbs
+[2025-01-18] move B-8679-03 from bs to hbs
+[2025-01-18] move B-8679-04 from bs to hbs
+[2025-01-18] move B-8679-05 from bs to hbs
+[2025-01-18] [accept] 23370073 borrowed B-6048-02
+[2025-01-18] C-4793-03 moving trace: 4
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-17] from hbs to user
+[2025-01-18] [accept] 23370031 returned C-4759-03 not overdue
+[2025-01-18] [accept] 23370023 borrowed B-5988-01
+[2025-01-18] B-6048-03 moving trace: 8
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-08] from hbs to rr
+5 [2025-01-10] from rr to hbs
+6 [2025-01-12] from hbs to bs
+7 [2025-01-17] from bs to hbs
+8 [2025-01-18] from hbs to bs
+[2025-01-18] [accept] 23370073 read B-6048-04
+[2025-01-18] [reject] 23370009 ordered C-3427
+[2025-01-18] [accept] 23370045 returned C-3427-03 not overdue
+[2025-01-18] [accept] 23370045 picked B-6048-01
+[2025-01-18] [accept] 23370052 ordered B-5988
+[2025-01-18] [accept] 23370009 borrowed C-4793-05
+[2025-01-18] [accept] 23370073 borrowed C-3427-05
+[2025-01-18] C-4793-04 moving trace: 4
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-17] from hbs to user
+[2025-01-18] [accept] 23370031 returned C-1530-02 not overdue
+[2025-01-18] [accept] 23370004 read B-8679-02
+[2025-01-18] B-6048-05 moving trace: 6
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-12] from hbs to bs
+5 [2025-01-17] from bs to hbs
+6 [2025-01-18] from hbs to bs
+[2025-01-18] A-4127-02 moving trace: 2
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+[2025-01-18] [accept] 23370041 ordered C-4793
+[2025-01-18] [accept] 23370023 returned C-4793-03 not overdue
+[2025-01-18] [accept] 23370045 borrowed C-3427-02
+[2025-01-18] 23370003 90
+[2025-01-18] [accept] 23370041 borrowed C-4793-01
+[2025-01-18] [accept] 23370048 ordered B-8679
+[2025-01-18] [accept] 23370052 returned C-4793-04 not overdue
+[2025-01-18] C-4793-01 moving trace: 4
+1 [2025-01-01] from bs to user
+2 [2025-01-17] from user to bro
+3 [2025-01-18] from bro to hbs
+4 [2025-01-18] from hbs to user
+[2025-01-18] 23370023 140
+[2025-01-18] [reject] 23370009 ordered B-3007
+[2025-01-18] [accept] 23370031 read B-3007-03
+0
+[debug]110
+18
+[2025-01-21] move C-4759-03 from bro to bs
+[2025-01-21] move C-3427-03 from bro to hbs
+[2025-01-21] move C-1530-02 from bro to bs
+[2025-01-21] move C-4793-03 from bro to hbs
+[2025-01-21] move C-4793-04 from bro to hbs
+[2025-01-21] move B-8679-03 from hbs to ao for 23370048
+[2025-01-21] move B-5988-04 from hbs to ao for 23370052
+[2025-01-21] move B-8679-02 from rr to hbs
+[2025-01-21] move B-3007-03 from rr to hbs
+[2025-01-21] move B-6048-04 from rr to hbs
+[2025-01-21] move C-1530-01 from hbs to bs
+[2025-01-21] move B-3007-04 from bs to hbs
+[2025-01-21] move B-3007-05 from bs to hbs
+[2025-01-21] move B-3007-01 from bs to hbs
+[2025-01-21] move B-3007-02 from bs to hbs
+[2025-01-21] move B-6048-05 from bs to hbs
+[2025-01-21] move B-6048-06 from bs to hbs
+[2025-01-21] move B-6048-03 from bs to hbs
+[2025-01-21] [reject] 23370041 ordered B-3007
+[2025-01-21] C-4759-01 moving trace: 6
+1 [2025-01-01] from bs to user
+2 [2025-01-06] from user to bro
+3 [2025-01-08] from bro to bs
+4 [2025-01-10] from bs to hbs
+5 [2025-01-12] from hbs to bs
+6 [2025-01-12] from bs to user
+[2025-01-21] B-8679-05 moving trace: 5
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-10] from hbs to bs
+5 [2025-01-18] from bs to hbs
+[2025-01-21] [accept] 23370009 returned B-5988-03 not overdue
+[2025-01-21] [accept] 23370050 ordered C-4793
+[2025-01-21] [accept] 23370009 returned C-4793-05 not overdue
+[2025-01-21] [accept] 23370073 read A-9255-01
+[2025-01-21] 23370004 90
+0
+[debug]110
+26
+[2025-01-23] move B-5988-03 from bro to bs
+[2025-01-23] move C-4793-05 from bro to bs
+[2025-01-23] move C-4793-03 from hbs to ao for 23370050
+[2025-01-23] move C-4759-03 from bs to ao for 23370003
+[2025-01-23] move A-9255-01 from rr to hbs
+[2025-01-23] move B-5988-05 from hbs to bs
+[2025-01-23] move B-5988-06 from hbs to bs
+[2025-01-23] move B-5988-02 from hbs to bs
+[2025-01-23] move B-3007-03 from hbs to bs
+[2025-01-23] move B-3007-04 from hbs to bs
+[2025-01-23] move B-3007-05 from hbs to bs
+[2025-01-23] move B-3007-01 from hbs to bs
+[2025-01-23] move B-3007-02 from hbs to bs
+[2025-01-23] move C-4793-04 from hbs to bs
+[2025-01-23] move B-8679-04 from hbs to bs
+[2025-01-23] move B-8679-05 from hbs to bs
+[2025-01-23] move B-8679-02 from hbs to bs
+[2025-01-23] move B-6048-04 from hbs to bs
+[2025-01-23] move B-6048-05 from hbs to bs
+[2025-01-23] move B-6048-06 from hbs to bs
+[2025-01-23] move B-6048-03 from hbs to bs
+[2025-01-23] move C-3427-01 from hbs to bs
+[2025-01-23] move C-3427-03 from hbs to bs
+[2025-01-23] move A-9255-02 from bs to hbs
+[2025-01-23] move A-9255-03 from bs to hbs
+[2025-01-23] move A-9255-04 from bs to hbs
+[2025-01-23] A-4127-01 moving trace: 3
+1 [2025-01-08] from bs to rr
+2 [2025-01-10] from rr to hbs
+3 [2025-01-12] from hbs to bs
+[2025-01-23] [accept] 23370052 picked B-5988-04
+[2025-01-23] B-5988-05 moving trace: 6
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-12] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-18] from bs to hbs
+6 [2025-01-23] from hbs to bs
+[2025-01-23] A-4127-03 moving trace: 2
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+[2025-01-23] [accept] 23370048 borrowed C-3427-01
+[2025-01-23] [reject] 23370073 ordered B-8679
+[2025-01-23] 23370041 110
+[2025-01-23] [accept] 23370011 read C-1530-02
+0
+[debug]110
+8
+[2025-01-26] move B-8679-03 from ao to bs
+[2025-01-26] move C-1530-02 from rr to hbs
+[2025-01-26] move A-9255-01 from hbs to bs
+[2025-01-26] move A-9255-02 from hbs to bs
+[2025-01-26] move A-9255-03 from hbs to bs
+[2025-01-26] move A-9255-04 from hbs to bs
+[2025-01-26] move C-1530-01 from bs to hbs
+[2025-01-26] move C-3427-03 from bs to hbs
+[2025-01-26] [accept] 23370003 borrowed B-5988-03
+[2025-01-26] [reject] 23370048 picked B-8679
+[2025-01-26] [accept] 23370050 read C-3427-03
+[2025-01-26] [accept] 23370048 read B-5988-05
+[2025-01-26] [reject] 23370021 borrowed C-3427
+[2025-01-26] C-4759-01 moving trace: 6
+1 [2025-01-01] from bs to user
+2 [2025-01-06] from user to bro
+3 [2025-01-08] from bro to bs
+4 [2025-01-10] from bs to hbs
+5 [2025-01-12] from hbs to bs
+6 [2025-01-12] from bs to user
+[2025-01-26] 23370004 90
+[2025-01-26] [accept] 23370045 returned C-4793-02 not overdue
+[2025-01-26] [accept] 23370031 read A-9255-01
+[2025-01-26] B-3007-01 moving trace: 11
+1 [2025-01-01] from bs to rr
+2 [2025-01-03] from rr to hbs
+3 [2025-01-06] from hbs to bs
+4 [2025-01-08] from bs to user
+5 [2025-01-10] from user to bro
+6 [2025-01-12] from bro to hbs
+7 [2025-01-15] from hbs to bs
+8 [2025-01-17] from bs to hbs
+9 [2025-01-18] from hbs to bs
+10 [2025-01-21] from bs to hbs
+11 [2025-01-23] from hbs to bs
+[2025-01-26] [accept] 23370031 restored A-9255-01
+[2025-01-26] [reject] 23370011 ordered B-3007
+[2025-01-26] [accept] 23370045 borrowed C-4793-05
+[2025-01-26] [accept] 23370009 borrowed C-1530-02
+[2025-01-26] [accept] 23370014 ordered B-3007
+[2025-01-26] [accept] 23370003 picked C-4759-03
+[2025-01-26] B-8679-01 moving trace: 8
+1 [2025-01-01] from bs to user
+2 [2025-01-01] from user to bro
+3 [2025-01-03] from bro to hbs
+4 [2025-01-06] from hbs to bs
+5 [2025-01-06] from bs to rr
+6 [2025-01-08] from rr to hbs
+7 [2025-01-10] from hbs to bs
+8 [2025-01-17] from bs to user
+[2025-01-26] [accept] 23370045 returned C-4793-05 not overdue
+[2025-01-26] B-6048-04 moving trace: 9
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-12] from hbs to bs
+5 [2025-01-17] from bs to hbs
+6 [2025-01-18] from hbs to bs
+7 [2025-01-18] from bs to rr
+8 [2025-01-21] from rr to hbs
+9 [2025-01-23] from hbs to bs
+[2025-01-26] C-4793-05 moving trace: 8
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-18] from hbs to user
+5 [2025-01-21] from user to bro
+6 [2025-01-23] from bro to bs
+7 [2025-01-26] from bs to user
+8 [2025-01-26] from user to bro
+[2025-01-26] 23370050 100
+[2025-01-26] [reject] 23370004 ordered C-3427
+[2025-01-26] [accept] 23370035 read B-6048-04
+[2025-01-26] [accept] 23370050 picked C-4793-03
+[2025-01-26] [accept] 23370004 read C-1530-01
+[2025-01-26] [accept] 23370050 restored C-3427-03
+[2025-01-26] [reject] 23370035 read C-1530
+0
+[debug]110
+17
+[2025-01-27] move C-4793-02 from bro to hbs
+[2025-01-27] move A-9255-01 from bro to hbs
+[2025-01-27] move C-4793-05 from bro to hbs
+[2025-01-27] move C-3427-03 from bro to hbs
+[2025-01-27] move B-3007-03 from bs to ao for 23370014
+[2025-01-27] move B-5988-05 from rr to hbs
+[2025-01-27] move C-1530-01 from rr to hbs
+[2025-01-27] move B-6048-04 from rr to hbs
+[2025-01-27] move B-5988-06 from bs to hbs
+[2025-01-27] move B-5988-02 from bs to hbs
+[2025-01-27] move C-4793-04 from bs to hbs
+[2025-01-27] move B-6048-05 from bs to hbs
+[2025-01-27] move B-6048-06 from bs to hbs
+[2025-01-27] move B-6048-03 from bs to hbs
+[2025-01-27] move A-9255-02 from bs to hbs
+[2025-01-27] move A-9255-03 from bs to hbs
+[2025-01-27] move A-9255-04 from bs to hbs
+[2025-01-27] [accept] 23370014 read C-4793-02
+[2025-01-27] [accept] 23370052 ordered C-4759
+0
+[debug]110
+14
+[2025-01-30] move C-4793-02 from rr to hbs
+[2025-01-30] move B-5988-05 from hbs to bs
+[2025-01-30] move B-5988-06 from hbs to bs
+[2025-01-30] move B-5988-02 from hbs to bs
+[2025-01-30] move C-1530-01 from hbs to bs
+[2025-01-30] move B-6048-04 from hbs to bs
+[2025-01-30] move B-6048-05 from hbs to bs
+[2025-01-30] move B-6048-06 from hbs to bs
+[2025-01-30] move B-6048-03 from hbs to bs
+[2025-01-30] move A-9255-01 from hbs to bs
+[2025-01-30] move A-9255-02 from hbs to bs
+[2025-01-30] move A-9255-03 from hbs to bs
+[2025-01-30] move A-9255-04 from hbs to bs
+[2025-01-30] move C-3427-03 from hbs to bs
+[2025-01-30] B-6048-04 moving trace: 12
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-12] from hbs to bs
+5 [2025-01-17] from bs to hbs
+6 [2025-01-18] from hbs to bs
+7 [2025-01-18] from bs to rr
+8 [2025-01-21] from rr to hbs
+9 [2025-01-23] from hbs to bs
+10 [2025-01-26] from bs to rr
+11 [2025-01-27] from rr to hbs
+12 [2025-01-30] from hbs to bs
+[2025-01-30] [accept] 23370004 borrowed C-3427-03
+0
+[debug]110
+4
+[2025-02-01] move B-3007-03 from ao to bs
+[2025-02-01] move C-4793-05 from hbs to bs
+[2025-02-01] move C-4793-04 from hbs to bs
+[2025-02-01] move C-4793-02 from hbs to bs
+[2025-02-01] 23370009 90
+[2025-02-01] 23370021 100
+[2025-02-01] [accept] 23370045 returned B-6048-01 not overdue
+[2025-02-01] [accept] 23370045 read C-4793-05
+[2025-02-01] 23370073 60
+[2025-02-01] B-5988-06 moving trace: 8
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-12] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-18] from bs to hbs
+6 [2025-01-23] from hbs to bs
+7 [2025-01-27] from bs to hbs
+8 [2025-01-30] from hbs to bs
+[2025-02-01] [reject] 23370003 ordered C-3427
+[2025-02-01] A-4127-04 moving trace: 2
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+[2025-02-01] [reject] 23370011 ordered B-3007
+[2025-02-01] C-3427-04 moving trace: 4
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-17] from hbs to user
+[2025-02-01] [accept] 23370009 returned C-1530-02 not overdue
+[2025-02-01] [accept] 23370019 ordered B-5988
+[2025-02-01] C-1530-03 moving trace: 5
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-12] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-15] from bs to user
+[2025-02-01] 23370052 110
+[2025-02-01] [accept] 23370031 borrowed B-3007-04
+[2025-02-01] B-5988-03 moving trace: 8
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-12] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-17] from bs to user
+6 [2025-01-21] from user to bro
+7 [2025-01-23] from bro to bs
+8 [2025-01-26] from bs to user
+0
+[debug]110
+10
+[2025-02-04] move B-6048-01 from bro to bs
+[2025-02-04] move C-1530-02 from bro to bs
+[2025-02-04] move B-5988-05 from bs to ao for 23370019
+[2025-02-04] move C-4793-05 from rr to hbs
+[2025-02-04] move B-3007-05 from bs to hbs
+[2025-02-04] move B-3007-01 from bs to hbs
+[2025-02-04] move B-3007-02 from bs to hbs
+[2025-02-04] move B-3007-03 from bs to hbs
+[2025-02-04] move C-4793-04 from bs to hbs
+[2025-02-04] move C-4793-02 from bs to hbs
+[2025-02-04] [accept] 23370073 read A-4127-01
+[2025-02-04] [accept] 23370050 returned C-4793-03 not overdue
+[2025-02-04] B-6048-01 moving trace: 9
+1 [2025-01-01] from bs to user
+2 [2025-01-10] from user to bro
+3 [2025-01-12] from bro to bs
+4 [2025-01-15] from bs to rr
+5 [2025-01-17] from rr to hbs
+6 [2025-01-18] from hbs to ao
+7 [2025-01-18] from ao to user
+8 [2025-02-01] from user to bro
+9 [2025-02-04] from bro to bs
+[2025-02-04] [accept] 23370009 ordered C-3427
+[2025-02-04] [accept] 23370050 borrowed C-4793-05
+[2025-02-04] [accept] 23370014 borrowed C-4793-04
+[2025-02-04] C-4793-02 moving trace: 9
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-15] from bs to user
+4 [2025-01-26] from user to bro
+5 [2025-01-27] from bro to hbs
+6 [2025-01-27] from hbs to rr
+7 [2025-01-30] from rr to hbs
+8 [2025-02-01] from hbs to bs
+9 [2025-02-04] from bs to hbs
+[2025-02-04] [accept] 23370019 picked B-5988-05
+[2025-02-04] B-5988-05 moving trace: 11
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-12] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-18] from bs to hbs
+6 [2025-01-23] from hbs to bs
+7 [2025-01-26] from bs to rr
+8 [2025-01-27] from rr to hbs
+9 [2025-01-30] from hbs to bs
+10 [2025-02-04] from bs to ao
+11 [2025-02-04] from ao to user
+[2025-02-04] [accept] 23370035 borrowed B-3007-05
+[2025-02-04] [accept] 23370031 returned B-3007-04 not overdue
+[2025-02-04] [accept] 23370059 read B-6048-04
+0
+[debug]110
+11
+[2025-02-06] move C-4793-03 from bro to hbs
+[2025-02-06] move B-3007-04 from bro to hbs
+[2025-02-06] move A-4127-01 from rr to hbs
+[2025-02-06] move B-6048-04 from rr to hbs
+[2025-02-06] move A-4127-02 from bs to hbs
+[2025-02-06] move A-4127-03 from bs to hbs
+[2025-02-06] move A-4127-04 from bs to hbs
+[2025-02-06] move B-6048-05 from bs to hbs
+[2025-02-06] move B-6048-06 from bs to hbs
+[2025-02-06] move B-6048-03 from bs to hbs
+[2025-02-06] move B-6048-01 from bs to hbs
+[2025-02-06] [accept] 23370050 returned C-4793-05 not overdue
+[2025-02-06] [accept] 23370021 ordered B-5988
+[2025-02-06] B-5988-01 moving trace: 8
+1 [2025-01-01] from bs to rr
+2 [2025-01-03] from rr to hbs
+3 [2025-01-06] from hbs to bs
+4 [2025-01-12] from bs to hbs
+5 [2025-01-15] from hbs to bs
+6 [2025-01-17] from bs to rr
+7 [2025-01-18] from rr to hbs
+8 [2025-01-18] from hbs to user
+[2025-02-06] [accept] 23370011 borrowed C-1530-01
+[2025-02-06] C-4793-03 moving trace: 10
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-17] from hbs to user
+5 [2025-01-18] from user to bro
+6 [2025-01-21] from bro to hbs
+7 [2025-01-23] from hbs to ao
+8 [2025-01-26] from ao to user
+9 [2025-02-04] from user to bro
+10 [2025-02-06] from bro to hbs
+[2025-02-06] [accept] 23370065 borrowed C-4793-02
+[2025-02-06] 23370009 100
+[2025-02-06] [accept] 23370052 returned C-3427-04 not overdue
+[2025-02-06] C-3427-02 moving trace: 6
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-01-15] from bs to user
+4 [2025-01-17] from user to bro
+5 [2025-01-18] from bro to hbs
+6 [2025-01-18] from hbs to user
+[2025-02-06] [accept] 23370019 ordered C-4793
+[2025-02-06] A-4127-04 moving trace: 3
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-02-06] from bs to hbs
+[2025-02-06] [accept] 23370045 borrowed C-4793-03
+[2025-02-06] [accept] 23370045 returned C-4759-02 not overdue
+[2025-02-06] [reject] 23370009 read C-4793
+[2025-02-06] [accept] 23370004 borrowed B-5988-06
+[2025-02-06] [accept] 23370021 borrowed C-1530-02
+[2025-02-06] [reject] 23370011 ordered C-1530
+[2025-02-06] [accept] 23370045 returned C-4793-03 not overdue
+0
+[debug]110
+18
+[2025-02-08] move C-4793-05 from bro to hbs
+[2025-02-08] move C-3427-04 from bro to bs
+[2025-02-08] move C-4759-02 from bro to bs
+[2025-02-08] move C-4793-03 from bro to hbs
+[2025-02-08] move B-3007-01 from hbs to bs
+[2025-02-08] move B-3007-02 from hbs to bs
+[2025-02-08] move B-3007-03 from hbs to bs
+[2025-02-08] move B-3007-04 from hbs to bs
+[2025-02-08] move A-4127-01 from hbs to bs
+[2025-02-08] move A-4127-02 from hbs to bs
+[2025-02-08] move A-4127-03 from hbs to bs
+[2025-02-08] move A-4127-04 from hbs to bs
+[2025-02-08] move B-6048-04 from hbs to bs
+[2025-02-08] move B-6048-05 from hbs to bs
+[2025-02-08] move B-6048-06 from hbs to bs
+[2025-02-08] move B-6048-03 from hbs to bs
+[2025-02-08] move B-6048-01 from hbs to bs
+[2025-02-08] move B-5988-02 from bs to hbs
+[2025-02-08] [accept] 23370050 borrowed B-5988-02
+[2025-02-08] B-8679-05 moving trace: 6
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-10] from hbs to bs
+5 [2025-01-18] from bs to hbs
+6 [2025-01-23] from hbs to bs
+[2025-02-08] [accept] 23370063 read A-4127-01
+[2025-02-08] [accept] 23370050 read A-4127-02
+[2025-02-08] B-8679-04 moving trace: 6
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-10] from hbs to bs
+5 [2025-01-18] from bs to hbs
+6 [2025-01-23] from hbs to bs
+[2025-02-08] [accept] 23370004 borrowed C-4793-05
+[2025-02-08] [accept] 23370004 returned C-3427-03 not overdue
+0
+[debug]110
+7
+[2025-02-11] move C-3427-03 from bro to bs
+[2025-02-11] move C-4759-02 from bs to ao for 23370052
+[2025-02-11] move C-3427-04 from bs to ao for 23370009
+[2025-02-11] move A-4127-02 from rr to hbs
+[2025-02-11] move A-4127-01 from rr to hbs
+[2025-02-11] move A-4127-03 from bs to hbs
+[2025-02-11] move A-4127-04 from bs to hbs
+[2025-02-11] [accept] 23370005 read A-9255-01
+[2025-02-11] [accept] 23370019 borrowed C-4793-03
+[2025-02-11] [accept] 23370065 returned C-4793-02 not overdue
+[2025-02-11] [accept] 23370065 ordered B-5988
+[2025-02-11] [accept] 23370014 borrowed B-3007-01
+[2025-02-11] C-4793-04 moving trace: 11
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-17] from hbs to user
+5 [2025-01-18] from user to bro
+6 [2025-01-21] from bro to hbs
+7 [2025-01-23] from hbs to bs
+8 [2025-01-27] from bs to hbs
+9 [2025-02-01] from hbs to bs
+10 [2025-02-04] from bs to hbs
+11 [2025-02-04] from hbs to user
+[2025-02-11] [accept] 23370009 picked C-3427-04
+[2025-02-11] [accept] 23370031 ordered B-8679
+[2025-02-11] [reject] 23370052 ordered B-6048
+[2025-02-11] 23370065 110
+[2025-02-11] 23370011 90
+[2025-02-11] 23370041 110
+[2025-02-11] C-3427-01 moving trace: 5
+1 [2025-01-08] from bs to user
+2 [2025-01-17] from user to bro
+3 [2025-01-18] from bro to hbs
+4 [2025-01-23] from hbs to bs
+5 [2025-01-23] from bs to user
+[2025-02-11] [accept] 23370052 picked C-4759-02
+[2025-02-11] [accept] 23370040 borrowed B-3007-02
+[2025-02-11] 23370063 90
+[2025-02-11] B-6048-03 moving trace: 14
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-08] from hbs to rr
+5 [2025-01-10] from rr to hbs
+6 [2025-01-12] from hbs to bs
+7 [2025-01-17] from bs to hbs
+8 [2025-01-18] from hbs to bs
+9 [2025-01-21] from bs to hbs
+10 [2025-01-23] from hbs to bs
+11 [2025-01-27] from bs to hbs
+12 [2025-01-30] from hbs to bs
+13 [2025-02-06] from bs to hbs
+14 [2025-02-08] from hbs to bs
+[2025-02-11] [accept] 23370050 borrowed C-3427-03
+[2025-02-11] [reject] 23370004 ordered B-3007
+0
+[debug]110
+12
+[2025-02-14] move C-4793-02 from bro to hbs
+[2025-02-14] move B-8679-04 from bs to ao for 23370031
+[2025-02-14] move A-9255-01 from rr to hbs
+[2025-02-14] move A-4127-02 from hbs to bs
+[2025-02-14] move A-4127-01 from hbs to bs
+[2025-02-14] move A-4127-03 from hbs to bs
+[2025-02-14] move A-4127-04 from hbs to bs
+[2025-02-14] move B-3007-03 from bs to hbs
+[2025-02-14] move B-3007-04 from bs to hbs
+[2025-02-14] move A-9255-02 from bs to hbs
+[2025-02-14] move A-9255-03 from bs to hbs
+[2025-02-14] move A-9255-04 from bs to hbs
+[2025-02-14] [accept] 23370014 read B-6048-04
+[2025-02-14] [accept] 23370050 returned C-3427-03 not overdue
+[2025-02-14] [reject] 23370014 read B-8679
+[2025-02-14] C-3427-03 moving trace: 17
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-17] from hbs to user
+5 [2025-01-18] from user to bro
+6 [2025-01-21] from bro to hbs
+7 [2025-01-23] from hbs to bs
+8 [2025-01-26] from bs to hbs
+9 [2025-01-26] from hbs to rr
+10 [2025-01-26] from rr to bro
+11 [2025-01-27] from bro to hbs
+12 [2025-01-30] from hbs to bs
+13 [2025-01-30] from bs to user
+14 [2025-02-08] from user to bro
+15 [2025-02-11] from bro to bs
+16 [2025-02-11] from bs to user
+17 [2025-02-14] from user to bro
+[2025-02-14] [accept] 23370035 borrowed C-4793-02
+[2025-02-14] [accept] 23370004 returned B-5988-06 not overdue
+[2025-02-14] [accept] 23370014 restored B-6048-04
+[2025-02-14] 23370050 130
+0
+[debug]110
+13
+[2025-02-16] move C-3427-03 from bro to bs
+[2025-02-16] move B-5988-06 from bro to bs
+[2025-02-16] move B-6048-04 from bro to hbs
+[2025-02-16] move B-3007-03 from hbs to bs
+[2025-02-16] move B-3007-04 from hbs to bs
+[2025-02-16] move A-9255-01 from hbs to bs
+[2025-02-16] move A-9255-02 from hbs to bs
+[2025-02-16] move A-9255-03 from hbs to bs
+[2025-02-16] move A-9255-04 from hbs to bs
+[2025-02-16] move B-6048-05 from bs to hbs
+[2025-02-16] move B-6048-06 from bs to hbs
+[2025-02-16] move B-6048-03 from bs to hbs
+[2025-02-16] move B-6048-01 from bs to hbs
+[2025-02-16] [accept] 23370031 read B-6048-04
+[2025-02-16] [accept] 23370074 read B-3007-03
+[2025-02-16] [accept] 23370052 read B-3007-04
+[2025-02-16] [accept] 23370073 returned B-6048-02 not overdue
+[2025-02-16] A-9255-02 moving trace: 8
+1 [2025-01-12] from bs to hbs
+2 [2025-01-15] from hbs to bs
+3 [2025-01-23] from bs to hbs
+4 [2025-01-26] from hbs to bs
+5 [2025-01-27] from bs to hbs
+6 [2025-01-30] from hbs to bs
+7 [2025-02-14] from bs to hbs
+8 [2025-02-16] from hbs to bs
+[2025-02-16] [accept] 23370041 borrowed C-3427-03
+[2025-02-16] A-9255-03 moving trace: 8
+1 [2025-01-12] from bs to hbs
+2 [2025-01-15] from hbs to bs
+3 [2025-01-23] from bs to hbs
+4 [2025-01-26] from hbs to bs
+5 [2025-01-27] from bs to hbs
+6 [2025-01-30] from hbs to bs
+7 [2025-02-14] from bs to hbs
+8 [2025-02-16] from hbs to bs
+[2025-02-16] [accept] 23370048 borrowed B-5988-06
+[2025-02-16] [reject] 23370073 read B-5988
+[2025-02-16] [reject] 23370009 read B-5988
+[2025-02-16] [accept] 23370050 ordered C-3427
+[2025-02-16] [accept] 23370031 picked B-8679-04
+[2025-02-16] [reject] 23370014 ordered B-6048
+[2025-02-16] [accept] 23370004 returned C-4793-05 not overdue
+[2025-02-16] [accept] 23370019 read A-4127-02
+[2025-02-16] B-6048-03 moving trace: 15
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-08] from hbs to rr
+5 [2025-01-10] from rr to hbs
+6 [2025-01-12] from hbs to bs
+7 [2025-01-17] from bs to hbs
+8 [2025-01-18] from hbs to bs
+9 [2025-01-21] from bs to hbs
+10 [2025-01-23] from hbs to bs
+11 [2025-01-27] from bs to hbs
+12 [2025-01-30] from hbs to bs
+13 [2025-02-06] from bs to hbs
+14 [2025-02-08] from hbs to bs
+15 [2025-02-16] from bs to hbs
+[2025-02-16] B-6048-02 moving trace: 7
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-06] from bs to user
+4 [2025-01-17] from user to bro
+5 [2025-01-18] from bro to bs
+6 [2025-01-18] from bs to user
+7 [2025-02-16] from user to bro
+[2025-02-16] 23370063 90
+[2025-02-16] A-9255-02 moving trace: 8
+1 [2025-01-12] from bs to hbs
+2 [2025-01-15] from hbs to bs
+3 [2025-01-23] from bs to hbs
+4 [2025-01-26] from hbs to bs
+5 [2025-01-27] from bs to hbs
+6 [2025-01-30] from hbs to bs
+7 [2025-02-14] from bs to hbs
+8 [2025-02-16] from hbs to bs
+[2025-02-16] [accept] 23370073 read B-8679-05
+[2025-02-16] [accept] 23370009 ordered B-5988
+[2025-02-16] [accept] 23370035 read A-9255-01
+[2025-02-16] [accept] 23370048 read A-4127-01
+[2025-02-16] A-9255-04 moving trace: 8
+1 [2025-01-12] from bs to hbs
+2 [2025-01-15] from hbs to bs
+3 [2025-01-23] from bs to hbs
+4 [2025-01-26] from hbs to bs
+5 [2025-01-27] from bs to hbs
+6 [2025-01-30] from hbs to bs
+7 [2025-02-14] from bs to hbs
+8 [2025-02-16] from hbs to bs
+0
+[debug]110
+16
+[2025-02-19] move B-6048-02 from bro to hbs
+[2025-02-19] move C-4793-05 from bro to bs
+[2025-02-19] move A-9255-01 from rr to hbs
+[2025-02-19] move A-4127-02 from rr to hbs
+[2025-02-19] move B-8679-05 from rr to hbs
+[2025-02-19] move B-3007-03 from rr to hbs
+[2025-02-19] move A-4127-01 from rr to hbs
+[2025-02-19] move B-6048-04 from rr to hbs
+[2025-02-19] move B-3007-04 from rr to hbs
+[2025-02-19] move B-8679-02 from bs to hbs
+[2025-02-19] move B-8679-03 from bs to hbs
+[2025-02-19] move A-4127-03 from bs to hbs
+[2025-02-19] move A-4127-04 from bs to hbs
+[2025-02-19] move A-9255-02 from bs to hbs
+[2025-02-19] move A-9255-03 from bs to hbs
+[2025-02-19] move A-9255-04 from bs to hbs
+[2025-02-19] 23370048 65
+[2025-02-19] A-4127-03 moving trace: 7
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-02-06] from bs to hbs
+4 [2025-02-08] from hbs to bs
+5 [2025-02-11] from bs to hbs
+6 [2025-02-14] from hbs to bs
+7 [2025-02-19] from bs to hbs
+[2025-02-19] [accept] 23370063 borrowed B-8679-05
+[2025-02-19] C-3427-01 moving trace: 5
+1 [2025-01-08] from bs to user
+2 [2025-01-17] from user to bro
+3 [2025-01-18] from bro to hbs
+4 [2025-01-23] from hbs to bs
+5 [2025-01-23] from bs to user
+[2025-02-19] [accept] 23370065 read A-9255-01
+[2025-02-19] A-9255-02 moving trace: 9
+1 [2025-01-12] from bs to hbs
+2 [2025-01-15] from hbs to bs
+3 [2025-01-23] from bs to hbs
+4 [2025-01-26] from hbs to bs
+5 [2025-01-27] from bs to hbs
+6 [2025-01-30] from hbs to bs
+7 [2025-02-14] from bs to hbs
+8 [2025-02-16] from hbs to bs
+9 [2025-02-19] from bs to hbs
+[2025-02-19] 23370040 100
+[2025-02-19] 23370031 120
+[2025-02-19] [accept] 23370052 read C-4793-05
+[2025-02-19] [accept] 23370031 ordered C-4759
+[2025-02-19] C-3427-04 moving trace: 8
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-17] from hbs to user
+5 [2025-02-06] from user to bro
+6 [2025-02-08] from bro to bs
+7 [2025-02-11] from bs to ao
+8 [2025-02-11] from ao to user
+[2025-02-19] [accept] 23370050 read A-9255-02
+[2025-02-19] [reject] 23370007 borrowed C-4793
+[2025-02-19] [accept] 23370048 read B-8679-02
+[2025-02-19] [reject] 23370031 ordered C-4759
+[2025-02-19] A-4127-04 moving trace: 7
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-02-06] from bs to hbs
+4 [2025-02-08] from hbs to bs
+5 [2025-02-11] from bs to hbs
+6 [2025-02-14] from hbs to bs
+7 [2025-02-19] from bs to hbs
+[2025-02-19] [accept] 23370074 read A-9255-03
+0
+[debug]95
+17
+[2025-02-21] move C-4793-05 from rr to hbs
+[2025-02-21] move A-9255-01 from rr to hbs
+[2025-02-21] move B-8679-02 from rr to hbs
+[2025-02-21] move A-9255-02 from rr to hbs
+[2025-02-21] move A-9255-03 from rr to hbs
+[2025-02-21] move B-3007-03 from hbs to bs
+[2025-02-21] move B-3007-04 from hbs to bs
+[2025-02-21] move A-4127-02 from hbs to bs
+[2025-02-21] move A-4127-01 from hbs to bs
+[2025-02-21] move A-4127-03 from hbs to bs
+[2025-02-21] move A-4127-04 from hbs to bs
+[2025-02-21] move B-6048-05 from hbs to bs
+[2025-02-21] move B-6048-06 from hbs to bs
+[2025-02-21] move B-6048-03 from hbs to bs
+[2025-02-21] move B-6048-01 from hbs to bs
+[2025-02-21] move B-6048-02 from hbs to bs
+[2025-02-21] move B-6048-04 from hbs to bs
+[2025-02-21] 23370073 50
+[2025-02-21] 23370063 90
+[2025-02-21] [accept] 23370048 returned B-5988-06 not overdue
+[2025-02-21] [accept] 23370004 borrowed B-3007-03
+[2025-02-21] C-4759-02 moving trace: 7
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to user
+4 [2025-02-06] from user to bro
+5 [2025-02-08] from bro to bs
+6 [2025-02-11] from bs to ao
+7 [2025-02-11] from ao to user
+[2025-02-21] [accept] 23370048 read B-3007-04
+[2025-02-21] [accept] 23370009 read B-6048-05
+[2025-02-21] 23370019 90
+[2025-02-21] 23370045 150
+[2025-02-21] [accept] 23370048 returned C-3427-01 not overdue
+[2025-02-21] B-8679-01 moving trace: 8
+1 [2025-01-01] from bs to user
+2 [2025-01-01] from user to bro
+3 [2025-01-03] from bro to hbs
+4 [2025-01-06] from hbs to bs
+5 [2025-01-06] from bs to rr
+6 [2025-01-08] from rr to hbs
+7 [2025-01-10] from hbs to bs
+8 [2025-01-17] from bs to user
+[2025-02-21] [reject] 23370052 ordered B-8679
+[2025-02-21] B-5988-05 moving trace: 11
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-12] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-18] from bs to hbs
+6 [2025-01-23] from hbs to bs
+7 [2025-01-26] from bs to rr
+8 [2025-01-27] from rr to hbs
+9 [2025-01-30] from hbs to bs
+10 [2025-02-04] from bs to ao
+11 [2025-02-04] from ao to user
+[2025-02-21] 23370050 120
+[2025-02-21] 23370031 120
+[2025-02-21] [accept] 23370018 borrowed C-4793-05
+[2025-02-21] [accept] 23370055 ordered B-3007
+[2025-02-21] 23370009 100
+0
+[debug]85
+15
+[2025-02-24] move B-5988-06 from bro to bs
+[2025-02-24] move C-3427-01 from bro to bs
+[2025-02-24] move B-6048-05 from rr to hbs
+[2025-02-24] move B-3007-04 from rr to hbs
+[2025-02-24] move B-8679-03 from hbs to bs
+[2025-02-24] move B-8679-02 from hbs to bs
+[2025-02-24] move A-9255-04 from hbs to bs
+[2025-02-24] move A-9255-01 from hbs to bs
+[2025-02-24] move A-9255-02 from hbs to bs
+[2025-02-24] move A-9255-03 from hbs to bs
+[2025-02-24] move B-6048-06 from bs to hbs
+[2025-02-24] move B-6048-03 from bs to hbs
+[2025-02-24] move B-6048-01 from bs to hbs
+[2025-02-24] move B-6048-02 from bs to hbs
+[2025-02-24] move B-6048-04 from bs to hbs
+[2025-02-24] 23370011 90
+[2025-02-24] 23370014 85
+[2025-02-24] [accept] 23370014 returned B-3007-01 not overdue
+[2025-02-24] [accept] 23370005 borrowed B-3007-04
+[2025-02-24] [accept] 23370052 read C-3427-01
+[2025-02-24] [accept] 23370052 restored C-3427-01
+[2025-02-24] 23370055 100
+[2025-02-24] [accept] 23370052 returned B-5988-04 overdue
+[2025-02-24] C-3427-02 moving trace: 6
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-01-15] from bs to user
+4 [2025-01-17] from user to bro
+5 [2025-01-18] from bro to hbs
+6 [2025-01-18] from hbs to user
+[2025-02-24] 23370007 100
+[2025-02-24] [accept] 23370006 ordered B-5988
+[2025-02-24] [accept] 23370004 returned B-3007-03 not overdue
+[2025-02-24] C-1530-03 moving trace: 5
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-12] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-15] from bs to user
+[2025-02-24] A-4127-04 moving trace: 8
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-02-06] from bs to hbs
+4 [2025-02-08] from hbs to bs
+5 [2025-02-11] from bs to hbs
+6 [2025-02-14] from hbs to bs
+7 [2025-02-19] from bs to hbs
+8 [2025-02-21] from hbs to bs
+[2025-02-24] 23370041 70
+[2025-02-24] 23370055 100
+[2025-02-24] C-3427-01 moving trace: 9
+1 [2025-01-08] from bs to user
+2 [2025-01-17] from user to bro
+3 [2025-01-18] from bro to hbs
+4 [2025-01-23] from hbs to bs
+5 [2025-01-23] from bs to user
+6 [2025-02-21] from user to bro
+7 [2025-02-24] from bro to bs
+8 [2025-02-24] from bs to rr
+9 [2025-02-24] from rr to bro
+[2025-02-24] 23370018 100
+[2025-02-24] B-3007-02 moving trace: 14
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to rr
+4 [2025-01-10] from rr to hbs
+5 [2025-01-10] from hbs to rr
+6 [2025-01-12] from rr to hbs
+7 [2025-01-15] from hbs to bs
+8 [2025-01-17] from bs to hbs
+9 [2025-01-18] from hbs to bs
+10 [2025-01-21] from bs to hbs
+11 [2025-01-23] from hbs to bs
+12 [2025-02-04] from bs to hbs
+13 [2025-02-08] from hbs to bs
+14 [2025-02-11] from bs to user
+[2025-02-24] [accept] 23370048 read B-8679-03
+[2025-02-24] C-4759-01 moving trace: 6
+1 [2025-01-01] from bs to user
+2 [2025-01-06] from user to bro
+3 [2025-01-08] from bro to bs
+4 [2025-01-10] from bs to hbs
+5 [2025-01-12] from hbs to bs
+6 [2025-01-12] from bs to user
+[2025-02-24] [accept] 23370047 read A-9255-04
+[2025-02-24] B-8679-04 moving trace: 8
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-10] from hbs to bs
+5 [2025-01-18] from bs to hbs
+6 [2025-01-23] from hbs to bs
+7 [2025-02-14] from bs to ao
+8 [2025-02-16] from ao to user
+[2025-02-24] [accept] 23370023 read B-6048-05
+[2025-02-24] [accept] 23370004 ordered C-1530
+[2025-02-24] A-9255-03 moving trace: 12
+1 [2025-01-12] from bs to hbs
+2 [2025-01-15] from hbs to bs
+3 [2025-01-23] from bs to hbs
+4 [2025-01-26] from hbs to bs
+5 [2025-01-27] from bs to hbs
+6 [2025-01-30] from hbs to bs
+7 [2025-02-14] from bs to hbs
+8 [2025-02-16] from hbs to bs
+9 [2025-02-19] from bs to hbs
+10 [2025-02-19] from hbs to rr
+11 [2025-02-21] from rr to hbs
+12 [2025-02-24] from hbs to bs
+[2025-02-24] [accept] 23370040 returned B-3007-02 not overdue
+[2025-02-24] 23370011 90
+0
+[debug]70
+13
+[2025-02-25] move B-3007-01 from bro to hbs
+[2025-02-25] move C-3427-01 from bro to hbs
+[2025-02-25] move B-5988-04 from bro to bs
+[2025-02-25] move B-3007-03 from bro to hbs
+[2025-02-25] move B-3007-02 from bro to hbs
+[2025-02-25] move B-5988-06 from bs to ao for 23370009
+[2025-02-25] move B-8679-03 from rr to hbs
+[2025-02-25] move A-9255-04 from rr to hbs
+[2025-02-25] move B-6048-05 from rr to hbs
+[2025-02-25] move B-8679-02 from bs to hbs
+[2025-02-25] move A-9255-01 from bs to hbs
+[2025-02-25] move A-9255-02 from bs to hbs
+[2025-02-25] move A-9255-03 from bs to hbs
+[2025-02-25] [accept] 23370061 read B-6048-06
+[2025-02-25] C-4759-04 moving trace: 3
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to user
+[2025-02-25] [accept] 23370041 returned C-3427-03 not overdue
+[2025-02-25] 23370047 90
+[2025-02-25] B-6048-06 moving trace: 16
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-12] from hbs to bs
+5 [2025-01-17] from bs to hbs
+6 [2025-01-18] from hbs to bs
+7 [2025-01-21] from bs to hbs
+8 [2025-01-23] from hbs to bs
+9 [2025-01-27] from bs to hbs
+10 [2025-01-30] from hbs to bs
+11 [2025-02-06] from bs to hbs
+12 [2025-02-08] from hbs to bs
+13 [2025-02-16] from bs to hbs
+14 [2025-02-21] from hbs to bs
+15 [2025-02-24] from bs to hbs
+16 [2025-02-25] from hbs to rr
+[2025-02-25] [accept] 23370009 picked B-5988-06
+[2025-02-25] [accept] 23370009 returned C-3427-04 not overdue
+[2025-02-25] [accept] 23370035 read A-4127-02
+[2025-02-25] [accept] 23370005 borrowed C-3427-01
+[2025-02-25] C-3427-03 moving trace: 20
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-17] from hbs to user
+5 [2025-01-18] from user to bro
+6 [2025-01-21] from bro to hbs
+7 [2025-01-23] from hbs to bs
+8 [2025-01-26] from bs to hbs
+9 [2025-01-26] from hbs to rr
+10 [2025-01-26] from rr to bro
+11 [2025-01-27] from bro to hbs
+12 [2025-01-30] from hbs to bs
+13 [2025-01-30] from bs to user
+14 [2025-02-08] from user to bro
+15 [2025-02-11] from bro to bs
+16 [2025-02-11] from bs to user
+17 [2025-02-14] from user to bro
+18 [2025-02-16] from bro to bs
+19 [2025-02-16] from bs to user
+20 [2025-02-25] from user to bro
+[2025-02-25] [accept] 23370073 read B-5988-04
+[2025-02-25] [accept] 23370022 read A-4127-01
+[2025-02-25] [reject] 23370063 ordered B-5988
+[2025-02-25] [reject] 23370073 borrowed B-8679
+[2025-02-25] [accept] 23370022 borrowed B-8679-03
+[2025-02-25] [accept] 23370035 restored A-4127-02
+[2025-02-25] [accept] 23370003 read A-9255-04
+[2025-02-25] [accept] 23370011 returned C-1530-01 not overdue
+[2025-02-25] [accept] 23370055 read B-8679-02
+[2025-02-25] [accept] 23370009 ordered C-3427
+[2025-02-25] A-9255-04 moving trace: 13
+1 [2025-01-12] from bs to hbs
+2 [2025-01-15] from hbs to bs
+3 [2025-01-23] from bs to hbs
+4 [2025-01-26] from hbs to bs
+5 [2025-01-27] from bs to hbs
+6 [2025-01-30] from hbs to bs
+7 [2025-02-14] from bs to hbs
+8 [2025-02-16] from hbs to bs
+9 [2025-02-19] from bs to hbs
+10 [2025-02-24] from hbs to bs
+11 [2025-02-24] from bs to rr
+12 [2025-02-25] from rr to hbs
+13 [2025-02-25] from hbs to rr
+[2025-02-25] [accept] 23370021 read B-3007-01
+[2025-02-25] 23370055 100
+[2025-02-25] [accept] 23370033 read B-6048-03
+[2025-02-25] [accept] 23370063 read A-9255-01
+[2025-02-25] [accept] 23370052 returned C-4759-02 not overdue
+[2025-02-25] [accept] 23370065 read A-9255-02
+[2025-02-25] B-6048-04 moving trace: 22
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-12] from hbs to bs
+5 [2025-01-17] from bs to hbs
+6 [2025-01-18] from hbs to bs
+7 [2025-01-18] from bs to rr
+8 [2025-01-21] from rr to hbs
+9 [2025-01-23] from hbs to bs
+10 [2025-01-26] from bs to rr
+11 [2025-01-27] from rr to hbs
+12 [2025-01-30] from hbs to bs
+13 [2025-02-04] from bs to rr
+14 [2025-02-06] from rr to hbs
+15 [2025-02-08] from hbs to bs
+16 [2025-02-14] from bs to rr
+17 [2025-02-14] from rr to bro
+18 [2025-02-16] from bro to hbs
+19 [2025-02-16] from hbs to rr
+20 [2025-02-19] from rr to hbs
+21 [2025-02-21] from hbs to bs
+22 [2025-02-24] from bs to hbs
+[2025-02-25] [reject] 23370022 ordered B-5988
+[2025-02-25] A-9255-04 moving trace: 13
+1 [2025-01-12] from bs to hbs
+2 [2025-01-15] from hbs to bs
+3 [2025-01-23] from bs to hbs
+4 [2025-01-26] from hbs to bs
+5 [2025-01-27] from bs to hbs
+6 [2025-01-30] from hbs to bs
+7 [2025-02-14] from bs to hbs
+8 [2025-02-16] from hbs to bs
+9 [2025-02-19] from bs to hbs
+10 [2025-02-24] from hbs to bs
+11 [2025-02-24] from bs to rr
+12 [2025-02-25] from rr to hbs
+13 [2025-02-25] from hbs to rr
+[2025-02-25] [accept] 23370050 read B-6048-01
+[2025-02-25] [accept] 23370005 read B-3007-03
+[2025-02-25] [accept] 23370047 borrowed B-6048-02
+[2025-02-25] 23370050 120
+[2025-02-25] [accept] 23370023 returned C-4759-04 not overdue
+0
+[debug]75
+19
+[2025-02-27] move C-3427-03 from bro to hbs
+[2025-02-27] move C-3427-04 from bro to hbs
+[2025-02-27] move A-4127-02 from bro to hbs
+[2025-02-27] move C-1530-01 from bro to bs
+[2025-02-27] move C-4759-02 from bro to bs
+[2025-02-27] move C-4759-04 from bro to bs
+[2025-02-27] move B-8679-02 from rr to hbs
+[2025-02-27] move A-9255-01 from rr to hbs
+[2025-02-27] move B-6048-01 from rr to hbs
+[2025-02-27] move A-9255-02 from rr to hbs
+[2025-02-27] move A-9255-04 from rr to hbs
+[2025-02-27] move B-3007-01 from rr to hbs
+[2025-02-27] move B-6048-06 from rr to hbs
+[2025-02-27] move A-4127-01 from rr to hbs
+[2025-02-27] move B-6048-03 from rr to hbs
+[2025-02-27] move B-3007-03 from rr to hbs
+[2025-02-27] move B-5988-04 from rr to hbs
+[2025-02-27] move A-4127-03 from bs to hbs
+[2025-02-27] move A-4127-04 from bs to hbs
+[2025-02-27] B-3007-04 moving trace: 20
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-10] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-17] from bs to hbs
+6 [2025-01-18] from hbs to bs
+7 [2025-01-21] from bs to hbs
+8 [2025-01-23] from hbs to bs
+9 [2025-02-01] from bs to user
+10 [2025-02-04] from user to bro
+11 [2025-02-06] from bro to hbs
+12 [2025-02-08] from hbs to bs
+13 [2025-02-14] from bs to hbs
+14 [2025-02-16] from hbs to bs
+15 [2025-02-16] from bs to rr
+16 [2025-02-19] from rr to hbs
+17 [2025-02-21] from hbs to bs
+18 [2025-02-21] from bs to rr
+19 [2025-02-24] from rr to hbs
+20 [2025-02-24] from hbs to user
+[2025-02-27] [accept] 23370019 returned C-4793-03 not overdue
+[2025-02-27] B-8679-03 moving trace: 12
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-10] from hbs to bs
+5 [2025-01-18] from bs to hbs
+6 [2025-01-21] from hbs to ao
+7 [2025-01-26] from ao to bs
+8 [2025-02-19] from bs to hbs
+9 [2025-02-24] from hbs to bs
+10 [2025-02-24] from bs to rr
+11 [2025-02-25] from rr to hbs
+12 [2025-02-25] from hbs to user
+[2025-02-27] [accept] 23370052 ordered C-4759
+[2025-02-27] [accept] 23370040 read A-9255-03
+[2025-02-27] [accept] 23370061 borrowed B-3007-02
+[2025-02-27] [reject] 23370021 ordered C-3427
+[2025-02-27] [accept] 23370047 borrowed C-3427-03
+[2025-02-27] [accept] 23370003 returned B-5988-03 overdue
+[2025-02-27] B-6048-01 moving trace: 16
+1 [2025-01-01] from bs to user
+2 [2025-01-10] from user to bro
+3 [2025-01-12] from bro to bs
+4 [2025-01-15] from bs to rr
+5 [2025-01-17] from rr to hbs
+6 [2025-01-18] from hbs to ao
+7 [2025-01-18] from ao to user
+8 [2025-02-01] from user to bro
+9 [2025-02-04] from bro to bs
+10 [2025-02-06] from bs to hbs
+11 [2025-02-08] from hbs to bs
+12 [2025-02-16] from bs to hbs
+13 [2025-02-21] from hbs to bs
+14 [2025-02-24] from bs to hbs
+15 [2025-02-25] from hbs to rr
+16 [2025-02-27] from rr to hbs
+[2025-02-27] B-8679-02 moving trace: 17
+1 [2025-01-01] from bs to rr
+2 [2025-01-03] from rr to hbs
+3 [2025-01-06] from hbs to bs
+4 [2025-01-08] from bs to hbs
+5 [2025-01-10] from hbs to bs
+6 [2025-01-17] from bs to rr
+7 [2025-01-18] from rr to hbs
+8 [2025-01-18] from hbs to rr
+9 [2025-01-21] from rr to hbs
+10 [2025-01-23] from hbs to bs
+11 [2025-02-19] from bs to hbs
+12 [2025-02-19] from hbs to rr
+13 [2025-02-21] from rr to hbs
+14 [2025-02-24] from hbs to bs
+15 [2025-02-25] from bs to hbs
+16 [2025-02-25] from hbs to rr
+17 [2025-02-27] from rr to hbs
+[2025-02-27] A-4127-03 moving trace: 9
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-02-06] from bs to hbs
+4 [2025-02-08] from hbs to bs
+5 [2025-02-11] from bs to hbs
+6 [2025-02-14] from hbs to bs
+7 [2025-02-19] from bs to hbs
+8 [2025-02-21] from hbs to bs
+9 [2025-02-27] from bs to hbs
+[2025-02-27] [accept] 23370050 borrowed C-1530-01
+[2025-02-27] [accept] 23370007 borrowed B-5988-04
+[2025-02-27] [accept] 23370023 read A-9255-01
+[2025-02-27] C-4793-05 moving trace: 21
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-18] from hbs to user
+5 [2025-01-21] from user to bro
+6 [2025-01-23] from bro to bs
+7 [2025-01-26] from bs to user
+8 [2025-01-26] from user to bro
+9 [2025-01-27] from bro to hbs
+10 [2025-02-01] from hbs to bs
+11 [2025-02-01] from bs to rr
+12 [2025-02-04] from rr to hbs
+13 [2025-02-04] from hbs to user
+14 [2025-02-06] from user to bro
+15 [2025-02-08] from bro to hbs
+16 [2025-02-08] from hbs to user
+17 [2025-02-16] from user to bro
+18 [2025-02-19] from bro to bs
+19 [2025-02-19] from bs to rr
+20 [2025-02-21] from rr to hbs
+21 [2025-02-21] from hbs to user
+[2025-02-27] B-6048-06 moving trace: 17
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to hbs
+4 [2025-01-12] from hbs to bs
+5 [2025-01-17] from bs to hbs
+6 [2025-01-18] from hbs to bs
+7 [2025-01-21] from bs to hbs
+8 [2025-01-23] from hbs to bs
+9 [2025-01-27] from bs to hbs
+10 [2025-01-30] from hbs to bs
+11 [2025-02-06] from bs to hbs
+12 [2025-02-08] from hbs to bs
+13 [2025-02-16] from bs to hbs
+14 [2025-02-21] from hbs to bs
+15 [2025-02-24] from bs to hbs
+16 [2025-02-25] from hbs to rr
+17 [2025-02-27] from rr to hbs
+[2025-02-27] [reject] 23370023 read A-9255
+0
+[debug]65
+16
+[2025-03-01] move C-4793-03 from bro to bs
+[2025-03-01] move B-5988-03 from bro to hbs
+[2025-03-01] move C-4759-02 from bs to ao for 23370031
+[2025-03-01] move C-4759-04 from bs to ao for 23370052
+[2025-03-01] move A-9255-01 from rr to hbs
+[2025-03-01] move A-9255-03 from rr to hbs
+[2025-03-01] move B-8679-02 from hbs to bs
+[2025-03-01] move A-4127-02 from hbs to bs
+[2025-03-01] move A-4127-01 from hbs to bs
+[2025-03-01] move A-4127-03 from hbs to bs
+[2025-03-01] move A-4127-04 from hbs to bs
+[2025-03-01] move B-6048-04 from hbs to bs
+[2025-03-01] move B-6048-05 from hbs to bs
+[2025-03-01] move B-6048-01 from hbs to bs
+[2025-03-01] move B-6048-06 from hbs to bs
+[2025-03-01] move B-6048-03 from hbs to bs
+[2025-03-01] C-3427-03 moving trace: 22
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-17] from hbs to user
+5 [2025-01-18] from user to bro
+6 [2025-01-21] from bro to hbs
+7 [2025-01-23] from hbs to bs
+8 [2025-01-26] from bs to hbs
+9 [2025-01-26] from hbs to rr
+10 [2025-01-26] from rr to bro
+11 [2025-01-27] from bro to hbs
+12 [2025-01-30] from hbs to bs
+13 [2025-01-30] from bs to user
+14 [2025-02-08] from user to bro
+15 [2025-02-11] from bro to bs
+16 [2025-02-11] from bs to user
+17 [2025-02-14] from user to bro
+18 [2025-02-16] from bro to bs
+19 [2025-02-16] from bs to user
+20 [2025-02-25] from user to bro
+21 [2025-02-27] from bro to hbs
+22 [2025-02-27] from hbs to user
+[2025-03-01] A-9255-04 moving trace: 14
+1 [2025-01-12] from bs to hbs
+2 [2025-01-15] from hbs to bs
+3 [2025-01-23] from bs to hbs
+4 [2025-01-26] from hbs to bs
+5 [2025-01-27] from bs to hbs
+6 [2025-01-30] from hbs to bs
+7 [2025-02-14] from bs to hbs
+8 [2025-02-16] from hbs to bs
+9 [2025-02-19] from bs to hbs
+10 [2025-02-24] from hbs to bs
+11 [2025-02-24] from bs to rr
+12 [2025-02-25] from rr to hbs
+13 [2025-02-25] from hbs to rr
+14 [2025-02-27] from rr to hbs
+[2025-03-01] C-3427-05 moving trace: 4
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-18] from hbs to user
+[2025-03-01] C-3427-02 moving trace: 6
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-01-15] from bs to user
+4 [2025-01-17] from user to bro
+5 [2025-01-18] from bro to hbs
+6 [2025-01-18] from hbs to user
+[2025-03-01] [accept] 23370009 read C-4793-03
+[2025-03-01] 23370019 100
+[2025-03-01] 23370040 100
+[2025-03-01] [accept] 23370054 read A-4127-02
+[2025-03-01] [accept] 23370047 returned C-3427-03 not overdue
+[2025-03-01] B-3007-02 moving trace: 17
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-08] from bs to rr
+4 [2025-01-10] from rr to hbs
+5 [2025-01-10] from hbs to rr
+6 [2025-01-12] from rr to hbs
+7 [2025-01-15] from hbs to bs
+8 [2025-01-17] from bs to hbs
+9 [2025-01-18] from hbs to bs
+10 [2025-01-21] from bs to hbs
+11 [2025-01-23] from hbs to bs
+12 [2025-02-04] from bs to hbs
+13 [2025-02-08] from hbs to bs
+14 [2025-02-11] from bs to user
+15 [2025-02-24] from user to bro
+16 [2025-02-25] from bro to hbs
+17 [2025-02-27] from hbs to user
+[2025-03-01] [accept] 23370073 returned C-3427-05 not overdue
+[2025-03-01] [accept] 23370023 read C-3427-04
+0
+[debug]55
+15
+[2025-03-03] move C-3427-03 from bro to hbs
+[2025-03-03] move C-3427-05 from bro to hbs
+[2025-03-03] move C-4793-03 from rr to hbs
+[2025-03-03] move A-4127-02 from rr to hbs
+[2025-03-03] move C-3427-04 from rr to hbs
+[2025-03-03] move B-5988-03 from hbs to bs
+[2025-03-03] move B-3007-01 from hbs to bs
+[2025-03-03] move B-3007-03 from hbs to bs
+[2025-03-03] move A-9255-02 from hbs to bs
+[2025-03-03] move A-9255-04 from hbs to bs
+[2025-03-03] move A-9255-01 from hbs to bs
+[2025-03-03] move A-9255-03 from hbs to bs
+[2025-03-03] move A-4127-01 from bs to hbs
+[2025-03-03] move A-4127-03 from bs to hbs
+[2025-03-03] move A-4127-04 from bs to hbs
+[2025-03-03] 23370073 50
+[2025-03-03] [accept] 23370052 picked C-4759-04
+[2025-03-03] [accept] 23370074 read B-8679-02
+[2025-03-03] [accept] 23370005 borrowed C-4793-03
+[2025-03-03] [accept] 23370031 picked C-4759-02
+[2025-03-03] [reject] 23370005 borrowed C-4793
+[2025-03-03] A-9255-01 moving trace: 24
+1 [2025-01-10] from bs to rr
+2 [2025-01-12] from rr to hbs
+3 [2025-01-15] from hbs to bs
+4 [2025-01-21] from bs to rr
+5 [2025-01-23] from rr to hbs
+6 [2025-01-26] from hbs to bs
+7 [2025-01-26] from bs to rr
+8 [2025-01-26] from rr to bro
+9 [2025-01-27] from bro to hbs
+10 [2025-01-30] from hbs to bs
+11 [2025-02-11] from bs to rr
+12 [2025-02-14] from rr to hbs
+13 [2025-02-16] from hbs to bs
+14 [2025-02-16] from bs to rr
+15 [2025-02-19] from rr to hbs
+16 [2025-02-19] from hbs to rr
+17 [2025-02-21] from rr to hbs
+18 [2025-02-24] from hbs to bs
+19 [2025-02-25] from bs to hbs
+20 [2025-02-25] from hbs to rr
+21 [2025-02-27] from rr to hbs
+22 [2025-02-27] from hbs to rr
+23 [2025-03-01] from rr to hbs
+24 [2025-03-03] from hbs to bs
+[2025-03-03] [accept] 23370050 returned C-1530-01 not overdue
+[2025-03-03] [reject] 23370022 ordered C-3427
+[2025-03-03] [accept] 23370074 restored B-8679-02
+[2025-03-03] [accept] 23370045 borrowed B-3007-01
+[2025-03-03] [accept] 23370007 read C-3427-03
+[2025-03-03] [reject] 23370005 ordered B-5988
+[2025-03-03] [accept] 23370005 returned C-3427-01 not overdue
+[2025-03-03] [reject] 23370059 ordered C-4759
+0
+[debug]45
+9
+[2025-03-06] move C-1530-01 from bro to bs
+[2025-03-06] move B-8679-02 from bro to hbs
+[2025-03-06] move C-3427-01 from bro to hbs
+[2025-03-06] move C-3427-03 from rr to hbs
+[2025-03-06] move A-4127-02 from hbs to bs
+[2025-03-06] move A-4127-01 from hbs to bs
+[2025-03-06] move A-4127-03 from hbs to bs
+[2025-03-06] move A-4127-04 from hbs to bs
+[2025-03-06] move B-3007-03 from bs to hbs
+[2025-03-06] [accept] 23370045 returned C-3427-02 not overdue
+[2025-03-06] [accept] 23370005 borrowed C-3427-05
+[2025-03-06] 23370040 100
+[2025-03-06] A-4127-02 moving trace: 17
+1 [2025-01-10] from bs to hbs
+2 [2025-01-12] from hbs to bs
+3 [2025-02-06] from bs to hbs
+4 [2025-02-08] from hbs to bs
+5 [2025-02-08] from bs to rr
+6 [2025-02-11] from rr to hbs
+7 [2025-02-14] from hbs to bs
+8 [2025-02-16] from bs to rr
+9 [2025-02-19] from rr to hbs
+10 [2025-02-21] from hbs to bs
+11 [2025-02-25] from bs to rr
+12 [2025-02-25] from rr to bro
+13 [2025-02-27] from bro to hbs
+14 [2025-03-01] from hbs to bs
+15 [2025-03-01] from bs to rr
+16 [2025-03-03] from rr to hbs
+17 [2025-03-06] from hbs to bs
+[2025-03-06] [accept] 23370003 returned C-4759-03 not overdue
+[2025-03-06] 23370063 80
+[2025-03-06] [reject] 23370055 ordered C-3427
+[2025-03-06] [accept] 23370035 borrowed C-1530-01
+[2025-03-06] [accept] 23370050 read B-6048-04
+[2025-03-06] 23370006 100
+[2025-03-06] [accept] 23370035 read C-3427-04
+[2025-03-06] [reject] 23370041 borrowed C-3427
+[2025-03-06] [reject] 23370035 read A-9255
+[2025-03-06] [reject] 23370022 ordered B-8679
+[2025-03-06] [accept] 23370017 read A-4127-02
+[2025-03-06] [accept] 23370022 borrowed C-3427-01
+[2025-03-06] [accept] 23370018 ordered B-3007
+[2025-03-06] C-4793-05 moving trace: 21
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-18] from hbs to user
+5 [2025-01-21] from user to bro
+6 [2025-01-23] from bro to bs
+7 [2025-01-26] from bs to user
+8 [2025-01-26] from user to bro
+9 [2025-01-27] from bro to hbs
+10 [2025-02-01] from hbs to bs
+11 [2025-02-01] from bs to rr
+12 [2025-02-04] from rr to hbs
+13 [2025-02-04] from hbs to user
+14 [2025-02-06] from user to bro
+15 [2025-02-08] from bro to hbs
+16 [2025-02-08] from hbs to user
+17 [2025-02-16] from user to bro
+18 [2025-02-19] from bro to bs
+19 [2025-02-19] from bs to rr
+20 [2025-02-21] from rr to hbs
+21 [2025-02-21] from hbs to user
+[2025-03-06] [accept] 23370069 read A-9255-02
+0
+[debug]30
+18
+[2025-03-07] move C-3427-02 from bro to hbs
+[2025-03-07] move C-4759-03 from bro to bs
+[2025-03-07] move B-3007-03 from hbs to ao for 23370018
+[2025-03-07] move A-4127-02 from rr to hbs
+[2025-03-07] move A-9255-02 from rr to hbs
+[2025-03-07] move C-3427-04 from rr to hbs
+[2025-03-07] move B-6048-04 from rr to hbs
+[2025-03-07] move B-8679-02 from hbs to bs
+[2025-03-07] move A-4127-01 from bs to hbs
+[2025-03-07] move A-4127-03 from bs to hbs
+[2025-03-07] move A-4127-04 from bs to hbs
+[2025-03-07] move B-6048-05 from bs to hbs
+[2025-03-07] move B-6048-01 from bs to hbs
+[2025-03-07] move B-6048-06 from bs to hbs
+[2025-03-07] move B-6048-03 from bs to hbs
+[2025-03-07] move A-9255-04 from bs to hbs
+[2025-03-07] move A-9255-01 from bs to hbs
+[2025-03-07] move A-9255-03 from bs to hbs
+[2025-03-07] [accept] 23370067 ordered B-3007
+[2025-03-07] [accept] 23370007 read B-8679-02
+[2025-03-07] [accept] 23370041 read B-6048-04
+[2025-03-07] [accept] 23370018 borrowed C-3427-03
+[2025-03-07] [accept] 23370018 picked B-3007-03
+[2025-03-07] [accept] 23370004 read B-5988-03
+[2025-03-07] [accept] 23370011 ordered C-4759
+[2025-03-07] [accept] 23370069 borrowed B-6048-05
+[2025-03-07] [accept] 23370050 borrowed C-3427-02
+[2025-03-07] [reject] 23370061 ordered C-1530
+[2025-03-07] [accept] 23370032 borrowed C-4759-03
+[2025-03-07] C-4759-01 moving trace: 6
+1 [2025-01-01] from bs to user
+2 [2025-01-06] from user to bro
+3 [2025-01-08] from bro to bs
+4 [2025-01-10] from bs to hbs
+5 [2025-01-12] from hbs to bs
+6 [2025-01-12] from bs to user
+[2025-03-07] [reject] 23370063 ordered C-3427
+[2025-03-07] 23370031 120
+[2025-03-07] [accept] 23370022 returned C-3427-01 not overdue
+[2025-03-07] [accept] 23370004 restored B-5988-03
+[2025-03-07] B-3007-03 moving trace: 28
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-10] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-15] from bs to rr
+6 [2025-01-17] from rr to hbs
+7 [2025-01-18] from hbs to bs
+8 [2025-01-18] from bs to rr
+9 [2025-01-21] from rr to hbs
+10 [2025-01-23] from hbs to bs
+11 [2025-01-27] from bs to ao
+12 [2025-02-01] from ao to bs
+13 [2025-02-04] from bs to hbs
+14 [2025-02-08] from hbs to bs
+15 [2025-02-14] from bs to hbs
+16 [2025-02-16] from hbs to bs
+17 [2025-02-16] from bs to rr
+18 [2025-02-19] from rr to hbs
+19 [2025-02-21] from hbs to bs
+20 [2025-02-21] from bs to user
+21 [2025-02-24] from user to bro
+22 [2025-02-25] from bro to hbs
+23 [2025-02-25] from hbs to rr
+24 [2025-02-27] from rr to hbs
+25 [2025-03-03] from hbs to bs
+26 [2025-03-06] from bs to hbs
+27 [2025-03-07] from hbs to ao
+28 [2025-03-07] from ao to user
+0
+[debug]25
+12
+[2025-03-08] move C-3427-01 from bro to hbs
+[2025-03-08] move B-5988-03 from bro to hbs
+[2025-03-08] move B-8679-02 from rr to hbs
+[2025-03-08] move B-6048-04 from rr to hbs
+[2025-03-08] move A-4127-02 from hbs to bs
+[2025-03-08] move A-4127-01 from hbs to bs
+[2025-03-08] move A-4127-03 from hbs to bs
+[2025-03-08] move A-4127-04 from hbs to bs
+[2025-03-08] move A-9255-02 from hbs to bs
+[2025-03-08] move A-9255-04 from hbs to bs
+[2025-03-08] move A-9255-01 from hbs to bs
+[2025-03-08] move A-9255-03 from hbs to bs
+[2025-03-08] [reject] 23370035 ordered B-5988
+[2025-03-08] [accept] 23370022 ordered C-4793
+[2025-03-08] [accept] 23370040 read C-3427-04
+[2025-03-08] [accept] 23370069 returned B-6048-05 not overdue
+0
+[debug]10
+8
+[2025-03-09] move B-6048-05 from bro to bs
+[2025-03-09] move C-3427-04 from rr to hbs
+[2025-03-09] move B-5988-03 from hbs to bs
+[2025-03-09] move B-8679-02 from hbs to bs
+[2025-03-09] move B-6048-01 from hbs to bs
+[2025-03-09] move B-6048-06 from hbs to bs
+[2025-03-09] move B-6048-03 from hbs to bs
+[2025-03-09] move B-6048-04 from hbs to bs
+[2025-03-09] [accept] 23370032 ordered C-1530
+[2025-03-09] [accept] 23370052 borrowed C-3427-01
+[2025-03-09] 23370023 20
+[2025-03-09] [accept] 23370005 read B-8679-02
+[2025-03-09] [accept] 23370069 read C-3427-04
+[2025-03-09] B-6048-02 moving trace: 11
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-06] from bs to user
+4 [2025-01-17] from user to bro
+5 [2025-01-18] from bro to bs
+6 [2025-01-18] from bs to user
+7 [2025-02-16] from user to bro
+8 [2025-02-19] from bro to hbs
+9 [2025-02-21] from hbs to bs
+10 [2025-02-24] from bs to hbs
+11 [2025-02-25] from hbs to user
+0
+[debug]5
 2
-[2025-03-03] move B-0000-01 from bro to bs
-[2025-03-03] move A-0000-01 from hbs to bs
-[2025-03-03] 23370001 115
+[2025-03-12] move B-8679-02 from rr to hbs
+[2025-03-12] move C-3427-04 from rr to hbs
+[2025-03-12] [accept] 23370004 read B-6048-05
+[2025-03-12] [reject] 23370061 ordered B-5988
 0
+[debug]0
+7
+[2025-03-15] move B-6048-05 from rr to hbs
+[2025-03-15] move B-8679-02 from hbs to bs
+[2025-03-15] move C-3427-04 from hbs to bs
+[2025-03-15] move B-6048-01 from bs to hbs
+[2025-03-15] move B-6048-06 from bs to hbs
+[2025-03-15] move B-6048-03 from bs to hbs
+[2025-03-15] move B-6048-04 from bs to hbs
+[2025-03-15] [accept] 23370043 read C-3427-04
+[2025-03-15] [accept] 23370005 read A-4127-02
+[2025-03-15] [reject] 23370055 read C-3427
+[2025-03-15] [reject] 23370032 read C-3427
+[2025-03-15] C-4793-04 moving trace: 11
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-17] from bs to hbs
+4 [2025-01-17] from hbs to user
+5 [2025-01-18] from user to bro
+6 [2025-01-21] from bro to hbs
+7 [2025-01-23] from hbs to bs
+8 [2025-01-27] from bs to hbs
+9 [2025-02-01] from hbs to bs
+10 [2025-02-04] from bs to hbs
+11 [2025-02-04] from hbs to user
+[2025-03-15] [reject] 23370073 borrowed B-5988
+[2025-03-15] 23370074 90
+[2025-03-15] [accept] 23370061 returned B-3007-02 not overdue
+[2025-03-15] 23370065 90
+[2025-03-15] [accept] 23370043 ordered B-3007
+0
+[debug]0
+11
+[2025-03-17] move B-3007-02 from bro to bs
+[2025-03-17] move A-4127-02 from rr to hbs
+[2025-03-17] move C-3427-04 from rr to hbs
+[2025-03-17] move B-6048-05 from hbs to bs
+[2025-03-17] move B-6048-01 from hbs to bs
+[2025-03-17] move B-6048-06 from hbs to bs
+[2025-03-17] move B-6048-03 from hbs to bs
+[2025-03-17] move B-6048-04 from hbs to bs
+[2025-03-17] move A-4127-01 from bs to hbs
+[2025-03-17] move A-4127-03 from bs to hbs
+[2025-03-17] move A-4127-04 from bs to hbs
+[2025-03-17] B-3007-05 moving trace: 10
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-10] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-17] from bs to hbs
+6 [2025-01-18] from hbs to bs
+7 [2025-01-21] from bs to hbs
+8 [2025-01-23] from hbs to bs
+9 [2025-02-04] from bs to hbs
+10 [2025-02-04] from hbs to user
+[2025-03-17] 23370073 30
+[2025-03-17] [accept] 23370073 read B-6048-05
+[2025-03-17] [accept] 23370006 borrowed B-3007-02
+[2025-03-17] C-1530-03 moving trace: 5
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-12] from bs to hbs
+4 [2025-01-15] from hbs to bs
+5 [2025-01-15] from bs to user
+[2025-03-17] [accept] 23370061 ordered C-1530
+[2025-03-17] [accept] 23370041 returned C-4793-01 not overdue
+[2025-03-17] [accept] 23370022 returned B-8679-03 not overdue
+[2025-03-17] 23370019 45
+[2025-03-17] C-4793-02 moving trace: 13
+1 [2025-01-03] from bs to hbs
+2 [2025-01-06] from hbs to bs
+3 [2025-01-15] from bs to user
+4 [2025-01-26] from user to bro
+5 [2025-01-27] from bro to hbs
+6 [2025-01-27] from hbs to rr
+7 [2025-01-30] from rr to hbs
+8 [2025-02-01] from hbs to bs
+9 [2025-02-04] from bs to hbs
+10 [2025-02-06] from hbs to user
+11 [2025-02-11] from user to bro
+12 [2025-02-14] from bro to hbs
+13 [2025-02-14] from hbs to user
+[2025-03-17] [reject] 23370050 ordered C-1530
+[2025-03-17] 23370074 90
+[2025-03-17] 23370041 0
+0
+[debug]0
